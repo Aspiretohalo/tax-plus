@@ -1,7 +1,7 @@
 <template>
   <div>
-    <img src="../assets/illustration.png" align="absmiddle" alt="" />
-    <LoginForm></LoginForm>
+    <!-- 用图片出大问题 -->
+    <LoginForm class="login-form"></LoginForm>
   </div>
 </template>
 
@@ -10,4 +10,14 @@ import LoginForm from '../components/LoginForm.vue'
 </script>
 
 <style  scoped>
+.demo-tabs {
+  display: inline-block;
+}
+.img {
+  display: inline-block;
+  height: 700px;
+}
+/* .login-form {
+  margin-top: 20px;
+} */
 </style>

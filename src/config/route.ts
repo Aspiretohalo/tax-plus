@@ -1,17 +1,19 @@
-import Main from '../pages/Main.vue'
-import Team from '../pages/Team.vue'
-import User from '../pages/User.vue'
-import UserEdit from '../pages/UserEdit.vue'
-import SearchResultPage from '../pages/SearchResultPage.vue'
-import Search from '../pages/Search.vue'
+import Login from "../pages/Login.vue"
+import MyLearning from '../pages/MyLearning.vue'
+import LivingCourse from '../pages/LivingCourse.vue'
+import OnlineCourse from '../pages/OnlineCourse.vue'
+import DiscussionCommunity from '../pages/DiscussionCommunity.vue'
+import AIAsistant from '../pages/AIAsistant.vue'
+
 
 const routes = [
-    { path: '/', component: Main },
-    { path: '/team', component: Team },
-    { path: '/user', component: User },
-    { path: '/search', component: Search },
-    { path: '/user/edit', component: UserEdit },
-    { path: '/user/list', title: '用户列表', component: SearchResultPage },
+    { path: '/', component: MyLearning },
+    { path: '/living', component: LivingCourse },
+    { path: '/course', component: OnlineCourse },
+    { path: '/community', component: DiscussionCommunity },
+    { path: '/asistant', component: AIAsistant },
+    { path: '/login', component: Login },
+
 ]
 
 export default routes
