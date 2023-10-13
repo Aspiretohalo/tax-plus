@@ -2,6 +2,9 @@
   <div class="upcoming">
     <h2 class="pl">直播课即将开始</h2>
     <el-card class="box-card">
+      <div class="pic">
+        <el-image src="src/assets/imgs/首页banner-新媒体.jpg" />
+      </div>
       <!-- <template #header>
         <div class="card-header">
           <span>税务的第一课</span>
@@ -18,16 +21,17 @@
 
 <style  scoped>
 .upcoming {
-  position: absolute;
+  /* position: absolute; */
+  position: fixed;
   right: 0px;
-  width: 470px;
+  width: 370px;
   height: 100%;
   min-height: 745px;
   background-color: #ffffff;
 }
 .upcoming h2 {
   /* margin: 20px auto; */
-  margin-left: 145px;
+  margin-left: 80px;
 }
 .pl {
   padding-left: 20px;
@@ -36,10 +40,14 @@
   font-size: 26px;
 }
 ::v-deep .el-card {
-  width: 420px;
-  height: 300px;
+  width: 330px;
+  height: 240px;
   margin-left: 20px;
   border-radius: 10px;
+}
+::v-deep .el-card .pic img {
+  width: 330px;
+  height: 240px;
 }
 ::v-deep .el-card__body {
   padding: 0;

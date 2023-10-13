@@ -20,7 +20,7 @@
             </div>
           </template>
           <div class="pic">
-            <img alt="pyy" src="src\assets\pyy.jpg" />
+            <el-image src="src/assets/imgs/TIM图片20200413151955.jpg" />
           </div>
         </el-card>
       </el-space>
@@ -32,7 +32,7 @@
             </div>
           </template>
           <div class="pic">
-            <img alt="bjt" src="src\assets\bjt.jpg" />
+            <el-image src="src/assets/imgs/TIM图片20200413151955.jpg" />
           </div>
         </el-card> </el-space
       ><el-space wrap :size="size">
@@ -43,7 +43,7 @@
             </div>
           </template>
           <div class="pic">
-            <img alt="bjt" src="src\assets\bjt.jpg" />
+            <el-image src="src/assets/imgs/TIM图片20200413151955.jpg" />
           </div>
         </el-card>
       </el-space>
@@ -89,24 +89,26 @@ const options = [
 }
 .input-with-select {
   display: inline;
-  margin-left: 250px;
+  /* position: absolute; */
+  margin-left: 560px;
 }
 .search {
-  /* padding-left: 3px; */
+  margin-bottom: 30px;
 }
 ::v-deep .el-input__wrapper {
-  width: 250px;
+  width: 300px;
   height: 40px;
 }
 ::v-deep .el-select {
+  position: absolute;
   display: inline-block;
   margin-left: 10px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   width: 150px;
 }
 ::v-deep .el-card {
-  width: 360px;
-  height: 250px;
+  width: 420px;
+  height: 300px;
   margin-left: 10px;
   border-radius: 10px;
 }
@@ -114,7 +116,7 @@ const options = [
   padding: 0;
 }
 .pic {
-  width: 250px;
-  height: 80px;
+  width: 550px;
+  height: 100px;
 }
 </style>

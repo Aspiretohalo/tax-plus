@@ -11,6 +11,8 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "element-plus": "^2.3.14",
+    "moment": "^2.29.4",
+    "sass": "^1.69.3",
     "vue": "^3.3.4",
     "vue-router": "4"
   },
