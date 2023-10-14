@@ -4,6 +4,7 @@ import LivingCourse from '../pages/LivingCourse.vue'
 import OnlineCourse from '../pages/OnlineCourse.vue'
 import DiscussionCommunity from '../pages/DiscussionCommunity.vue'
 import AIAsistant from '../pages/AIAsistant.vue'
+import Schedule from '../pages/Schedule.vue'
 import CourseDetails from '../pages/CourseDetails.vue'
 import Notice from '../pages/course/Notice.vue'
 import Progress from '../pages/course/Progress.vue'
@@ -12,6 +13,7 @@ import Data from '../pages/course/Data.vue'
 import Sign from '../pages/course/Sign.vue'
 import Discussion from '../pages/course/Discussion.vue'
 
+
 const routes = [
     { path: '/', component: MyLearning, },
     { path: '/living', component: LivingCourse },
@@ -19,6 +21,7 @@ const routes = [
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
     { path: '/login', component: Login },
+    { path: '/schedule', component: Schedule },
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [

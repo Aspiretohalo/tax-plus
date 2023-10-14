@@ -31,7 +31,7 @@
           </el-table-column>
         </el-table>
         <el-card class="tools box-card">
-          <div class="tool" @click="test()">
+          <div class="tool" @click="goToSchedule()">
             <el-icon class="icon" size="36px">
               <Edit />
             </el-icon>
@@ -69,8 +69,8 @@ const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-const test = () => {
-  console.log(666)
+const goToSchedule = () => {
+  router.push('/schedule')
 }
 
 const EnterTheCourse = (courseId: Number) => {
@@ -154,15 +154,17 @@ const courseData = reactive([
 <style  scoped>
 .tools {
   position: absolute;
-  right: 30px;
+  right: 15px;
   top: 80px;
-  width: 330px;
+  width: 300px;
   border-radius: 10px;
 }
 .tool {
   display: inline-block;
-  margin: auto 15px;
+  margin: auto 2px;
   cursor: pointer;
+  width: 80px;
+  text-align: center;
 }
 .icon {
   display: block;
@@ -181,6 +183,6 @@ div {
   display: inline-block;
 }
 ::v-deep .el-aside {
-  width: 208px;
+  width: 258px;
 }
 </style>

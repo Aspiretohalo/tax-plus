@@ -1,6 +1,6 @@
 <template>
   <div class="leftCard">
-    <h2 class="mb-2">课程信息</h2>
+    <h2 class="mb-2 msgH2">课程信息</h2>
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-menu-item v-for="item in courseMenuData" :index="item.router">
         <el-icon class="icon">
@@ -45,21 +45,24 @@ const courseMenuData = reactive([
   background-color: #f9f9f9;
   height: 745px;
 }
+.msgH2 {
+  margin-left: 70px;
+}
 .returnBtn {
   position: absolute;
   bottom: 50px;
-  margin-left: 13px;
+  margin-left: 32px;
   width: 180px;
   height: 40px;
 }
 .el-menu-vertical-demo {
-  width: 208px;
+  width: 258px;
 }
 .el-menu-item span {
   padding-left: 15px;
 }
 .el-menu-item .icon {
-  margin-left: 20px;
+  margin-left: 40px;
 }
 ::v-deep .el-menu {
   /* margin-top: 100px; */

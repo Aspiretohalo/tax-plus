@@ -10,4 +10,7 @@
 </template>
 
 <style scoped>
+::v-deep .el-aside {
+  width: 258px;
+}
 </style>

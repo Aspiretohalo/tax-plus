@@ -25,7 +25,4 @@ div {
 .main {
   padding-top: 0;
 }
-::v-deep .el-aside {
-  width: 208px;
-}
 </style>

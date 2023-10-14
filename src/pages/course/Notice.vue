@@ -56,6 +56,7 @@ h6 {
 .goOnLearning {
   position: absolute;
   right: 50px;
+  top: 15px;
 }
 .notice {
   margin-top: 10px;

@@ -13,7 +13,7 @@
 
     <el-space direction="vertical" alignment="start" :size="30">
       <el-space wrap :size="size">
-        <el-card v-for="i in 2" :key="i" class="box-card">
+        <el-card v-for="i in 2" :key="i" class="courseCard box-card" shadow="hover">
           <template #header>
             <div class="card-header">
               <span>彭于晏</span>
@@ -25,7 +25,7 @@
         </el-card>
       </el-space>
       <el-space wrap :size="size">
-        <el-card v-for="i in 2" :key="i" class="box-card">
+        <el-card v-for="i in 2" :key="i" class="courseCard box-card" shadow="hover">
           <template #header>
             <div class="card-header">
               <span>白敬亭</span>
@@ -34,9 +34,10 @@
           <div class="pic">
             <el-image src="src/assets/imgs/TIM图片20200413151955.jpg" />
           </div>
-        </el-card> </el-space
-      ><el-space wrap :size="size">
-        <el-card v-for="i in 2" :key="i" class="box-card">
+        </el-card>
+      </el-space>
+      <el-space wrap :size="size">
+        <el-card v-for="i in 2" :key="i" class="courseCard box-card" shadow="hover">
           <template #header>
             <div class="card-header">
               <span>白敬亭</span>
@@ -84,13 +85,13 @@ const options = [
 
 <style scoped>
 .home {
-  margin-left: 15px;
+  /* margin-left: 15px; */
   margin-top: 20px;
 }
 .input-with-select {
   display: inline;
   /* position: absolute; */
-  margin-left: 560px;
+  margin-left: 520px;
 }
 .search {
   margin-bottom: 30px;
@@ -107,10 +108,13 @@ const options = [
   width: 150px;
 }
 ::v-deep .el-card {
-  width: 420px;
+  width: 400px;
   height: 300px;
   margin-left: 10px;
   border-radius: 10px;
+}
+.courseCard {
+  cursor: pointer;
 }
 ::v-deep .el-card__body {
   padding: 0;

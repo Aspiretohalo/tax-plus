@@ -17,6 +17,6 @@ import CourseMenu from '../components/CourseMenu.vue'
 
 <style  scoped>
 ::v-deep .el-aside {
-  width: 208px;
+  width: 258px;
 }
 </style>
