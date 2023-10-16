@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts" setup>
-import LeftMenu from '../components/LeftMenu.vue'
-import CourseCard from '../components/CourseCard.vue'
-import UpcomingCourses from '../components/UpcomingCourses.vue'
+import LeftMenu from '../../components/LeftMenu.vue'
+import CourseCard from '../../components/CourseCard.vue'
+import UpcomingCourses from '../../components/UpcomingCourses.vue'
 </script>
 
 <style  scoped>

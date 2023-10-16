@@ -20,11 +20,12 @@ const goToTalk = () => {
 }
 onMounted(() => {
   var player = TCPlayer('player-container-id', {
-    sources: [
-      {
-        src: 'src/assets/videos/school.mp4',
-      },
-    ],
+    fileID: '5576678022605530101', // 请传入需要播放的视频fileID 必须
+    appID: '1317662942', // 请传入点播账号的子应用appID 必须
+    psign:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6MTMxNzY2Mjk0MiwiZmlsZUlkIjoiNTU3NjY3ODAyMjYwNTUzMDEwMSIsImN1cnJlbnRUaW1lU3RhbXAiOjE2OTc0NzE5MDYsImNvbnRlbnRJbmZvIjp7ImF1ZGlvVmlkZW9UeXBlIjoiUmF3QWRhcHRpdmUiLCJyYXdBZGFwdGl2ZURlZmluaXRpb24iOjEwLCJpbWFnZVNwcml0ZURlZmluaXRpb24iOjEwfSwidXJsQWNjZXNzSW5mbyI6eyJkb21haW4iOiIxMzE3NjYyOTQyLnZvZC1xY2xvdWQuY29tIiwic2NoZW1lIjoiSFRUUFMifX0.i94aVDMmjx3QlZlWCNqC6h4BiYloUeguyDDc5FpnXGM',
+    // 请传入播放器签名psign 必须
+    autoplay: false, // 是否自动播放
     licenseUrl: 'https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license',
   }) // player-container-id 为播放器容器 ID，必须与 html 中一致
 

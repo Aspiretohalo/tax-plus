@@ -1,7 +1,7 @@
 <template>
   <div class="leftCard">
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-      <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo">
+      <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
         <el-icon class="icon">
           <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
           <component :is="item.icon"></component>
@@ -23,8 +23,15 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 
-const menuDemo = reactive([
-  { name: '我的学习', index: 1, icon: 'User', router: '/' },
+// const menuDemo = reactive([
+//   { name: '我的学习', index: 1, icon: 'User', router: '/' },
+//   { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
+//   { name: '在线课程及回放', index: 2, icon: 'Monitor', router: '/course' },
+//   { name: '讨论', index: 3, icon: 'ChatDotSquare', router: '/community' },
+//   { name: 'AI助手', index: 4, icon: 'Service', router: '/asistant' },
+// ])
+const menuDemo2 = reactive([
+  { name: '课程管理', index: 1, icon: 'User', router: '/' },
   { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
   { name: '在线课程及回放', index: 2, icon: 'Monitor', router: '/course' },
   { name: '讨论', index: 3, icon: 'ChatDotSquare', router: '/community' },

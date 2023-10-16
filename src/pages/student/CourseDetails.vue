@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import CourseMenu from '../components/CourseMenu.vue'
+import CourseMenu from '../../components/CourseMenu.vue'
 </script>
 
 <style  scoped>

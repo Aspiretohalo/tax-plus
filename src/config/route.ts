@@ -1,19 +1,20 @@
-import Login from "../pages/Login.vue"
-import MyLearning from '../pages/MyLearning.vue'
-import LivingCourse from '../pages/LivingCourse.vue'
-import OnlineCourse from '../pages/OnlineCourse.vue'
-import DiscussionCommunity from '../pages/DiscussionCommunity.vue'
-import AIAsistant from '../pages/AIAsistant.vue'
-import Schedule from '../pages/Schedule.vue'
-import CourseDetails from '../pages/CourseDetails.vue'
-import Notice from '../pages/course/Notice.vue'
-import Livingroom from '../pages/course/Livingroom.vue'
-import Progress from '../pages/course/Progress.vue'
-import CourseVideo from '../pages/course/CourseVideo.vue'
-import Data from '../pages/course/Data.vue'
-import Evaluation from '../pages/course/Evaluation.vue'
-import Discussion from '../pages/course/Discussion.vue'
-import Detail from '../pages/course/Detail.vue'
+import Login from "../pages/student/Login.vue"
+import MyLearning from '../pages/student/MyLearning.vue'
+import LivingCourse from '../pages/student/LivingCourse.vue'
+import OnlineCourse from '../pages/student/OnlineCourse.vue'
+import DiscussionCommunity from '../pages/student/DiscussionCommunity.vue'
+import AIAsistant from '../pages/student/AIAsistant.vue'
+import Schedule from '../pages/student/Schedule.vue'
+import CourseDetails from '../pages/student/CourseDetails.vue'
+import Notice from '../pages/student/course/Notice.vue'
+import Livingroom from '../pages/student/course/Livingroom.vue'
+import Progress from '../pages/student/course/Progress.vue'
+import CourseVideo from '../pages/student/course/CourseVideo.vue'
+import Data from '../pages/student/course/Data.vue'
+import Evaluation from '../pages/student/course/Evaluation.vue'
+import Discussion from '../pages/student/course/Discussion.vue'
+import Detail from '../pages/student/course/Detail.vue'
+import CourseManage from '../pages/teacher/CourseManage.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -61,6 +62,7 @@ const routes = [
             },
         ],
     },
+    { path: '/courseManage', component: CourseManage }
 ]
 
 export default routes

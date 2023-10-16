@@ -63,7 +63,7 @@
  
 <script>
 import moment from 'moment'
-import { weekCourse, colorList } from '../config/Timetable'
+import { weekCourse, colorList } from '../../config/Timetable'
 import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

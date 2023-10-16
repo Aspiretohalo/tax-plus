@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import LeftMenu from '../components/LeftMenu.vue'
+import LeftMenu from '../../components/LeftMenu.vue'
 import { ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { reactive } from 'vue'

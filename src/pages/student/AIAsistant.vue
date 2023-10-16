@@ -4,13 +4,13 @@
       <el-aside>
         <LeftMenu></LeftMenu>
       </el-aside>
-      <el-main> 直播课程 </el-main>
+      <el-main> AI助手 </el-main>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
-import LeftMenu from '../components/LeftMenu.vue'
+import LeftMenu from '../../components/LeftMenu.vue'
 </script>
 
 <style  scoped>
