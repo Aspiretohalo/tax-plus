@@ -7,12 +7,13 @@ import AIAsistant from '../pages/AIAsistant.vue'
 import Schedule from '../pages/Schedule.vue'
 import CourseDetails from '../pages/CourseDetails.vue'
 import Notice from '../pages/course/Notice.vue'
+import Livingroom from '../pages/course/Livingroom.vue'
 import Progress from '../pages/course/Progress.vue'
 import CourseVideo from '../pages/course/CourseVideo.vue'
 import Data from '../pages/course/Data.vue'
-import Sign from '../pages/course/Sign.vue'
+import Evaluation from '../pages/course/Evaluation.vue'
 import Discussion from '../pages/course/Discussion.vue'
-
+import Detail from '../pages/course/Detail.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -30,6 +31,10 @@ const routes = [
                 component: Notice,
             },
             {
+                path: 'livingroom',
+                component: Livingroom,
+            },
+            {
                 path: 'progress',
                 component: Progress,
             },
@@ -38,12 +43,17 @@ const routes = [
                 component: CourseVideo,
             },
             {
+                path: 'detail',
+                component: Detail,
+            },
+
+            {
                 path: 'data',
                 component: Data,
             },
             {
-                path: 'sign',
-                component: Sign,
+                path: 'evaluation',
+                component: Evaluation,
             },
             {
                 path: 'discussion',

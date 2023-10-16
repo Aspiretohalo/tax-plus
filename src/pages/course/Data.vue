@@ -3,7 +3,7 @@
     <el-card class="box-card notice">
       <template #header>
         <div class="card-header">
-          <h3>学习资料</h3>
+          <h3>课程资料</h3>
         </div>
       </template>
       <el-table :data="tableData" stripe style="width: 100%">

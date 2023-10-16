@@ -83,7 +83,7 @@ const courseStatus = reactive([
   },
   {
     status: 'Completed',
-    name: '已完成',
+    name: '已结束',
   },
   {
     status: 'Coming',
@@ -121,7 +121,7 @@ const courseData = reactive([
     courseName: '课程四',
     teacherName: 'lyd',
     courseURL: 'src/assets/imgs/TIM图片20200413151955.jpg',
-    status: '已完成',
+    status: '已结束',
     tagType: 'danger',
   },
   {

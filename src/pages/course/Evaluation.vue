@@ -1,0 +1,152 @@
+<template>
+  <div>
+    <el-card class="box-card user">
+      <div class="userAvatar">
+        <el-avatar :size="64"> <el-avatar :size="64" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
+        <!-- <h4 class="name" style="margin-left: 15px">小曹</h4> -->
+      </div>
+
+      <el-button type="primary" @click="dialogFormVisible = true" class="commentBtn">去评价</el-button>
+    </el-card>
+    <el-dialog v-model="dialogFormVisible" title="评分">
+      <el-form :model="form">
+        <div class="demo-rate-block">
+          <el-rate v-model="value2" size="large" :colors="colors" />
+        </div>
+        <el-input class="comment" :rows="3" v-model="textarea1" type="textarea" placeholder="请输入评论" />
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="handleCancel()">取消</el-button>
+          <el-button type="primary" @click="handleAssure()"> 确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-card class="box-card notice">
+      <template #header>
+        <div class="card-header">
+          <h3>课程评价</h3>
+        </div>
+      </template>
+      <div class="text item">
+        <div class="commentLeft">
+          <el-avatar :size="32"> <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
+          <span style="display: inline-block; margin-left: 10px">小郑</span>
+        </div>
+        <!-- <div class="blank">12333333333333</div> -->
+        <el-text class="mx-1 commentText" type="info">
+          你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
+        </el-text>
+        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+      </div>
+      <div class="text item">
+        <div class="commentLeft">
+          <el-avatar :size="32"> <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
+          <span style="display: inline-block; margin-left: 10px">小郑</span>
+        </div>
+        <!-- <div class="blank">12333333333333</div> -->
+        <el-text class="mx-1 commentText" type="info">
+          你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
+        </el-text>
+        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+      </div>
+    </el-card>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+
+const textarea1 = ref('')
+const value2 = ref(null)
+const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+
+const dialogFormVisible = ref(false)
+const handleCancel = () => {
+  dialogFormVisible.value = false
+  ElMessage({
+    message: '已取消操作',
+    type: 'warning',
+  })
+}
+const handleAssure = () => {
+  dialogFormVisible.value = false
+  ElMessage({
+    message: '已发布评价',
+    type: 'success',
+  })
+}
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+</script>
+
+<style lang="scss" scoped>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+.user {
+  position: relative;
+  .userAvatar {
+    margin-left: 30px;
+  }
+}
+.box-card {
+  width: 950px;
+  .commentLeft {
+    margin-bottom: 10px;
+  }
+  .comment {
+    display: block;
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .commentBtn {
+    position: absolute;
+    width: 100px;
+    height: 60px;
+    left: 160px;
+    bottom: 20px;
+  }
+}
+
+.notice {
+  margin-top: 10px;
+}
+.text {
+  border-bottom: 1px solid #e3e3e3;
+  padding: 0 50px;
+}
+.item {
+  margin-bottom: 18px;
+}
+.releaseTime {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+::v-deep {
+  .el-card__body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .el-dialog__body {
+    padding-top: 0;
+  }
+}
+</style>

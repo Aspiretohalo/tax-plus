@@ -17,7 +17,4 @@ import LeftMenu from '../components/LeftMenu.vue'
 div {
   display: inline-block;
 }
-::v-deep .el-aside {
-  width: 208px;
-}
 </style>

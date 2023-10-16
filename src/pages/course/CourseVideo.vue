@@ -8,11 +8,13 @@
       </template>
       <div class="demo-collapse">
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item v-for="o in 4" :title="o" :name="o">
+          <el-collapse-item v-for="o in 4" :title="'视频' + o" :name="o">
             <div style="padding-bottom: 10px">
-              <el-link :underline="false">
-                <template #default> <el-tag class="ml-2" type="success">视频</el-tag> 0{{ o }}欢迎开发SaaS在线课程项目 </template>
-              </el-link>
+              <router-link :to="`/courseId/${courseId}/detail`">
+                <el-link :underline="false">
+                  <template #default> <el-tag class="ml-2" type="success">视频</el-tag> 0{{ o }}欢迎开发SaaS在线课程项目 </template>
+                </el-link>
+              </router-link>
             </div>
             <div>
               <el-link :underline="false"> <el-tag class="ml-2" type="info">课件</el-tag>0{{ o }}课件</el-link>
@@ -26,6 +28,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const courseId = ref(route.params.courseId)
 
 const activeNames = ref(['1'])
 const handleChange = (val: string[]) => {

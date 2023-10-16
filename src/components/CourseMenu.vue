@@ -31,11 +31,12 @@ const handleClose = (key: string, keyPath: string[]) => {
 const courseId = ref(route.params.courseId)
 const courseMenuData = reactive([
   { name: '课程公告', index: 1, icon: 'User', router: `/courseId/${courseId.value}/notice` },
-  { name: '学习进度', index: 2, icon: 'VideoPlay', router: `/courseId/${courseId.value}/progress` },
-  { name: '课程视频', index: 3, icon: 'VideoPlay', router: `/courseId/${courseId.value}/courseVideo` },
-  { name: '学习资料', index: 4, icon: 'Monitor', router: `/courseId/${courseId.value}/data` },
-  { name: '签到', index: 5, icon: 'ChatDotSquare', router: `/courseId/${courseId.value}/sign` },
-  { name: '讨论区', index: 6, icon: 'Service', router: `/courseId/${courseId.value}/discussion` },
+  { name: '直播间', index: 2, icon: 'User', router: `/courseId/${courseId.value}/livingroom` },
+  { name: '学习进度', index: 3, icon: 'VideoPlay', router: `/courseId/${courseId.value}/progress` },
+  { name: '课程视频', index: 4, icon: 'VideoPlay', router: `/courseId/${courseId.value}/courseVideo` },
+  { name: '课程资料', index: 5, icon: 'Monitor', router: `/courseId/${courseId.value}/data` },
+  { name: '课程评价', index: 6, icon: 'ChatDotSquare', router: `/courseId/${courseId.value}/evaluation` },
+  { name: '讨论区', index: 7, icon: 'Service', router: `/courseId/${courseId.value}/discussion` },
 ])
 </script>
 

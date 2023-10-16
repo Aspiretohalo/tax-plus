@@ -1,6 +1,8 @@
 <template>
   <div class="timetable w100 h100">
     <div class="time-b w100">
+      <el-button @click="goBack()" class="returnBtn" type="primary">返回主页</el-button>
+
       <div class="time-detail">{{ startTime }} - {{ endTime }}</div>
       <div class="time-controller">
         <el-button-group>
@@ -24,6 +26,7 @@
           <tr v-for="(item2, index2) in maxCourseLength" :key="index2">
             <td>
               <p>{{ '第' + numberToChinease(item2) + '节' }}</p>
+              <p>{{ timeList[item2 - 1].time }}</p>
             </td>
             <template v-for="(item3, index3) in weeks" :key="index3">
               <td
@@ -44,17 +47,10 @@
                     { color: '#fff' },
                     { borderRadius: '15px' },
                     { padding: '12px' },
-                    { height: '100%' },
+                    { height: '100px' },
                   ]"
                 >
-                  <p>
-                    {{ showData(index3, index2).startTime }}
-                    {{ showData(index3, index2).startTime ? '-' : '' }}
-                    {{ showData(index3, index2).endTime }}
-                  </p>
                   <p>{{ showData(index3, index2).subject }}</p>
-                  <p>{{ showData(index3, index2).major }}</p>
-                  <p>{{ showData(index3, index2).class }}</p>
                 </div>
               </td>
             </template>
@@ -68,7 +64,22 @@
 <script>
 import moment from 'moment'
 import { weekCourse, colorList } from '../config/Timetable'
+import { reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
 export default {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+    const goBack = () => {
+      router.push('/')
+    }
+    const timeList = reactive([{ time: '9:00-11:00' }, { time: '13:00-15:00' }, { time: '17:30-19:30' }, { time: '20:30-22:30' }])
+    return {
+      timeList,
+      goBack,
+    }
+  },
   data() {
     return {
       startTime: '2022.10.17',
@@ -80,6 +91,7 @@ export default {
       count: 0, //上周、下周、本周选择器flag
     }
   },
+
   created() {
     this.weekCourse = weekCourse
     this.colorList = colorList
@@ -165,7 +177,7 @@ export default {
      * @returns { String }  identifier  转换后的中文
      */
     numberToChinease(n, identifier) {
-      const chnArr = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
+      const chnArr = ['零', '一', '二', '三', '四', '五', '六']
       return identifier === 'week' && (n === 0 || n === 7) ? '日' : chnArr[n]
     },
 
@@ -200,6 +212,7 @@ export default {
  
 <style scoped lang="scss">
 .timetable {
+  margin-left: 180px;
   background-color: #f1f7ff;
   .w100 {
     width: 1200px;
@@ -208,8 +221,11 @@ export default {
     height: 100%;
   }
   .time-b {
+    .returnBtn {
+      margin-left: 20px;
+    }
     height: 46px;
-    margin-bottom: 24px;
+    // margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -220,12 +236,10 @@ export default {
       font-family: 'Microsoft YaHei';
     }
   }
-
   .timetable-b {
     // height: 1207px;
     height: 100%;
     background-color: #fff;
-    // overflow: auto;
     overflow: hidden;
     .timetable-content {
       height: 100%;
@@ -253,6 +267,7 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            height: 100px;
           }
         }
       }
