@@ -284,7 +284,7 @@ h6 {
 }
 .box-card {
   position: relative;
-  width: 950px;
+  width: 80%;
   .userMsg {
     display: inline-block;
     margin-left: 30px;

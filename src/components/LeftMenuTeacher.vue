@@ -26,6 +26,7 @@ import { reactive } from 'vue'
 const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
+  { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
 ])
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -40,7 +41,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
-  height: 745px;
+  height: 100%;
 }
 .el-menu-vertical-demo {
   width: 258px;
