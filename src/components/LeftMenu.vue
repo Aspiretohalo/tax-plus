@@ -47,7 +47,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
-  height: 745px;
+  height: 100%;
 }
 .el-menu-vertical-demo {
   width: 258px;
