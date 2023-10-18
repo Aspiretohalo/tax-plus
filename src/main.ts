@@ -10,6 +10,7 @@ import * as VueRouter from 'vue-router'
 import routes from './config/route'
 // import TCPlayer from 'tcplayer.js';
 import 'tcplayer.js/dist/tcplayer.min.css';
+// import vuex from 'vuex'
 
 
 const router = VueRouter.createRouter({
@@ -25,6 +26,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.component('SvgIcon', SvgIcon);
 app.use(router)
+// app.use(vuex)
 app.use(ElementPlus)
 // app.use(TCPlayer)
 

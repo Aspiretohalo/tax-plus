@@ -37,8 +37,6 @@
           <el-tag class="studentTag">学员</el-tag>
           <el-rate v-model="stars" disabled size="large" :colors="colors" />
         </div>
-
-        <!-- <div class="blank">12333333333333</div> -->
         <el-text class="mx-1 commentText" type="info">
           你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
         </el-text>
