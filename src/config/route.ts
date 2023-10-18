@@ -1,4 +1,5 @@
-import Login from "../pages/student/Login.vue"
+import Login from "../pages/Login.vue"
+//student
 import MyLearning from '../pages/student/MyLearning.vue'
 import LivingCourse from '../pages/student/LivingCourse.vue'
 import OnlineCourse from '../pages/student/OnlineCourse.vue'
@@ -14,9 +15,13 @@ import Data from '../pages/student/course/Data.vue'
 import Evaluation from '../pages/student/course/Evaluation.vue'
 import Discussion from '../pages/student/course/Discussion.vue'
 import Detail from '../pages/student/course/Detail.vue'
+import StudentMsg from '../pages/student/StudentMsg.vue'
+//teacher
 import CourseManage from '../pages/teacher/CourseManage.vue'
 import CourseRelease from '../pages/teacher/CourseRelease.vue'
 import CourseDetailTeacher from '../pages/teacher/CourseDetailTeacher.vue'
+import CreateChapters from '../pages/teacher/course/CreateChapters.vue'
+import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -68,13 +73,16 @@ const routes = [
     { path: '/courseManage', component: CourseManage },
     {
         path: '/courseId/:courseId', component: CourseDetailTeacher,
-        children:[
-               {
-                path: 'notice',
-                component: Notice,
+        children: [
+            {
+                path: 'createChapters',
+                component: CreateChapters,
             },
         ]
-    }
+    },
+    { path: '/studentMsg', component: StudentMsg },
+    { path: '/teacherMsg', component: TeacherMsg },
+
 ]
 
 export default routes

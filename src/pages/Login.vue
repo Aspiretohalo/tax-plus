@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import LoginForm from '../../components/LoginForm.vue'
+import LoginForm from '../components/LoginForm.vue'
 </script>
 
 <style  scoped>
@@ -17,7 +17,4 @@ import LoginForm from '../../components/LoginForm.vue'
   display: inline-block;
   height: 700px;
 }
-/* .login-form {
-  margin-top: 20px;
-} */
 </style>

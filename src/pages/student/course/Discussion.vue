@@ -38,7 +38,6 @@
             </div>
             <div class="talk-box">
               <p>
-                <!-- <span>回复 {{ reply.to }}:</span> -->
                 <span class="reply">{{ reply.comment }}</span>
               </p>
             </div>
@@ -284,7 +283,7 @@ h6 {
 }
 .box-card {
   position: relative;
-  width: 80%;
+  width: 900px;
   .userMsg {
     display: inline-block;
     margin-left: 30px;

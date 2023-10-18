@@ -30,7 +30,6 @@
             </template>
           </el-table-column>
         </el-table>
-        
       </el-main>
     </el-container>
   </div>
@@ -50,12 +49,9 @@ const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-// const goToSchedule = () => {
-//   router.push('/schedule')
-// }
 
 const EnterTheCourse = (courseId: Number) => {
-  router.push(`/courseId/${courseId}/notice`)
+  router.push(`/courseId/${courseId}/createChapters`)
 }
 const courseStatus = reactive([
   {

@@ -9,22 +9,14 @@ import 'virtual:svg-icons-register'
 import * as VueRouter from 'vue-router'
 import routes from './config/route'
 // import TCPlayer from 'tcplayer.js';
-<<<<<<< HEAD
 import 'tcplayer.js/dist/tcplayer.min.css';
 // import vuex from 'vuex'
-=======
-import 'tcplayer.js/dist/tcplayer.min.css'
-
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
->>>>>>> 53f0e67a17c25f7340a553a7e1fe2d50f1242512
-
 
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
     routes,
 })
-
 
 const app = createApp(App)
 
@@ -38,6 +30,6 @@ app.use(ElementPlus)
 // app.use(TCPlayer)
 app.use(ElementPlus, {
     locale: zhCn,
-  })
+})
 
 app.mount('#app')

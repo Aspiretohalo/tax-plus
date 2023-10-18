@@ -14,7 +14,7 @@
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
         <h4 class="name">xc</h4>
         <el-tag class="role">老师</el-tag>
-        <el-button class="personalMsgBtn" type="primary">查看个人信息</el-button>
+        <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
       </div>
     </el-card>
   </div>
@@ -22,7 +22,9 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
@@ -34,6 +36,9 @@ const handleOpen = (key: string, keyPath: string[]) => {
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
+}
+const checkMsg = () => {
+  router.push('/teacherMsg')
 }
 </script>
 
