@@ -15,6 +15,7 @@ import Evaluation from '../pages/student/course/Evaluation.vue'
 import Discussion from '../pages/student/course/Discussion.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import CourseManage from '../pages/teacher/CourseManage.vue'
+import CourseRelease from '../pages/teacher/CourseRelease.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -62,7 +63,8 @@ const routes = [
             },
         ],
     },
-    { path: '/courseManage', component: CourseManage }
+    { path: '/courseRelease', component: CourseRelease },
+    { path: '/courseManage', component: CourseManage },
 ]
 
 export default routes

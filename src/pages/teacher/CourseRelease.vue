@@ -5,7 +5,7 @@
         <CourseMenuTeacher></CourseMenuTeacher>
       </el-aside>
       <el-main class="main">
-        courseManage
+        courseRelease
         <!-- <router-view></router-view> -->
       </el-main>
     </el-container>

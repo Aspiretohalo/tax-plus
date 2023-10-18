@@ -1,12 +1,14 @@
 <template>
   <div>
     <el-card class="box-card user">
-      <div class="userAvatar">
-        <el-avatar :size="64"> <el-avatar :size="64" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <!-- <h4 class="name" style="margin-left: 15px">小曹</h4> -->
+      <div class="userMsg items-center">
+        <el-avatar class="mr-3" :size="46" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+        <span class="text-large font-600 mr-3"> 彭于晏 </span>
+        <el-tag>学员</el-tag>
       </div>
-
-      <el-button type="primary" @click="dialogFormVisible = true" class="commentBtn">去评价</el-button>
+      <div class="newBtn items-center">
+        <el-button type="primary" @click="dialogFormVisible = true">创建评价</el-button>
+      </div>
     </el-card>
     <el-dialog v-model="dialogFormVisible" title="评分">
       <el-form :model="form">
@@ -28,22 +30,14 @@
           <h3>课程评价</h3>
         </div>
       </template>
-      <div class="text item">
+      <div class="text item" v-for="o in 3" :key="o">
         <div class="commentLeft">
           <el-avatar :size="32"> <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
           <span style="display: inline-block; margin-left: 10px">小郑</span>
+          <el-tag class="studentTag">学员</el-tag>
+          <el-rate v-model="stars" disabled size="large" :colors="colors" />
         </div>
-        <!-- <div class="blank">12333333333333</div> -->
-        <el-text class="mx-1 commentText" type="info">
-          你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
-        </el-text>
-        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
-      </div>
-      <div class="text item">
-        <div class="commentLeft">
-          <el-avatar :size="32"> <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-          <span style="display: inline-block; margin-left: 10px">小郑</span>
-        </div>
+
         <!-- <div class="blank">12333333333333</div> -->
         <el-text class="mx-1 commentText" type="info">
           你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
@@ -60,6 +54,7 @@ import { ElMessage } from 'element-plus'
 
 const textarea1 = ref('')
 const value2 = ref(null)
+const stars = ref(4)
 const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
 
 const dialogFormVisible = ref(false)
@@ -98,16 +93,25 @@ h5,
 h6 {
   margin: 0;
 }
-.user {
-  position: relative;
-  .userAvatar {
-    margin-left: 30px;
-  }
-}
+
 .box-card {
+  position: relative;
   width: 950px;
+  .userMsg {
+    display: inline-block;
+    margin-left: 50px;
+  }
+  .newBtn {
+    position: absolute;
+    right: 30px;
+    top: 35px;
+    display: inline-block;
+  }
   .commentLeft {
     margin-bottom: 10px;
+    .studentTag {
+      margin-right: 10px;
+    }
   }
   .comment {
     display: block;

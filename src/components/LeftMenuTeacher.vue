@@ -1,7 +1,7 @@
 <template>
   <div class="leftCard">
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-      <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo">
+      <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
         <el-icon class="icon">
           <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
           <component :is="item.icon"></component>
@@ -12,8 +12,8 @@
     <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <h4 class="name">小曹</h4>
-        <el-tag class="role">学员</el-tag>
+        <h4 class="name">xc</h4>
+        <el-tag class="role">老师</el-tag>
         <el-button class="personalMsgBtn" type="primary">查看个人信息</el-button>
       </div>
     </el-card>
@@ -23,17 +23,10 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 
-const menuDemo = reactive([
-  { name: '我的学习', index: 1, icon: 'User', router: '/' },
-  { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
-  { name: '在线课程及回放', index: 2, icon: 'Monitor', router: '/course' },
-  { name: '讨论', index: 3, icon: 'ChatDotSquare', router: '/community' },
-  { name: 'AI助手', index: 4, icon: 'Service', router: '/asistant' },
+const menuDemo2 = reactive([
+  { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
+  { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
 ])
-// const menuDemo2 = reactive([
-//   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
-//   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
-// ])
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
