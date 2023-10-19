@@ -57,12 +57,30 @@
 
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import myAxios from '../../plugins/myAxios'
+import state from '../../store/state'
 
 const router = useRouter()
+onMounted(() => { 
+  getStudentMsg()
+})
+
+const getStudentMsg = async () => {
+  try {
+    const response = await myAxios.get('/getStudentMsg');
+    // 处理响应数据
+    // response.data
+    state.students = response.data as any
+    console.log(state.students)    
+    
+  } catch (error) {
+    console.error('获取学生信息失败', error);
+  }
+};
 
 const activeName = ref('first')
 

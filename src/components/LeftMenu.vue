@@ -12,7 +12,7 @@
     <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <h4 class="name">小曹</h4>
+        <h4 class="name">{{ student.student_name }}</h4>
         <el-tag class="role">学员</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
       </div>
@@ -33,6 +33,14 @@ const menuDemo = reactive([
   { name: '讨论', index: 3, icon: 'ChatDotSquare', router: '/community' },
   { name: 'AI助手', index: 4, icon: 'Service', router: '/asistant' },
 ])
+
+const student: any = reactive({
+  student_id: 1,
+  student_name: '小郑',
+  phone_number: '12345678910',
+  user_password: null,
+  avatar: null
+})
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)

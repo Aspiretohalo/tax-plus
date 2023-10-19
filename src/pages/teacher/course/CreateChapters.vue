@@ -34,37 +34,29 @@
             <el-form-item label="老师">
               <el-input v-model="teachername" disabled placeholder="默认名" />
             </el-form-item>
-
             <el-form-item label="章节简介">
               <el-input v-model="form.desc" type="textarea" />
             </el-form-item>
-
             <el-upload ref="uploadRef" class="upload-demo"
               action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :auto-upload="false">
               <template #trigger>
                 <el-button type="primary">选择文件</el-button>
               </template>
-
               <el-button class="ml-3" type="success" @click="submitUpload">
                 上传
               </el-button>
-
               <template #tip>
                 <div class="el-upload__tip">
                   注意事项：
                 </div>
               </template>
             </el-upload>
-
-
-
             <el-form-item>
-              <el-button text type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
+              <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
               <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose">
                 <span>
                   <p>您将要发布的{{ form.name }}章节，时间是{{ form.date2 }}</p>
                 </span>
-
                 <template #footer>
                   <span class="dialog-footer">
                     <el-button @click="dialogVisible = false">取消</el-button>
@@ -124,12 +116,7 @@ const onSubmit = () => {
   console.log(form.date2)
 }
 
-
-
 </script>
-
-
-
 
 <style lang="scss" scoped>
 ::v-deep .el-aside {

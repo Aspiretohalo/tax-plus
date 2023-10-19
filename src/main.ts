@@ -9,8 +9,8 @@ import 'virtual:svg-icons-register'
 import * as VueRouter from 'vue-router'
 import routes from './config/route'
 import 'tcplayer.js/dist/tcplayer.min.css';
-import vuex from 'vuex'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import store from './store'
 
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
@@ -24,7 +24,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.component('SvgIcon', SvgIcon);
 app.use(router)
-app.use(vuex)
+app.use(store)
 app.use(ElementPlus)
 app.use(ElementPlus, {
     locale: zhCn,
