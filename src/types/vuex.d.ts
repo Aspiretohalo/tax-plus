@@ -1,5 +1,4 @@
-// vuex.d.ts
-import { Store } from 'vuex'
+// // vuex.d.ts
 
 declare module "vuex" {
     export * from "vuex/types/index.d.ts";
@@ -7,7 +6,6 @@ declare module "vuex" {
     export * from "vuex/types/logger.d.ts";
     export * from "vuex/types/vue.d.ts";
 }
-
 
 declare module '@vue/runtime-core' {
     // 声明自己的 store state
@@ -19,4 +17,5 @@ declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
         $store: Store<State>
     }
+
 }
