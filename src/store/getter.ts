@@ -1,12 +1,23 @@
 export default {
-    // selectItems(state) {
-    //     console.log('getter');
-    //     // if (state.Attribute === 1)
-    //     // 按照点击的tab传过来的Attribute值，过滤出需要展示的items
-    //     console.log('state.Attribute:' + state.Attribute);
-    //     console.log(state.listItem);
-    //     sessionStorage.setItem('listItem', JSON.stringify(state.listItem))
-    //     if (state.Attribute === 1) return state.listItem
-    //     return state.listItem.filter(item => item.num == state.Attribute)
-    // },
+    selectCourses(state: any) {
+        console.log(state);
+        console.log(state.activeName);
+        console.log(typeof state.activeName);
+
+        console.log(111111);
+
+        console.log(state.courses);
+
+        console.log(333333);
+
+        // sessionStorage.setItem('courses', JSON.stringify(state.courses))
+        if (state.activeName == 'Coming')
+            return state.courses.filter((course: any) => course.status === '即将开始');
+        else if (state.activeName == 'Ongoing')
+            return state.courses.filter((course: any) => course.status === '进行中');
+        else if (state.activeName == 'Completed')
+            return state.courses.filter((course: any) => course.status === '已结束');
+        else
+            return state.courses
+    },
 }

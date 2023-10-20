@@ -1,4 +1,5 @@
 export default {
+    activeName: 'first',
     students: [],
     teachers: [],
     courses: [],

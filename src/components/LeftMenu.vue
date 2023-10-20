@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -34,13 +34,8 @@ const menuDemo = reactive([
   { name: 'AI助手', index: 4, icon: 'Service', router: '/asistant' },
 ])
 
-const student: any = reactive({
-  student_id: 1,
-  student_name: '小郑',
-  phone_number: '12345678910',
-  user_password: null,
-  avatar: null
-})
+
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -59,24 +54,30 @@ const checkMsg = () => {
   background-color: #f9f9f9;
   height: 100%;
 }
+
 .el-menu-vertical-demo {
   width: 258px;
 }
+
 .el-menu-item span {
   padding-left: 15px;
 }
+
 .el-menu-item .icon {
   margin-left: 20px;
 }
+
 .leftCard .userMsg {
   width: 180px;
   margin-left: 20px;
 }
+
 .name {
   font-size: 18px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
 .role {
   font-size: 14px;
   color: #999;
@@ -86,11 +87,13 @@ const checkMsg = () => {
 .personalMsgBtn {
   width: 120px;
 }
+
 ::v-deep .el-menu {
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;
 }
+
 ::v-deep .el-card {
   position: absolute;
   bottom: 50px;

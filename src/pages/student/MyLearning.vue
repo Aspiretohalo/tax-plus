@@ -5,28 +5,29 @@
         <LeftMenu></LeftMenu>
       </el-aside>
       <el-main class="main">
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs">
           <el-tab-pane label="全部课程" name="first"></el-tab-pane>
-          <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status"> </el-tab-pane>
+          <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
+          </el-tab-pane>
         </el-tabs>
-        <el-table class="table" :data="courseData" :show-header="false">
-          <el-table-column prop="courseURL" label="courseURL" width="180">
+        <el-table class="table" :data="store.getters.selectCourses" :show-header="false">
+          <el-table-column prop="course_url" label="course_url" width="180">
             <template #default="scope">
               <div style="display: flex; align-items: center">
-                <el-image :src="scope.row.courseURL" />
+                <el-image :src="scope.row.course_url" />
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="courseName" label="courseName" width="180" />
-          <el-table-column prop="teacherName" label="teacherName" />
+          <el-table-column prop="course_name" label="course_name" width="180" />
+          <el-table-column prop="teacher_name" label="teacher_name" />
           <el-table-column prop="status" label="status">
             <template #default="scope">
-              <el-tag :type="scope.row.tagType" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
+              <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="courseId" label="teacherName">
+          <el-table-column prop="course_id" label="course_id">
             <template #default="scope">
-              <el-button type="primary" @click="EnterTheCourse(scope.row.courseId)">查看详情</el-button>
+              <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -58,35 +59,60 @@
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
 import { onMounted, ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
+import store from '../../store'
 
 const router = useRouter()
-onMounted(() => { 
-  getStudentMsg()
+onMounted(async () => {
+  await getStudentMsg()
+  await getCourses(student_id.value)
+  // await changeStatus('first')
 })
 
+const student_id = ref()
 const getStudentMsg = async () => {
   try {
     const response = await myAxios.get('/getStudentMsg');
     // 处理响应数据
-    // response.data
-    state.students = response.data as any
-    console.log(state.students)    
-    
+    state.students = response.data
+    student_id.value = response.data.student_id
+    sessionStorage.setItem('students', JSON.stringify(state.students))
   } catch (error) {
     console.error('获取学生信息失败', error);
   }
 };
 
-const activeName = ref('first')
+const getCourses = async (value: any) => {
+  try {
+    const response = await myAxios.get('/getCourses', {
+      params: {
+        student_id: value
+      },
+    });
+    // 处理响应数据
+    state.courses = response.data
+    sessionStorage.setItem('courses', JSON.stringify(state.courses))
+    const coursesString = sessionStorage.getItem('courses');
+    if (coursesString) {
+      courseData.value = JSON.parse(coursesString)
+      console.log(courseData.value);
+      console.log(4646);
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+    }
+
+  } catch (error) {
+    console.error('获取课程信息失败', error);
+  }
+};
+
+// tab改变之后调用，获得相应的course
+const changeStatus = (activeName: string) => {
+  state.activeName = activeName
 }
+
 const goToSchedule = () => {
   router.push('/schedule')
 }
@@ -94,6 +120,8 @@ const goToSchedule = () => {
 const EnterTheCourse = (courseId: Number) => {
   router.push(`/courseId/${courseId}/notice`)
 }
+
+const activeName = ref('first')
 const courseStatus = reactive([
   {
     status: 'Ongoing',
@@ -109,64 +137,9 @@ const courseStatus = reactive([
   },
 ])
 
-const courseData = reactive([
-  {
-    courseId: 1,
-    courseName: '课程一',
-    teacherName: 'cy',
-    courseURL: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    status: '进行中',
-    tagType: 'success',
-  },
-  {
-    courseId: 2,
-    courseName: '课程二',
-    teacherName: 'zbh',
-    courseURL: 'src/assets/imgs/TIM图片20200413151955.jpg',
-    status: '即将开始',
-    tagType: 'info',
-  },
-  {
-    courseId: 3,
-    courseName: '课程三',
-    teacherName: 'zjt',
-    courseURL: 'src/assets/imgs/TIM图片20200413151955.jpg',
-    status: '即将开始',
-    tagType: 'info',
-  },
-  {
-    courseId: 4,
-    courseName: '课程四',
-    teacherName: 'lyd',
-    courseURL: 'src/assets/imgs/TIM图片20200413151955.jpg',
-    status: '已结束',
-    tagType: 'danger',
-  },
-  {
-    courseId: 5,
-    courseName: '课程五',
-    teacherName: 'zrx',
-    courseURL: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    status: '进行中',
-    tagType: 'success',
-  },
-  {
-    courseId: 7,
-    courseName: '课程一',
-    teacherName: 'cy',
-    courseURL: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    status: '进行中',
-    tagType: 'success',
-  },
-  {
-    courseId: 8,
-    courseName: '课程一',
-    teacherName: 'cy',
-    courseURL: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    status: '进行中',
-    tagType: 'success',
-  },
-])
+//课程数据
+const courseData: any = ref()
+
 </script>
 
 <style  scoped>
@@ -177,6 +150,7 @@ const courseData = reactive([
   width: 300px;
   border-radius: 10px;
 }
+
 .tool {
   display: inline-block;
   margin: auto 2px;
@@ -184,22 +158,27 @@ const courseData = reactive([
   width: 80px;
   text-align: center;
 }
+
 .icon {
   display: block;
   margin: 0 auto;
 }
+
 .table {
   position: absolute;
   top: 80px;
   width: 60%;
   border-radius: 10px;
 }
+
 .demo-tabs {
   position: absolute;
 }
+
 div {
   display: inline-block;
 }
+
 ::v-deep .el-aside {
   width: 258px;
 }
