@@ -1,77 +1,66 @@
 <template>
   <div>
-    <el-container>
-      <el-aside>
-        <CourseMenuTeacher></CourseMenuTeacher>
-      </el-aside>
-      <el-main class="main">
-        <el-card class="box-card">
-          <el-form :model="form" label-width="120px">
-            <el-form-item label="章节名称">
-              <el-input v-model="form.name" />
-            </el-form-item>
-            <el-form-item label="章节标签">
-              <el-select v-model="form.region" placeholder="please select your zone">
-                <el-option label="初级章节" value="low" />
-                <el-option label="中级章节" value="mid" />
-                <el-option label="高级章节" value="high" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="章节时间">
-              <el-col :span="11">
-                <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%" />
-              </el-col>
-              <el-col :span="2" class="text-center">
-                <span class="text-gray-500">-</span>
-              </el-col>
-              <el-col :span="11">
-                <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 100%" />
-              </el-col>
-            </el-form-item>
-            <el-form-item label="是否推送 ">
-              <el-switch v-model="form.delivery" />
-            </el-form-item>
-            <el-form-item label="老师">
-              <el-input v-model="teachername" disabled placeholder="默认名" />
-            </el-form-item>
-            <el-form-item label="章节简介">
-              <el-input v-model="form.desc" type="textarea" />
-            </el-form-item>
-            <el-upload ref="uploadRef" class="upload-demo"
-              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :auto-upload="false">
-              <template #trigger>
-                <el-button type="primary">选择文件</el-button>
-              </template>
-              <el-button class="ml-3" type="success" @click="submitUpload">
-                上传
-              </el-button>
-              <template #tip>
-                <div class="el-upload__tip">
-                  注意事项：
-                </div>
-              </template>
-            </el-upload>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
-              <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose">
-                <span>
-                  <p>您将要发布的{{ form.name }}章节，时间是{{ form.date2 }}</p>
-                </span>
-                <template #footer>
-                  <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">
-                      确认并提交
-                    </el-button>
-                  </span>
-                </template>
-              </el-dialog>
-              <el-button>取消</el-button>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </el-main>
-    </el-container>
+
+
+    <el-card class="box-card">
+      <el-form :model="form" label-width="120px">
+        <el-form-item label="章节名称">
+          <el-input v-model="form.name" />
+        </el-form-item>
+
+        <el-form-item label="上传时间">
+          <el-col :span="11">
+            <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 50%" />
+          </el-col>
+
+          <el-col :span="11">
+            <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 50%" />
+          </el-col>
+        </el-form-item>
+
+        <el-form-item label="老师">
+          <el-input v-model="course.course_teacher" disabled />
+        </el-form-item>
+        <el-form-item label="章节简介">
+          <el-input v-model="form.desc" type="textarea" />
+        </el-form-item>
+
+        <!-- <el-form-item label="视频上传">
+          <el-upload ref="upload" action="filename" :http-request="httpRequest" :show-file-list="false">
+            <i v-if="videoFlag == false" class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+
+          // 进度条
+          <el-progress v-if="videoFlag" type="circle" :percentage="videoUploadPercent"></el-progress>
+
+
+        </el-form-item> -->
+
+
+
+
+
+
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
+          <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose">
+            <span>
+              <p>您将要发布的{{ form.name }}章节，时间是{{ form.date2 }}</p>
+            </span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">
+                  确认并提交
+                </el-button>
+              </span>
+            </template>
+          </el-dialog>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
   </div>
 </template>
 
@@ -79,13 +68,19 @@
 import { reactive } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import type { UploadInstance } from 'element-plus'
+// import TcVod from 'vod-js-sdk-v6'
 
-const uploadRef = ref<UploadInstance>()
 
-const submitUpload = () => {
-  uploadRef.value!.submit()
-}
+
+
+const course = reactive({
+  name: '',
+  label: '',
+  date1: '',
+  date2: '',
+  introduction: '',
+  course_teacher: 'zjt',
+})
 
 const dialogVisible = ref(false)
 
@@ -99,7 +94,7 @@ const handleClose = (done: () => void) => {
     })
 }
 
-const teachername = ref('')
+
 // do not use same name with ref
 const form = reactive({
   name: '',
@@ -123,11 +118,59 @@ const onSubmit = () => {
   width: 258px;
 }
 
+
+::v-deep .el-form-item__label {
+  font-family: 'Hiragino Sans GB';
+  font-size: 2ch;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+::v-deep .el-input__wrapper {
+  height: 50px;
+}
+
 .box-card {
-  position: relative;
+  // position: relative;
+  position: absolute;
+  width: 80%
 }
 
 .dialog-footer button:first-child {
   margin-right: 10px;
+}
+
+.avatar-uploader-icon {
+  border: 1px dashed #d9d9d9 !important;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9 !important;
+  border-radius: 6px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.avatar-uploader .el-upload:hover {
+  border: 1px dashed #d9d9d9 !important;
+  border-color: #409eff;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 300px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 300px;
+  height: 178px;
+  display: block;
 }
 </style>

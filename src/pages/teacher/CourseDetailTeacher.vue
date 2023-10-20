@@ -13,6 +13,7 @@
 
 <script lang="ts" setup>
 import CourseMenuTeacher from '../../components/CourseMenuTeacher.vue'
+
 </script>
 
 <style  scoped>

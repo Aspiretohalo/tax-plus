@@ -36,7 +36,7 @@ const courseMenuData = reactive([{ name: '创建章节', index: 1, icon: 'User',
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
-  height: 745px;
+  height: 100%;
 }
 .msgH2 {
   margin-left: 70px;

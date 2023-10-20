@@ -2,7 +2,8 @@
   <div>
     <el-container>
       <el-aside>
-        <CourseMenuTeacher></CourseMenuTeacher>
+        <LeftMenuTeacher></LeftMenuTeacher>
+
       </el-aside>
       <el-main class="main">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -36,7 +37,8 @@
 </template>
 
 <script lang="ts" setup>
-import CourseMenuTeacher from '../../components/LeftMenuTeacher.vue'
+import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
+
 import { ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { reactive } from 'vue'
