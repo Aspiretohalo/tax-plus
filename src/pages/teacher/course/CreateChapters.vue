@@ -25,21 +25,11 @@
           <el-input v-model="form.desc" type="textarea" />
         </el-form-item>
 
-        <!-- <el-form-item label="视频上传">
-          <el-upload ref="upload" action="filename" :http-request="httpRequest" :show-file-list="false">
-            <i v-if="videoFlag == false" class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-
-          // 进度条
-          <el-progress v-if="videoFlag" type="circle" :percentage="videoUploadPercent"></el-progress>
-
-
-        </el-form-item> -->
-
-
-
-
-
+        <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/vod/upload"
+          :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="3"
+          :on-exceed="handleExceed">
+          <el-button type="primary">选择视频</el-button>
+        </el-upload>
 
         <el-form-item>
           <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
@@ -66,13 +56,47 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-// import TcVod from 'vod-js-sdk-v6'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
+const fileList = ref<UploadUserFile[]>([
+  // {
+  //   name: 'element-plus-logo.svg',
+  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
+  // },
+  // {
+  //   name: 'element-plus-logo2.svg',
+  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
+  // },
+])
+// const upload = () => {
 
+// }
+const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+  console.log(file, uploadFiles)
+}
 
+const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+  console.log(uploadFile)
+}
+
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+  ElMessage.warning(
+    `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
+    } totally`
+  )
+}
+
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  return ElMessageBox.confirm(
+    `Cancel the transfer of ${uploadFile.name, uploadFiles} ?`
+  ).then(
+    () => true,
+    () => false
+  )
+}
 const course = reactive({
   name: '',
   label: '',

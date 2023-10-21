@@ -2,7 +2,8 @@
   <div class="video2">
     <h3>01欢迎开发SaaS在线课程项目</h3>
     <el-button @click="goToTalk()" type="primary" class="goToTalkBtn">去讨论</el-button>
-    <video id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline webkit-playsinline></video>
+    <video id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
+      webkit-playsinline></video>
   </div>
 </template>
 
@@ -19,8 +20,9 @@ const goToTalk = () => {
   router.push(`/courseId/${courseId}/discussion`)
 }
 onMounted(() => {
+  // 播放视频需要传入该视频的fileID
   var player = TCPlayer('player-container-id', {
-    fileID: '5576678022605530101', // 请传入需要播放的视频fileID 必须
+    fileID: '5576678022776055562', // 请传入需要播放的视频fileID 必须
     appID: '1317662942', // 请传入点播账号的子应用appID 必须
     psign:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6MTMxNzY2Mjk0MiwiZmlsZUlkIjoiNTU3NjY3ODAyMjYwNTUzMDEwMSIsImN1cnJlbnRUaW1lU3RhbXAiOjE2OTc0NzE5MDYsImNvbnRlbnRJbmZvIjp7ImF1ZGlvVmlkZW9UeXBlIjoiUmF3QWRhcHRpdmUiLCJyYXdBZGFwdGl2ZURlZmluaXRpb24iOjEwLCJpbWFnZVNwcml0ZURlZmluaXRpb24iOjEwfSwidXJsQWNjZXNzSW5mbyI6eyJkb21haW4iOiIxMzE3NjYyOTQyLnZvZC1xY2xvdWQuY29tIiwic2NoZW1lIjoiSFRUUFMifX0.i94aVDMmjx3QlZlWCNqC6h4BiYloUeguyDDc5FpnXGM',
@@ -48,10 +50,12 @@ h6 {
 .video2 {
   padding: 30px;
   background-color: #fff;
+
   h3 {
     margin-bottom: 20px;
     display: inline-block;
   }
+
   .goToTalkBtn {
     float: right;
   }
