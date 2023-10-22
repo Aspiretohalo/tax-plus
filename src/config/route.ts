@@ -22,6 +22,7 @@ import CourseRelease from '../pages/teacher/CourseRelease.vue'
 import CourseDetailTeacher from '../pages/teacher/CourseDetailTeacher.vue'
 import CreateChapters from '../pages/teacher/course/CreateChapters.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
+import PersonalCommunity from '../pages/teacher/PersonalCommunity.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -82,6 +83,7 @@ const routes = [
     },
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
+    { path: '/PersonalCommunity', component: PersonalCommunity },
 
 ]
 

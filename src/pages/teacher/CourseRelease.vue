@@ -52,9 +52,10 @@
                     <el-text>{{ course.course_name }}</el-text>
                   </p>
                   <p>
-                    <el-text tag="b">提交老师：</el-text>
+                    <el-text class="needgy">提交老师：</el-text>
                     <el-text>{{ course.course_teacher }}</el-text>
                   </p>
+
                   <p><el-text tag="b">课程标签：</el-text>
                     <el-text>{{ course.course_label }}</el-text>
                   </p>
@@ -62,6 +63,7 @@
                     <el-text tag="b">发布时间：</el-text>
                     <el-text>{{ course.date1 }}</el-text>
                   </p> -->
+
                 </span>
                 <template #footer>
                   <span class="dialog-footer">
@@ -218,7 +220,10 @@ const rules = reactive({
   height: 50px;
 }
 
-
+.needgy {
+  color: gray;
+  font-weight: 600;
+}
 
 .box-card {
   /* position: relative; */
