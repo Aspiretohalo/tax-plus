@@ -26,7 +26,7 @@
         </el-form-item>
 
         <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/vod/upload"
-          :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="3"
+          :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
           :on-exceed="handleExceed">
           <el-button type="primary">选择视频</el-button>
         </el-upload>
@@ -62,18 +62,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
-  // {
-  //   name: 'element-plus-logo.svg',
-  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
-  // },
-  // {
-  //   name: 'element-plus-logo2.svg',
-  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
-  // },
-])
-// const upload = () => {
 
-// }
+])
+
 const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
   console.log(file, uploadFiles)
 }

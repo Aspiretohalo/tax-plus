@@ -8,7 +8,7 @@
                 <span class="kong"></span>
                 <el-text class="name">zjt</el-text>
             </div>
-            
+
 
 
 
@@ -33,7 +33,7 @@ import { reactive } from 'vue'
 const menuDemo2 = reactive([
     { name: '个人信息', index: 1, icon: 'User', router: '/StudentMsg' },
     { name: '评论区', index: 3, icon: 'ChatDotRound', router: '/community' },
-    { name: '返回主页', index:4, icon:'House', router:'/courseManage'}
+    { name: '返回主页', index: 4, icon: 'House', router: '/' }
 ])
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -78,7 +78,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 
 .name {
-    
+
     padding-top: 35px;
     padding-bottom: 35px;
     text-align: center;
@@ -91,8 +91,9 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 
 .kong {
-    width:25px;
+    width: 25px;
 }
+
 ::v-deep .el-menu {
     /* margin-top: 100px; */
     border-right: 0;
