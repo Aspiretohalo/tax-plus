@@ -98,9 +98,6 @@ const getCourses = async (value: any) => {
     const coursesString = sessionStorage.getItem('courses');
     if (coursesString) {
       courseData.value = JSON.parse(coursesString)
-      console.log(courseData.value);
-      console.log(4646);
-
     }
 
   } catch (error) {

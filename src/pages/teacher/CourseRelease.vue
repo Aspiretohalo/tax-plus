@@ -6,11 +6,12 @@
       </el-aside>
       <el-main class="main">
         <el-card class="box-card">
-          <el-form :model="course" class="needlarge" label-width="120px">
-            <el-form-item label="课程名称" text-align: center>
-              <el-input v-model="course.course_name" />
+          <el-form :rules="rules" :model="course" class="needlarge" label-width="120px" ref="ruleFormRef"
+            :hide-required-asterisk="true">
+            <el-form-item label="课程名称" prop="course_name" text-align: center>
+              <el-input v-model="course.course_name" placeholder="填写课程名称" />
             </el-form-item>
-            <el-form-item label="课程标签">
+            <el-form-item label="课程标签" prop="course_label">
               <el-select multiple v-model="course.course_label" placeholder="选择标签" style="width: 360px">
                 <el-option label="入门课程" value="入门课程" />
                 <el-option label="初级课程" value="初级课程" />
@@ -19,21 +20,18 @@
                 <el-option label="顶级课程" value="顶级课程" />
               </el-select>
             </el-form-item>
-            <el-form-item label="课程时间">
+            <!-- <el-form-item label="课程时间">
               <el-col :span="11">
-                <el-date-picker v-model="course.date1" type="date" placeholder="选择日期" style="width: 50%" />
+                <el-date-picker v-model="course.date1" type="datetime" placeholder="Select date and time" />
               </el-col>
-              <el-col :span="11">
-                <el-time-picker v-model="course.date2" placeholder="选择时间" style="width: 50%" />
-              </el-col>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="老师">
               <el-input v-model="course.course_teacher" disabled />
             </el-form-item>
             <el-form-item label="上传封面">
-              <el-upload v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
-                list-type="picture-card" :auto-upload="true" :on-remove="handleRemove"
-                :on-preview="handlePictureCardPreview" :limit="1" :on-progress="console.log(fileList)">
+              <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
+                list-type="picture-card" :auto-upload="false" :on-remove="handleRemove"
+                :on-preview="handlePictureCardPreview" :limit="1" :on-success="handleResponse">
                 <el-icon>
                   <Plus />
                 </el-icon>
@@ -42,12 +40,12 @@
                 <img w-full :src="dialogImageUrl" alt="预览 " />
               </el-dialog>
             </el-form-item>
-            <el-form-item label="课程简介">
+            <el-form-item label="课程简介" prop="course_description">
               <el-input v-model="course.course_description" type="textarea" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
-              <el-dialog align-center v-model="dialogVisible" title="课程确认" width="30%">
+              <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+              <el-dialog align-center v-model="dialogVisible" title="课程确认" width="30%" :show-close="false">
                 <span>
                   <p>
                     <el-text tag="b">发布课程：</el-text>
@@ -60,10 +58,10 @@
                   <p><el-text tag="b">课程标签：</el-text>
                     <el-text>{{ course.course_label }}</el-text>
                   </p>
-                  <p>
+                  <!-- <p>
                     <el-text tag="b">发布时间：</el-text>
-                    <el-text>{{ course.date2 }}</el-text>
-                  </p>
+                    <el-text>{{ course.date1 }}</el-text>
+                  </p> -->
                 </span>
                 <template #footer>
                   <span class="dialog-footer">
@@ -87,30 +85,74 @@ import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
 import { reactive } from 'vue'
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-
+import { useRouter } from 'vue-router'
 import type { UploadProps, UploadUserFile } from 'element-plus'
+// import myAxios from '../../plugins/myAxios'
 
+const router = useRouter()
 const dialogVisible = ref(false)
 
 const course = reactive({
   course_name: '',
   course_label: '',
-  date1: '',
-  date2: '',
-  // course_url,
+  // date1: '',
+  course_url: '',
   course_description: '',
-  course_teacher: 'zjt',
+  course_teacher: 1,
 })
 
-const fileList = ref<UploadUserFile[]>([
+// const date1 = ref('')
 
-])
+import type { UploadInstance } from 'element-plus'
 
-const handleRelease = () => {
-  console.log(course);
+
+const fileList = ref<UploadUserFile[]>([])
+const uploadRef = ref<UploadInstance>()
+
+const onSubmit = () => {
+  dialogVisible.value = true
+  uploadRef.value!.submit()
+}
+const handleRelease = async () => {
+  // try {
+
+  //   // 发布课程，即将课程信息传给后端，存入数据库
+  //   let obj = {
+  //     course_name: course.course_name,
+  //     course_label: JSON.stringify(course.course_label),
+  //     // date1: course.date1,
+  //     course_url: course.course_url,
+  //     course_description: course.course_description,
+  //     course_teacher: 1,
+  //   }
+  //   const response = myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   });
+  //   console.log(response);
+  // } catch (error) {
+  //   console.error('新建课程失败', error);
+  // }
+  open1()
   dialogVisible.value = false
 }
 
+import { ElMessage } from 'element-plus'
+
+const open1 = () => {
+  ElMessage({
+    message: '新建课程成功！',
+    type: 'success',
+  })
+  router.push('/courseManage')
+}
+
+const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
+  // 将响应回来的课程封面地址赋值给course
+  course.course_url = response.data
+
+}
 // 图片预览
 const dialogImageUrl = ref('')
 const dialogVisible_preview = ref(false)
@@ -123,10 +165,37 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   dialogImageUrl.value = uploadFile.url!
   dialogVisible_preview.value = true
 }
+import type { FormInstance } from 'element-plus'
+const ruleFormRef = ref<FormInstance>()
 
-const onSubmit = () => {
-  console.log(666);
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      onSubmit()
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
 }
+const rules = reactive({
+  course_name: [
+    { required: true, message: '请输入课程名', trigger: 'blur' },
+  ],
+  course_label: [
+    {
+      required: true,
+      message: '请选择标签',
+      trigger: 'change',
+    },
+  ],
+
+  course_description: [
+    { required: true, message: '请输入课程简介', trigger: 'blur' },
+  ],
+
+})
+
 </script>
 
 <style  scoped>

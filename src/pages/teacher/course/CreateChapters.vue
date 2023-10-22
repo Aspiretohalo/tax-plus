@@ -3,39 +3,30 @@
 
 
     <el-card class="box-card">
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="章节名称">
-          <el-input v-model="form.name" />
+      <el-form :rules="rules" :model="form" label-width="120px" ref="ruleFormRef" :hide-required-asterisk="true">
+        <el-form-item label="章节名称" prop="video_name">
+          <el-input v-model="form.video_name" placeholder="填写章节名称" />
         </el-form-item>
-
-        <el-form-item label="上传时间">
+        <!-- <el-form-item label="上传时间">
           <el-col :span="11">
             <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 50%" />
           </el-col>
-
           <el-col :span="11">
             <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 50%" />
           </el-col>
-        </el-form-item>
-
-        <el-form-item label="老师">
-          <el-input v-model="course.course_teacher" disabled />
-        </el-form-item>
-        <el-form-item label="章节简介">
-          <el-input v-model="form.desc" type="textarea" />
-        </el-form-item>
-
-        <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/vod/upload"
-          :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
-          :on-exceed="handleExceed">
-          <el-button type="primary">选择视频</el-button>
-        </el-upload>
-
+        </el-form-item> -->
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(); dialogVisible = true">确认</el-button>
-          <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose">
+          <el-upload v-model:file-list="fileList" class="upload-demo" :auto-upload="false"
+            action="http://localhost:8085/vod/upload" :on-preview="handlePreview" :on-remove="handleRemove"
+            :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed">
+            <el-button type="primary">选择视频</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+          <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose" :show-close="false">
             <span>
-              <p>您将要发布的{{ form.name }}章节，时间是{{ form.date2 }}</p>
+              <p>您将要发布的：{{ form.video_name }}</p>
             </span>
             <template #footer>
               <span class="dialog-footer">
@@ -46,7 +37,6 @@
               </span>
             </template>
           </el-dialog>
-          <el-button>取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -61,9 +51,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
-const fileList = ref<UploadUserFile[]>([
-
-])
+const fileList = ref<UploadUserFile[]>([])
 
 const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
   console.log(file, uploadFiles)
@@ -88,14 +76,6 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
     () => false
   )
 }
-const course = reactive({
-  name: '',
-  label: '',
-  date1: '',
-  date2: '',
-  introduction: '',
-  course_teacher: 'zjt',
-})
 
 const dialogVisible = ref(false)
 
@@ -109,22 +89,35 @@ const handleClose = (done: () => void) => {
     })
 }
 
-
 // do not use same name with ref
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  video_name: '',
+
 })
 
 const onSubmit = () => {
-  console.log(form.date2)
+  dialogVisible.value = true
 }
+
+import type { FormInstance } from 'element-plus'
+const ruleFormRef = ref<FormInstance>()
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      onSubmit()
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+const rules = reactive({
+  video_name: [
+    { required: true, message: '请输入课程名', trigger: 'blur' },
+  ],
+
+})
 
 </script>
 
