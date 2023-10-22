@@ -80,19 +80,19 @@
               <el-dialog align-center v-model="dialogVisible" title="课程确认" width="30%">
                 <span>
                   <p>
-                    <el-text tag="b">发布课程：</el-text>
+                    <el-text  class="needgy">发布课程：</el-text>
                     <el-text>{{ course.name }}</el-text>
                   </p>
                   <p>
-                    <el-text tag="b">提交老师：</el-text>
+                    <el-text  class="needgy">提交老师：</el-text>
                     <el-text>{{ course.course_teacher }}</el-text>
                   </p>
-                  <p><el-text tag="b">课程标签：</el-text>
+                  <p><el-text  class="needgy">课程标签：</el-text>
                     <el-text>{{ course.label }}</el-text>
                   </p>
 
                   <p>
-                    <el-text tag="b">发布时间：</el-text>
+                    <el-text  class="needgy">发布时间：</el-text>
                     <el-text>{{ course.date2 }}</el-text>
                   </p>
                 </span>
@@ -187,7 +187,10 @@ const onSubmit = () => {
   height: 50px;
 }
 
-
+.needgy {
+  color: gray;
+  font-weight: 600;
+}
 
 .box-card {
   /* position: relative; */

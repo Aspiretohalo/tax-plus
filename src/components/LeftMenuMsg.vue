@@ -35,7 +35,7 @@ import { reactive } from 'vue'
 // const router = useRouter()
 const menuDemo2 = reactive([
     { name: '个人信息', index: 1, icon: 'User', router: '/TeacherMsg' },
-    { name: '评论区', index: 2, icon: 'ChatDotRound', router: '/community' },
+    { name: '评论区', index: 2, icon: 'ChatDotRound', router: '/PersonalCommunity' },
     { name: '返回主页', index:3, icon:'House', router:'/courseManage'}
 ])
 
