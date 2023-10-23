@@ -15,6 +15,7 @@
         <h4 class="name">{{ student.student_name }}</h4>
         <el-tag class="role">学员</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
+        <el-button @click="logout()" class="personalMsgBtn" type="danger">退出登录</el-button>
       </div>
     </el-card>
   </div>
@@ -36,7 +37,11 @@ const menuDemo = reactive([
 
 
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
-
+const logout = () => {
+  localStorage.clear()
+  sessionStorage.clear()
+  router.push('/loginStudent')
+}
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

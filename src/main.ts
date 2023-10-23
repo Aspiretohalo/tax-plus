@@ -6,16 +6,14 @@ import App from './App.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import SvgIcon from './components/SvgIcon.vue'
 import 'virtual:svg-icons-register'
-import * as VueRouter from 'vue-router'
-import routes from './config/route'
+// import * as VueRouter from 'vue-router'
+// import routes from './config/route'
+import router from './config/router'
 import 'tcplayer.js/dist/tcplayer.min.css';
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import store from './store'
 
-const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
-    routes,
-})
+
 
 const app = createApp(App)
 

@@ -73,9 +73,14 @@ onMounted(async () => {
 })
 
 const student_id = ref()
+
 const getStudentMsg = async () => {
   try {
-    const response = await myAxios.get('/getStudentMsg');
+    const response = await myAxios.get('/getStudentMsg', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
     // 处理响应数据
     state.students = response.data
     student_id.value = response.data.student_id
@@ -91,6 +96,9 @@ const getCourses = async (value: any) => {
       params: {
         student_id: value
       },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
     });
     // 处理响应数据
     state.courses = response.data

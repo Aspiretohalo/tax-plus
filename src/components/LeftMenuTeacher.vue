@@ -12,16 +12,17 @@
     <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <h4 class="name">xc</h4>
+        <h4 class="name">{{ teacher.teacher_name }}</h4>
         <el-tag class="role">老师</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
+        <el-button @click="logout()" class="personalMsgBtn" type="danger">退出登录</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -30,7 +31,13 @@ const menuDemo2 = reactive([
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
   { name: '直播课', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
 ])
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
+const logout = () => {
+  localStorage.clear()
+  sessionStorage.clear()
+  router.push('/loginTeacher')
+}
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
@@ -48,24 +55,30 @@ const checkMsg = () => {
   background-color: #f9f9f9;
   height: 100%;
 }
+
 .el-menu-vertical-demo {
   width: 258px;
 }
+
 .el-menu-item span {
   padding-left: 15px;
 }
+
 .el-menu-item .icon {
   margin-left: 20px;
 }
+
 .leftCard .userMsg {
   width: 180px;
   margin-left: 20px;
 }
+
 .name {
   font-size: 18px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
 .role {
   font-size: 14px;
   color: #999;
@@ -75,11 +88,13 @@ const checkMsg = () => {
 .personalMsgBtn {
   width: 120px;
 }
+
 ::v-deep .el-menu {
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;
 }
+
 ::v-deep .el-card {
   position: absolute;
   bottom: 50px;

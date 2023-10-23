@@ -30,15 +30,16 @@
           <h3>课程评价</h3>
         </div>
       </template>
-      <div class="text item" v-for="o in 3" :key="o">
+      <div class="text item" v-for="item in evaluationData" :key="item.evaluation_id">
         <div class="commentLeft">
-          <el-avatar :size="32"> <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-          <span style="display: inline-block; margin-left: 10px">小郑</span>
+          <el-avatar :size="32"> <el-avatar :size="36"
+              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
+          <span style="display: inline-block; margin-left: 10px">{{ item.evaluator }}</span>
           <el-tag class="studentTag">学员</el-tag>
-          <el-rate v-model="stars" disabled size="large" :colors="colors" />
+          <el-rate v-model="item.evaluation_stars" disabled size="large" :colors="colors" />
         </div>
         <el-text class="mx-1 commentText" type="info">
-          你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛你干嘛
+          {{ item.evaluation_text }}
         </el-text>
         <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
       </div>
@@ -47,12 +48,46 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import myAxios from '../../../plugins/myAxios'
+import state from '../../../store/state'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const courseId = ref(route.params.courseId)
+
+onMounted(async () => {
+  await getEvaluation(courseId.value)
+})
+////////////////////获得评价
+const getEvaluation = async (value: any) => {
+  try {
+    const response = await myAxios.get('/course/getEvaluation', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.evaluations = response.data
+    sessionStorage.setItem('evaluations', JSON.stringify(state.evaluations))
+    const coursesString = sessionStorage.getItem('evaluations');
+    if (coursesString) {
+      evaluationData.value = JSON.parse(coursesString)
+    }
+
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
+const evaluationData: any = ref()
+
+///////////////////////////////新建评价
 const textarea1 = ref('')
 const value2 = ref(null)
-const stars = ref(4)
 const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
 
 const dialogFormVisible = ref(false)
@@ -95,28 +130,34 @@ h6 {
 .box-card {
   position: relative;
   width: 950px;
+
   .userMsg {
     display: inline-block;
     margin-left: 50px;
   }
+
   .newBtn {
     position: absolute;
     right: 30px;
     top: 35px;
     display: inline-block;
   }
+
   .commentLeft {
     margin-bottom: 10px;
+
     .studentTag {
       margin-right: 10px;
     }
   }
+
   .comment {
     display: block;
     width: 500px;
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
   .commentBtn {
     position: absolute;
     width: 100px;
@@ -129,24 +170,29 @@ h6 {
 .notice {
   margin-top: 10px;
 }
+
 .text {
   border-bottom: 1px solid #e3e3e3;
   padding: 0 50px;
 }
+
 .item {
   margin-bottom: 18px;
 }
+
 .releaseTime {
   display: block;
   text-align: right;
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
 ::v-deep {
   .el-card__body {
     padding-left: 0;
     padding-right: 0;
   }
+
   .el-dialog__body {
     padding-top: 0;
   }

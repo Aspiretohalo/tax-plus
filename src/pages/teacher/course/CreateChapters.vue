@@ -123,8 +123,6 @@ const handleRelease = async () => {
 }
 const onSubmit = async () => {
   dialogVisible.value = true
-  console.log(route.params.courseId);
-
 }
 
 import type { FormInstance } from 'element-plus'

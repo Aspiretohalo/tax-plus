@@ -11,27 +11,54 @@
           <h3>公告</h3>
         </div>
       </template>
-      <div class="text item">
-        <h4>课程结束通知</h4>
+      <div class="text item" v-for="notice in noticeData">
+        <h4>{{ notice.notice_title }}</h4>
         <el-text class="mx-1" type="info">
-          最后一次课通知： 1.考试作品平台和钉钉群文件夹截止时间：今晚8点截止 2.明晚之前完成平台所有视频学习，发帖和完善笔记内容，记得给老师进行评价哈
-          3.非常感谢这段时间以来大家的配合和支持。愿大家学有所成！
+          {{ notice.notice_text }}
         </el-text>
         <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
       </div>
-      <div class="text item">
-        <h4>课程开课通知</h4>
-        <el-text class="mx-1" type="info">
-          最后一次课通知： 1.考试作品平台和钉钉群文件夹截止时间：今晚8点截止 2.明晚之前完成平台所有视频学习，发帖和完善笔记内容，记得给老师进行评价哈
-          3.非常感谢这段时间以来大家的配合和支持。愿大家学有所成！
-        </el-text>
-        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
-      </div>
+
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import myAxios from '../../../plugins/myAxios'
+import state from '../../../store/state'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const courseId = ref(route.params.courseId)
+
+onMounted(async () => {
+  await getNotice(courseId.value)
+})
+
+const getNotice = async (value: any) => {
+  try {
+    const response = await myAxios.get('/course/getNotice', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.notices = response.data
+    sessionStorage.setItem('notices', JSON.stringify(state.notices))
+    const coursesString = sessionStorage.getItem('notices');
+    if (coursesString) {
+      noticeData.value = JSON.parse(coursesString)
+    }
+
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
+const noticeData: any = ref()
 </script>
 
 <style scoped>
@@ -43,12 +70,15 @@ h5,
 h6 {
   margin-top: 0;
 }
+
 .box-card {
   width: 950px;
 }
+
 .welcomeCard {
   position: relative;
 }
+
 .welcome {
   margin-left: 50px;
 }
@@ -58,22 +88,27 @@ h6 {
   right: 50px;
   top: 15px;
 }
+
 .notice {
   margin-top: 10px;
 }
+
 .text {
   border-bottom: 1px solid #e3e3e3;
   padding: 0 50px;
 }
+
 .item {
   margin-bottom: 18px;
 }
+
 .releaseTime {
   display: block;
   text-align: right;
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
 ::v-deep .el-card__body {
   padding-left: 0;
   padding-right: 0;

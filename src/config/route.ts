@@ -1,4 +1,5 @@
-import Login from "../pages/Login.vue"
+import LoginStudent from "../pages/LoginStudent.vue"
+import LoginTeacher from "../pages/LoginTeacher.vue"
 import PersonalCommunity from '../pages/teacher/PersonalCommunity.vue'
 //student
 import MyLearning from '../pages/student/MyLearning.vue'
@@ -29,12 +30,13 @@ import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 
 const routes = [
+    { path: '/loginStudent', name: 'login1', component: LoginStudent },
+    { path: '/loginTeacher', name: 'login2', component: LoginTeacher },
     { path: '/', component: MyLearning, },
     { path: '/living', component: LivingCourse },
     { path: '/course', component: OnlineCourse },
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
-    { path: '/login', component: Login },
     { path: '/schedule', component: Schedule },
     {
         path: '/courseId/:courseId', component: CourseDetails,
