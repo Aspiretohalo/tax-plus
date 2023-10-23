@@ -1,4 +1,5 @@
 import Login from "../pages/Login.vue"
+import PersonalCommunity from '../pages/teacher/PersonalCommunity.vue'
 //student
 import MyLearning from '../pages/student/MyLearning.vue'
 import LivingCourse from '../pages/student/LivingCourse.vue'
@@ -21,8 +22,11 @@ import CourseManage from '../pages/teacher/CourseManage.vue'
 import CourseRelease from '../pages/teacher/CourseRelease.vue'
 import CourseDetailTeacher from '../pages/teacher/CourseDetailTeacher.vue'
 import CreateChapters from '../pages/teacher/course/CreateChapters.vue'
+import ManageNotice from '../pages/teacher/course/ManageNotice.vue'
+import ViewDiscussion from '../pages/teacher/course/ViewDiscussion.vue'
+import ViewEvaluations from '../pages/teacher/course/ViewEvaluations.vue'
+import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
-import PersonalCommunity from '../pages/teacher/PersonalCommunity.vue'
 
 const routes = [
     { path: '/', component: MyLearning, },
@@ -78,6 +82,22 @@ const routes = [
             {
                 path: 'createChapters',
                 component: CreateChapters,
+            },
+            {
+                path: 'manageNotice',
+                component: ManageNotice,
+            },
+            {
+                path: 'viewDiscussion',
+                component: ViewDiscussion,
+            },
+            {
+                path: 'viewEvaluations',
+                component: ViewEvaluations,
+            },
+            {
+                path: 'manageCourseData',
+                component: ManageCourseData,
             },
         ]
     },

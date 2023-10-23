@@ -8,7 +8,8 @@
       <el-main class="main">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane label="全部课程" name="first"></el-tab-pane>
-          <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status"> </el-tab-pane>
+          <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
+          </el-tab-pane>
         </el-tabs>
         <el-table class="table" :data="courseData" :show-header="false">
           <el-table-column prop="courseURL" label="courseURL" width="180">
@@ -53,7 +54,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 
 const EnterTheCourse = (courseId: Number) => {
-  router.push(`/courseId/${courseId}/createChapters`)
+  router.push(`/courseId/${courseId}/manageNotice`)
 }
 const courseStatus = reactive([
   {
@@ -138,6 +139,7 @@ const courseData = reactive([
   width: 300px;
   border-radius: 10px;
 }
+
 .tool {
   display: inline-block;
   margin: auto 2px;
@@ -145,23 +147,27 @@ const courseData = reactive([
   width: 80px;
   text-align: center;
 }
+
 .icon {
   display: block;
   margin: 0 auto;
 }
+
 .table {
   position: absolute;
   top: 80px;
   width: 60%;
   border-radius: 10px;
 }
+
 .demo-tabs {
   position: absolute;
 }
+
 div {
   display: inline-block;
 }
+
 ::v-deep .el-aside {
   width: 258px;
-}
-</style>
+}</style>

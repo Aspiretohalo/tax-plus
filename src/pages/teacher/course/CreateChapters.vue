@@ -1,37 +1,25 @@
 <template>
   <div>
-
-
     <el-card class="box-card">
       <el-form :rules="rules" :model="form" label-width="120px" ref="ruleFormRef" :hide-required-asterisk="true">
-        <el-form-item label="章节名称" prop="video_name">
-          <el-input v-model="form.video_name" placeholder="填写章节名称" />
+        <el-form-item label="章节名称" prop="video_title">
+          <el-input v-model="form.video_title" placeholder="填写章节名称" />
         </el-form-item>
-        <!-- <el-form-item label="上传时间">
-          <el-col :span="11">
-            <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 50%" />
-          </el-col>
-          <el-col :span="11">
-            <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 50%" />
-          </el-col>
-        </el-form-item> -->
-        <el-form-item>
-          <el-upload v-model:file-list="fileList" class="upload-demo" :auto-upload="false"
-            action="http://localhost:8085/vod/upload" :on-preview="handlePreview" :on-remove="handleRemove"
-            :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed">
-            <el-button type="primary">选择视频</el-button>
-          </el-upload>
-        </el-form-item>
+        <el-upload v-model:file-list="fileList" class="upload-demo" :auto-upload="true"
+          action="http://localhost:8085/vod/upload" :on-preview="handlePreview" :on-remove="handleRemove"
+          :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed" :on-success="handleResponse">
+          <el-button type="primary">选择视频</el-button>
+        </el-upload>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
           <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose" :show-close="false">
             <span>
-              <p>您将要发布的：{{ form.video_name }}</p>
+              <p>您将要发布的：{{ form.video_title }}</p>
             </span>
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="dialogVisible = false">取消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">
+                <el-button type="primary" @click="handleRelease()">
                   确认并提交
                 </el-button>
               </span>
@@ -40,7 +28,6 @@
         </el-form-item>
       </el-form>
     </el-card>
-
   </div>
 </template>
 
@@ -48,8 +35,12 @@
 import { reactive } from 'vue'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRoute } from 'vue-router'
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
+// import myAxios from '../../../plugins/myAxios'
+
+const route = useRoute()
 
 const fileList = ref<UploadUserFile[]>([])
 
@@ -70,7 +61,7 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
 
 const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(
-    `Cancel the transfer of ${uploadFile.name, uploadFiles} ?`
+    `确定要取消上传该文件${uploadFile.name, uploadFiles} ?`
   ).then(
     () => true,
     () => false
@@ -89,14 +80,51 @@ const handleClose = (done: () => void) => {
     })
 }
 
-// do not use same name with ref
 const form = reactive({
-  video_name: '',
-
+  video_title: '',
+  file_id: '',
+  psign: '',
+  course_id: route.params.courseId,
 })
 
-const onSubmit = () => {
+const open1 = () => {
+  ElMessage({
+    message: '新建章节成功！',
+    type: 'success',
+  })
+}
+const handleResponse: UploadProps['onSuccess'] = (response: any) => {
+  // 将响应回来的课程封面地址赋值给course
+  form.file_id = response.data[0]
+  form.psign = response.data[1]
+}
+
+//目前的情况是，视频上传需要时间，上传完了才会获得到两个数据
+const handleRelease = async () => {
+  // try {
+  //   // 创建章节，即将章节信息传给后端，存入数据库
+  //   let obj = {
+  //     video_title: form.video_title,
+  //     file_id: form.file_id,
+  //     psign: form.psign,
+  //     course_id: form.course_id,
+  //   }
+  //   const response = myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   });
+  //   console.log(response);
+  // } catch (error) {
+  //   console.error('新建章节失败', error);
+  // }
+  open1()
+  dialogVisible.value = false
+}
+const onSubmit = async () => {
   dialogVisible.value = true
+  console.log(route.params.courseId);
+
 }
 
 import type { FormInstance } from 'element-plus'
@@ -113,7 +141,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   })
 }
 const rules = reactive({
-  video_name: [
+  video_title: [
     { required: true, message: '请输入课程名', trigger: 'blur' },
   ],
 
@@ -142,9 +170,13 @@ const rules = reactive({
 }
 
 .box-card {
-  // position: relative;
-  position: absolute;
-  width: 80%
+  position: relative;
+
+  width: 900px;
+
+  .upload-demo {
+    margin-left: 120px;
+  }
 }
 
 .dialog-footer button:first-child {

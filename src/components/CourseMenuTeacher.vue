@@ -29,7 +29,13 @@ const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 const courseId = ref(route.params.courseId)
-const courseMenuData = reactive([{ name: '创建章节', index: 1, icon: 'User', router: `/courseId/${courseId.value}/createChapters` }])
+const courseMenuData = reactive([
+  { name: '管理公告', index: 1, icon: 'User', router: `/courseId/${courseId.value}/manageNotice` },
+  { name: '章节', index: 2, icon: 'User', router: `/courseId/${courseId.value}/createChapters` },
+  { name: '管理资料', index: 3, icon: 'User', router: `/courseId/${courseId.value}/manageCourseData` },
+  { name: '查看评价', index: 4, icon: 'User', router: `/courseId/${courseId.value}/viewEvaluations` },
+  { name: '评论区', index: 5, icon: 'User', router: `/courseId/${courseId.value}/viewDiscussion` },
+])
 </script>
 
 <style  scoped>
@@ -38,9 +44,11 @@ const courseMenuData = reactive([{ name: '创建章节', index: 1, icon: 'User',
   background-color: #f9f9f9;
   height: 100%;
 }
+
 .msgH2 {
   margin-left: 70px;
 }
+
 .returnBtn {
   position: absolute;
   bottom: 50px;
@@ -48,15 +56,19 @@ const courseMenuData = reactive([{ name: '创建章节', index: 1, icon: 'User',
   width: 180px;
   height: 40px;
 }
+
 .el-menu-vertical-demo {
   width: 258px;
 }
+
 .el-menu-item span {
   padding-left: 15px;
 }
+
 .el-menu-item .icon {
   margin-left: 40px;
 }
+
 ::v-deep .el-menu {
   /* margin-top: 100px; */
   border-right: 0;
