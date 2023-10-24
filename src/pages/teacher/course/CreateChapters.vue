@@ -38,7 +38,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRoute } from 'vue-router'
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
-// import myAxios from '../../../plugins/myAxios'
+import myAxios from '../../../plugins/myAxios'
 
 const route = useRoute()
 
@@ -101,23 +101,23 @@ const handleResponse: UploadProps['onSuccess'] = (response: any) => {
 
 //目前的情况是，视频上传需要时间，上传完了才会获得到两个数据
 const handleRelease = async () => {
-  // try {
-  //   // 创建章节，即将章节信息传给后端，存入数据库
-  //   let obj = {
-  //     video_title: form.video_title,
-  //     file_id: form.file_id,
-  //     psign: form.psign,
-  //     course_id: form.course_id,
-  //   }
-  //   const response = myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   });
-  //   console.log(response);
-  // } catch (error) {
-  //   console.error('新建章节失败', error);
-  // }
+  try {
+    // 创建章节，即将章节信息传给后端，存入数据库
+    let obj = {
+      video_title: form.video_title,
+      file_id: form.file_id,
+      psign: form.psign,
+      course_id: form.course_id,
+    }
+    const response = myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response);
+  } catch (error) {
+    console.error('新建章节失败', error);
+  }
   open1()
   dialogVisible.value = false
 }

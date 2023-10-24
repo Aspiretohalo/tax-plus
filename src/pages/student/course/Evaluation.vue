@@ -13,9 +13,9 @@
     <el-dialog v-model="dialogFormVisible" title="评分">
       <el-form :model="form">
         <div class="demo-rate-block">
-          <el-rate v-model="value2" size="large" :colors="colors" />
+          <el-rate v-model="form.evaluation_stars" size="large" :colors="colors" />
         </div>
-        <el-input class="comment" :rows="3" v-model="textarea1" type="textarea" placeholder="请输入评论" />
+        <el-input class="comment" :rows="3" v-model="form.evaluation_text" type="textarea" placeholder="请输入评论" />
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -86,8 +86,6 @@ const getEvaluation = async (value: any) => {
 const evaluationData: any = ref()
 
 ///////////////////////////////新建评价
-const textarea1 = ref('')
-const value2 = ref(null)
 const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
 
 const dialogFormVisible = ref(false)
@@ -98,23 +96,33 @@ const handleCancel = () => {
     type: 'warning',
   })
 }
-const handleAssure = () => {
+const handleAssure = async () => {
+  console.log(form);
+  try {
+    const response = myAxios.post('/course/setEvaluation', form, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response);
+  } catch (error) {
+    console.error('新建评价失败', error);
+  }
   dialogFormVisible.value = false
   ElMessage({
     message: '已发布评价',
     type: 'success',
   })
 }
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  evaluation_stars: Number,
+  evaluation_text: '',
+  course_id: route.params.courseId,
+  evaluator: student.value.student_name,
 })
+
 </script>
 
 <style lang="scss" scoped>

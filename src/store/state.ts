@@ -6,5 +6,6 @@ export default {
     comments: [],
     evaluations: [],
     notices: [],
-    videos: [],
+    chapter: [],
+    allCourses: [],
 }

@@ -10,7 +10,8 @@
           <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
           </el-tab-pane>
         </el-tabs>
-        <el-table class="table" :data="store.getters.selectCourses" :show-header="false">
+        <el-table class="table" :data="activeName == 'first' ? courseData : store.getters.selectCourses"
+          :show-header="false">
           <el-table-column prop="course_url" label="course_url" width="180">
             <template #default="scope">
               <div style="display: flex; align-items: center">
@@ -51,7 +52,6 @@ const router = useRouter()
 onMounted(async () => {
   await getStudentMsg()
   await getCourses(student_id.value)
-  // await changeStatus('first')
 })
 
 const student_id = ref()

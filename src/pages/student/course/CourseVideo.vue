@@ -3,21 +3,21 @@
     <el-card class="box-card notice">
       <template #header>
         <div class="card-header">
-          <h3>课程一</h3>
+          <h3>课程视频</h3>
         </div>
       </template>
       <div class="demo-collapse">
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item v-for="o in 4" :title="'视频' + o" :name="o">
+          <el-collapse-item v-for="item in chapterData" :title="item.video_title" :name="item.chapter_index">
             <div style="padding-bottom: 10px">
-              <router-link :to="`/courseId/${courseId}/detail`">
+              <router-link :to="`/courseId/${courseId}/detail/${chapter_index}`">
                 <el-link :underline="false">
-                  <template #default> <el-tag class="ml-2" type="success">视频</el-tag> 0{{ o }}欢迎开发SaaS在线课程项目 </template>
+                  <template #default> <el-tag class="ml-2" type="success">视频</el-tag>{{ item.video_title }} </template>
                 </el-link>
               </router-link>
             </div>
             <div>
-              <el-link :underline="false"> <el-tag class="ml-2" type="info">课件</el-tag>0{{ o }}课件</el-link>
+              <el-link :underline="false"> <el-tag class="ml-2" type="info">课件</el-tag>{{ }}课件</el-link>
             </div>
           </el-collapse-item>
         </el-collapse>
@@ -27,16 +27,47 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import myAxios from '../../../plugins/myAxios'
+import state from '../../../store/state'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const courseId = ref(route.params.courseId)
+// const chapter_index = ref()
 
-const activeNames = ref(['1'])
-const handleChange = (val: string[]) => {
-  console.log(val)
+const activeNames = ref()
+const chapter_index = ref()
+const handleChange = () => {
+  chapter_index.value = activeNames.value[0]
 }
+onMounted(async () => {
+  await getChapter(courseId.value)
+})
+////////////////////获得章节
+const getChapter = async (value: any) => {
+  try {
+    const response = await myAxios.get('/course/getChapter', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.chapter = response.data
+    sessionStorage.setItem('chapter', JSON.stringify(state.chapter))
+    const coursesString = sessionStorage.getItem('chapter');
+    if (coursesString) {
+      chapterData.value = JSON.parse(coursesString)
+    }
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
+const chapterData: any = ref()
+
 </script>
 
 <style scoped>
@@ -48,25 +79,31 @@ h5,
 h6 {
   margin: 0;
 }
+
 .box-card {
   width: 950px;
 }
+
 .row-bg {
   margin-top: 40px;
 }
+
 .percentage-value {
   display: block;
   margin-top: 10px;
   font-size: 28px;
 }
+
 .percentage-label {
   display: block;
   margin-top: 10px;
   font-size: 12px;
 }
+
 .progressAnnular {
   display: inline-block;
 }
+
 .progressAnnular .annularText {
   display: block;
   text-align: center;

@@ -89,7 +89,7 @@ import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import type { UploadProps, UploadUserFile } from 'element-plus'
-// import myAxios from '../../plugins/myAxios'
+import myAxios from '../../plugins/myAxios'
 
 const router = useRouter()
 const dialogVisible = ref(false)
@@ -116,26 +116,26 @@ const onSubmit = () => {
   uploadRef.value!.submit()
 }
 const handleRelease = async () => {
-  // try {
+  try {
 
-  //   // 发布课程，即将课程信息传给后端，存入数据库
-  //   let obj = {
-  //     course_name: course.course_name,
-  //     course_label: JSON.stringify(course.course_label),
-  //     // date1: course.date1,
-  //     course_url: course.course_url,
-  //     course_description: course.course_description,
-  //     course_teacher: 1,
-  //   }
-  //   const response = myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   });
-  //   console.log(response);
-  // } catch (error) {
-  //   console.error('新建课程失败', error);
-  // }
+    // 发布课程，即将课程信息传给后端，存入数据库
+    let obj = {
+      course_name: course.course_name,
+      course_label: JSON.stringify(course.course_label),
+      // date1: course.date1,
+      course_url: course.course_url,
+      course_description: course.course_description,
+      course_teacher: 1,
+    }
+    const response = myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response);
+  } catch (error) {
+    console.error('新建课程失败', error);
+  }
   open1()
   dialogVisible.value = false
 }
