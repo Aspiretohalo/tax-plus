@@ -58,7 +58,7 @@ const routes = [
                 component: CourseVideo,
             },
             {
-                path: 'detail',
+                path: 'detail/:chapter_index',
                 component: Detail,
             },
 

@@ -5,12 +5,13 @@
         <LeftMenuTeacher></LeftMenuTeacher>
       </el-aside>
       <el-main class="main">
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs">
           <el-tab-pane label="全部课程" name="first"></el-tab-pane>
           <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
           </el-tab-pane>
         </el-tabs>
-        <el-table class="table" :data="store.getters.selectCourses" :show-header="false">
+        <el-table class="table" :data="activeName == 'first' ? courseData : store.getters.selectCourses"
+          :show-header="false">
           <el-table-column prop="course_url" label="course_url" width="180">
             <template #default="scope">
               <div style="display: flex; align-items: center">
@@ -40,7 +41,6 @@
 import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
 
 import { ref, onMounted } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 import { reactive } from 'vue'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
@@ -96,10 +96,10 @@ const getTeacherCourses = async (value: any) => {
   }
 };
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+// tab改变之后调用，获得相应的course
+const changeStatus = (activeName: string) => {
+  state.activeName = activeName
 }
-
 const EnterTheCourse = (courseId: Number) => {
   router.push(`/courseId/${courseId}/manageNotice`)
 }
