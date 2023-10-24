@@ -6,7 +6,27 @@
       </el-aside>
       <el-main class="main">
         <CourseCard></CourseCard>
-        <UpcomingCourses></UpcomingCourses>
+        <!-- <UpcomingCourses></UpcomingCourses> -->
+        <el-card class="tools box-card">
+          <div class="tool" @click="goToSchedule()">
+            <el-icon class="icon" size="36px">
+              <Edit />
+            </el-icon>
+            <span>个性课表</span>
+          </div>
+          <div class="tool">
+            <el-icon class="icon" size="36px">
+              <Search />
+            </el-icon>
+            <span>我的证书</span>
+          </div>
+          <div class="tool">
+            <el-icon class="icon" size="36px">
+              <Star />
+            </el-icon>
+            <span>选课记录</span>
+          </div>
+        </el-card>
       </el-main>
     </el-container>
   </div>
@@ -15,7 +35,15 @@
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
 import CourseCard from '../../components/CourseCard.vue'
-import UpcomingCourses from '../../components/UpcomingCourses.vue'
+// import UpcomingCourses from '../../components/UpcomingCourses.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goToSchedule = () => {
+  router.push('/schedule')
+}
+
 </script>
 
 <style  scoped>
@@ -25,4 +53,28 @@ div {
 .main {
   padding-top: 0;
 }
+
+.tools {
+  position: absolute;
+  right: 15px;
+  top: 80px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.tool {
+  display: inline-block;
+  margin: auto 2px;
+  cursor: pointer;
+  width: 80px;
+  text-align: center;
+}
+
+.icon {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
 </style>
