@@ -8,7 +8,7 @@
                 <el-tag>老师</el-tag>
             </div>
             <div class="newBtn items-center">
-                <el-rate v-model="evaluation_stars" disabled show-score text-color="#ff9900" score-template="平均 {value} 分" />
+                <el-rate v-model="average_evaluation_stars" disabled show-score text-color="#ff9900" score-template="平均 {value} 分" />
             </div>
         </el-card>
         <el-dialog v-model="dialogFormVisible" title="评分">
@@ -57,7 +57,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const courseId = ref(route.params.courseId)
-const evaluation_stars = ref(3.7)
+const average_evaluation_stars = ref(3.7)
 
 
 onMounted(async () => {
