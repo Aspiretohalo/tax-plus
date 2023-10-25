@@ -12,7 +12,7 @@
         <el-table-column prop="file_size" label="大小" />
         <el-table-column>
           <template #default>
-            <el-button class="download">下载</el-button>
+            <el-button class="download" @click="handleDownload(tableData[0].file_url)">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -21,27 +21,31 @@
 </template>
 
 <script lang="ts" setup>
+// import myAxios from '../../../plugins/myAxios'
+const handleDownload = async (file_url: string) => {
+  window.open(file_url)
+  // try {
+  //   const response = await myAxios.get('/course/data/download', {
+  //     params: {
+  //       fileName: file_name
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   });
+  //   console.log(response);
+  // } catch (error) {
+  //   console.error('下载文件失败', error);
+  // }
+}
 const tableData = [
   {
-    file_name: '试卷一',
-    file_type: 'pdf',
-    file_size: '10kb',
+    file_name: 'Q.docx',
+    file_type: 'docx',
+    file_size: '58kb',
+    file_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/file/Q.docx',
   },
-  {
-    file_name: '试卷一',
-    file_type: 'pdf',
-    file_size: '10kb',
-  },
-  {
-    file_name: '试卷一',
-    file_type: 'pdf',
-    file_size: '10kb',
-  },
-  {
-    file_name: '试卷一',
-    file_type: 'pdf',
-    file_size: '10kb',
-  },
+
 ]
 </script>
 
@@ -54,28 +58,35 @@ h5,
 h6 {
   margin: 0;
 }
+
 .box-card {
   width: 950px;
 }
+
 .row-bg {
   margin-top: 40px;
 }
+
 .download {
   margin-left: 100px;
 }
+
 .percentage-value {
   display: block;
   margin-top: 10px;
   font-size: 28px;
 }
+
 .percentage-label {
   display: block;
   margin-top: 10px;
   font-size: 12px;
 }
+
 .progressAnnular {
   display: inline-block;
 }
+
 .progressAnnular .annularText {
   display: block;
   text-align: center;

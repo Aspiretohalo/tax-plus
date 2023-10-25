@@ -117,7 +117,6 @@ const onSubmit = () => {
 }
 const handleRelease = async () => {
   try {
-
     // 发布课程，即将课程信息传给后端，存入数据库
     let obj = {
       course_name: course.course_name,
@@ -127,7 +126,7 @@ const handleRelease = async () => {
       course_description: course.course_description,
       course_teacher: 1,
     }
-    const response = myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
+    const response = await myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
       headers: {
         'Content-Type': 'application/json'
       }

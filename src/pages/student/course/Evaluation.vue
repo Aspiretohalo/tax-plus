@@ -99,20 +99,21 @@ const handleCancel = () => {
 const handleAssure = async () => {
   console.log(form);
   try {
-    const response = myAxios.post('/course/setEvaluation', form, {
+    const response = await myAxios.post('/course/setEvaluation', form, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
     console.log(response);
+    ElMessage({
+      message: '已发布评价',
+      type: 'success',
+    })
   } catch (error) {
     console.error('新建评价失败', error);
   }
   dialogFormVisible.value = false
-  ElMessage({
-    message: '已发布评价',
-    type: 'success',
-  })
+  getEvaluation(courseId.value)
 }
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
