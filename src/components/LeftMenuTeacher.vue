@@ -9,13 +9,24 @@
         <span>{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
+    <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+      <el-sub-menu index="1">
+        <template #title>
+          <el-icon style="margin-left: 20px;">
+            <Operation />
+          </el-icon>
+          <span style="padding-left: 15px;">更多</span>
+        </template>
+        <el-menu-item index="1-1">关于平台</el-menu-item>
+        <el-menu-item index="1-2" @click="logout()">退出登录</el-menu-item>
+      </el-sub-menu>
+    </el-menu>
     <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
         <h4 class="name">{{ teacher.teacher_name }}</h4>
         <el-tag class="role">老师</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
-        <el-button @click="logout()" class="personalMsgBtn" type="danger">退出登录</el-button>
       </div>
     </el-card>
   </div>
@@ -29,7 +40,7 @@ const router = useRouter()
 const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
-  { name: '直播课', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
+  { name: '直播课', index: 3, icon: 'VideoCamera', router: '/courseRelease' },
 ])
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 

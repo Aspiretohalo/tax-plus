@@ -32,32 +32,14 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-card class="tools box-card">
-          <div class="tool" @click="goToSchedule()">
-            <el-icon class="icon" size="36px">
-              <Edit />
-            </el-icon>
-            <span>个性课表</span>
-          </div>
-          <div class="tool">
-            <el-icon class="icon" size="36px">
-              <Search />
-            </el-icon>
-            <span>我的证书</span>
-          </div>
-          <div class="tool">
-            <el-icon class="icon" size="36px">
-              <Star />
-            </el-icon>
-            <span>选课记录</span>
-          </div>
-        </el-card>
+        <UpcomingCourses></UpcomingCourses>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
+import UpcomingCourses from '../../components/UpcomingCourses.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import { onMounted, ref } from 'vue'
 import { reactive } from 'vue'
@@ -118,9 +100,6 @@ const changeStatus = (activeName: string) => {
   state.activeName = activeName
 }
 
-const goToSchedule = () => {
-  router.push('/schedule')
-}
 
 const EnterTheCourse = (courseId: Number) => {
   router.push(`/courseId/${courseId}/notice`)
