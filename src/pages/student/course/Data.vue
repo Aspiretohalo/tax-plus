@@ -22,21 +22,15 @@
 
 <script lang="ts" setup>
 // import myAxios from '../../../plugins/myAxios'
+
+
+
+
+
+
 const handleDownload = async (file_url: string) => {
   window.open(file_url)
-  // try {
-  //   const response = await myAxios.get('/course/data/download', {
-  //     params: {
-  //       fileName: file_name
-  //     },
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   });
-  //   console.log(response);
-  // } catch (error) {
-  //   console.error('下载文件失败', error);
-  // }
+
 }
 const tableData = [
   {

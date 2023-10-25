@@ -7,6 +7,24 @@
                 </div>
                 <div class="newBtn items-center">
                     <el-button type="primary" @click="dialogFormVisible = true">新建公告</el-button>
+                    <el-dialog v-model="dialogFormVisible" title="新建公告">
+                        <el-form :model="form">
+                            <el-form-item label="公告标题" :label-width="formLabelWidth">
+                                <el-input v-model="form.notice_title" autocomplete="off" />
+                            </el-form-item>
+                            <el-form-item label="公告内容" :label-width="formLabelWidth">
+                                <el-input v-model="form.notice_text" autocomplete="off" type="textarea" />
+                            </el-form-item>
+                        </el-form>
+                        <template #footer>
+                            <span class="dialog-footer">
+                                <el-button @click="dialogFormVisible = false">取消</el-button>
+                                <el-button type="primary" @click="dialogFormVisible = false">
+                                    确认
+                                </el-button>
+                            </span>
+                        </template>
+                    </el-dialog>
                 </div>
             </template>
             <div class="text item">
@@ -39,9 +57,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+
+const form = reactive({
+    notice_title: '',
+    notice_text: '',
+
+    delivery: false,
+    type: [],
+    resource: '',
+    desc: '',
+})
 const handleCancel = () => {
     dialogFormVisible.value = false
     ElMessage({
@@ -117,5 +146,21 @@ h6 {
 ::v-deep .el-card__body {
     padding-left: 0;
     padding-right: 0;
+}
+
+.el-button--text {
+    margin-right: 15px;
+}
+
+.el-select {
+    width: 300px;
+}
+
+.el-input {
+    width: 300px;
+}
+
+.dialog-footer button:first-child {
+    margin-right: 10px;
 }
 </style>

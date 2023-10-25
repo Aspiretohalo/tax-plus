@@ -8,27 +8,30 @@
         </el-icon>
         <span>{{ item.name }}</span>
       </el-menu-item>
-      
-    </el-menu>
-    <el-menu
-        default-active="1"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-      >
-        <el-sub-menu index="1" >
-          <template #title>
-            <el-icon style="margin-left: 20px;"><Operation /></el-icon>
-            <span  style="padding-left: 15px;">更多</span>
-          </template>
-            <el-menu-item index="1-1">关于平台</el-menu-item>
-            <el-menu-item index="1-2" @click="logout()">退出登录</el-menu-item>
 
+    </el-menu>
+    <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+      <el-sub-menu index="1">
+        <template #title>
+          <el-icon style="margin-left: 20px;">
+            <Operation />
+          </el-icon>
+          <span style="padding-left: 15px;">更多</span>
+        </template>
+        <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
+
+        <el-menu-item index="1-2" >
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
+            title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
+            <template #reference>
+              <span>退出登录</span>
+            </template>
+          </el-popconfirm>
           
-        </el-sub-menu>
-        
-        
-      </el-menu>
+        </el-menu-item>
+
+      </el-sub-menu>
+    </el-menu>
 
     <el-card class="userMsg box-card">
       <div>
@@ -44,6 +47,17 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { InfoFilled } from '@element-plus/icons-vue'
+
+const confirmEvent = () => {
+  // console.log('confirm!')
+  localStorage.clear()
+  sessionStorage.clear()
+  router.push('/loginStudent')
+}
+const cancelEvent = () => {
+  console.log('cancel!')
+}
 
 const router = useRouter()
 
@@ -57,11 +71,9 @@ const menuDemo = reactive([
 
 
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
-const logout = () => {
-  localStorage.clear()
-  sessionStorage.clear()
-  router.push('/loginStudent')
-}
+// const logout = () => {
+  
+// }
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
@@ -131,5 +143,4 @@ const checkMsg = () => {
 ::v-deep .el-avatar {
   background-color: #0089ff;
 }
-
 </style>

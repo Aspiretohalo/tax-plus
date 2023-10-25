@@ -17,8 +17,16 @@
           </el-icon>
           <span style="padding-left: 15px;">更多</span>
         </template>
-        <el-menu-item index="1-1">关于平台</el-menu-item>
-        <el-menu-item index="1-2" @click="logout()">退出登录</el-menu-item>
+        <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
+        <el-menu-item index="1-2" >
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
+            title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
+            <template #reference>
+              <span>退出登录</span>
+            </template>
+          </el-popconfirm>
+          
+        </el-menu-item>
       </el-sub-menu>
     </el-menu>
     <el-card class="userMsg box-card">
@@ -35,6 +43,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { InfoFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const menuDemo2 = reactive([
@@ -44,11 +53,16 @@ const menuDemo2 = reactive([
 ])
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
-const logout = () => {
+const confirmEvent = () => {
+  // console.log('confirm!')
   localStorage.clear()
   sessionStorage.clear()
-  router.push('/loginTeacher')
+  router.push('/loginStudent')
 }
+const cancelEvent = () => {
+  console.log('cancel!')
+}
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

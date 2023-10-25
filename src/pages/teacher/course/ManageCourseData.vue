@@ -1,11 +1,88 @@
 <template>
     <div>
-        管理课程资料
+      <el-card class="box-card notice">
+        <template #header>
+          <div class="card-header">
+            <h3>课程资料</h3>
+          </div>
+          <div class="newBtn items-center">
+            
+            <!-- <el-button type="primary" @click="dialogFormVisible = true">上传文件</el-button> -->
+
+          </div>
+        </template>
+        <el-table :data="tableData" stripe style="width: 100%">
+          <el-table-column prop="file_name" label="文件名" width="260" />
+          <el-table-column prop="file_type" label="类型" width="180" />
+          <el-table-column prop="file_size" label="大小" />
+          <el-table-column>
+            <template #default>
+              <el-button class="download" @click="handleDownload(tableData[0].file_url)">下载</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
     </div>
-</template>
-
-<script lang="ts" setup>
-
-</script>
-
-<style lang="scss" scoped></style>
+  </template>
+  
+  <script lang="ts" setup>
+  // import myAxios from '../../../plugins/myAxios'
+  const handleDownload = async (file_url: string) => {
+    window.open(file_url)
+  
+  }
+  const tableData = [
+    {
+      file_name: 'Q.docx',
+      file_type: 'docx',
+      file_size: '58kb',
+      file_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/file/Q.docx',
+    },
+  
+  ]
+  </script>
+  
+  <style scoped>
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+  
+  .box-card {
+    width: 950px;
+  }
+  
+  .row-bg {
+    margin-top: 40px;
+  }
+  
+  .download {
+    margin-left: 100px;
+  }
+  
+  .percentage-value {
+    display: block;
+    margin-top: 10px;
+    font-size: 28px;
+  }
+  
+  .percentage-label {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  .progressAnnular {
+    display: inline-block;
+  }
+  
+  .progressAnnular .annularText {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+  }
+  </style>
