@@ -63,6 +63,7 @@ const average_evaluation_stars = ref(3.7)
 onMounted(async () => {
     await getEvaluation(courseId.value)
 })
+
 ////////////////////获得评价
 const getEvaluation = async (value: any) => {
     try {
