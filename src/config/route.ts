@@ -11,6 +11,7 @@ import Schedule from '../pages/student/Schedule.vue'
 import CourseDetails from '../pages/student/CourseDetails.vue'
 import Notice from '../pages/student/course/Notice.vue'
 import Livingroom from '../pages/student/course/Livingroom.vue'
+import LivingModel from '../pages/student/course/LivingModel.vue'
 import Progress from '../pages/student/course/Progress.vue'
 import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
@@ -53,6 +54,10 @@ const routes = [
             {
                 path: 'livingroom',
                 component: Livingroom,
+            },
+            {
+                path: 'livingModel',
+                component: LivingModel,
             },
             {
                 path: 'progress',

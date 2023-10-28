@@ -13,8 +13,6 @@ import 'tcplayer.js/dist/tcplayer.min.css';
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import store from './store'
 
-
-
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
