@@ -23,11 +23,6 @@
 <script lang="ts" setup>
 // import myAxios from '../../../plugins/myAxios'
 
-
-
-
-
-
 const handleDownload = async (file_url: string) => {
   window.open(file_url)
 

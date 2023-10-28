@@ -3,7 +3,7 @@
     <el-card class="box-card welcomeCard">
       <span class="welcome">提示： </span>
       <el-text class="mx-1" type="primary">在下列直播公告中复制房间号，点击右侧按钮跳转</el-text>
-      <el-button type="warning" class="goOnLearning">前往直播间</el-button>
+      <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">前往直播间</el-button>
     </el-card>
     <el-card class="box-card notice">
       <template #header>
@@ -27,9 +27,10 @@
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const courseId = ref(route.params.courseId)
 
 onMounted(async () => {
@@ -53,13 +54,17 @@ const getNotice = async (value: any) => {
     if (coursesString) {
       noticeData.value = JSON.parse(coursesString)
     }
-    
+
 
   } catch (error) {
     console.error('获取公告信息失败', error);
   }
 };
 const noticeData: any = ref()
+
+const goToLivingModel = () => {
+  router.push(`/courseId/${courseId.value}/livingModel`)
+}
 </script>
 
 <style scoped>
