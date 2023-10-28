@@ -7,7 +7,7 @@
       <el-main>
         <el-card class="box-card welcomeCard">
           <span class="welcome">讨论区</span>
-          <el-button type="warning" class="goOnLearning" @click="dialogFormVisible = true">创建讨论</el-button>
+          <el-button type="primary" class="goOnLearning" @click="dialogFormVisible = true">创建讨论</el-button>
           <el-dialog v-model="dialogFormVisible" title="我的讨论">
             <el-form :model="form">
               <el-form-item label="讨论内容">
@@ -34,8 +34,8 @@
           </el-dialog>
         </el-card>
         <el-card class="box-card notice">
-          <div style="display: flex;justify-content: center">
-            <el-input v-model="input" placeholder="Please input" clearable />
+          <div style="display: flex;justify-content: right;padding-right: 30px;">
+            <el-input v-model="input" placeholder="请输入" clearable />
             <el-button type="primary" :icon="Search" circle />
           </div>
           <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -59,11 +59,7 @@
 
 
               </el-card>
-              <br>
-              <div class="example-pagination-block" style="display: flex;justify-content: center">
-                <el-pagination layout="prev, pager, next" :total="1000" />
-              </div>
-
+              
 
             </el-tab-pane>
             <el-tab-pane label="全部" name="second">全部</el-tab-pane>
