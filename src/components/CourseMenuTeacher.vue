@@ -31,10 +31,11 @@ const handleClose = (key: string, keyPath: string[]) => {
 const courseId = ref(route.params.courseId)
 const courseMenuData = reactive([
   { name: '管理公告', index: 1, icon: 'User', router: `/courseId/${courseId.value}/manageNotice` },
-  { name: '章节', index: 2, icon: 'User', router: `/courseId/${courseId.value}/createChapters` },
-  { name: '管理资料', index: 3, icon: 'User', router: `/courseId/${courseId.value}/manageCourseData` },
-  { name: '查看评价', index: 4, icon: 'User', router: `/courseId/${courseId.value}/viewEvaluations` },
-  { name: '评论区', index: 5, icon: 'User', router: `/courseId/${courseId.value}/viewDiscussion` },
+  { name: '发起直播', index: 2, icon: 'User', router: `/courseId/${courseId.value}/beginLiving` },
+  { name: '章节', index: 3, icon: 'User', router: `/courseId/${courseId.value}/createChapters` },
+  { name: '管理资料', index: 4, icon: 'User', router: `/courseId/${courseId.value}/manageCourseData` },
+  { name: '查看评价', index: 5, icon: 'User', router: `/courseId/${courseId.value}/viewEvaluations` },
+  { name: '评论区', index: 6, icon: 'User', router: `/courseId/${courseId.value}/viewDiscussion` },
 ])
 </script>
 

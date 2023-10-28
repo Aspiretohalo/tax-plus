@@ -28,6 +28,8 @@ import ViewDiscussion from '../pages/teacher/course/ViewDiscussion.vue'
 import ViewEvaluations from '../pages/teacher/course/ViewEvaluations.vue'
 import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
+import BeginLiving from '../pages/teacher/course/BeginLiving.vue'
+
 
 const routes = [
     { path: '/loginStudent', name: 'login1', component: LoginStudent },
@@ -100,6 +102,10 @@ const routes = [
             {
                 path: 'manageCourseData',
                 component: ManageCourseData,
+            },
+            {
+                path: 'beginLiving',
+                component: BeginLiving,
             },
         ]
     },
