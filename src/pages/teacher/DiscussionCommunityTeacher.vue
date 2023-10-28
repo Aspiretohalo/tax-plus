@@ -19,7 +19,7 @@
                   :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="3"
                   :on-exceed="handleExceed">
                   <el-button type="primary">上传图片</el-button>
-                    
+
                 </el-upload>
               </el-form-item>
             </el-form>
@@ -35,12 +35,12 @@
         </el-card>
         <el-card class="box-card notice">
           <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-            <el-tab-pane label="最热" name="first">
+            <el-tab-pane label="最新" name="first">
               <el-card class="box-card-small">
                 <template #header>
                   <div class="card-header">
                     <span>曹师傅<el-tag style="margin-left: 15px;">老师</el-tag></span>
-                    <el-button class="button" text>展开</el-button>
+                    <el-button class="button" text>回复</el-button>
                   </div>
                 </template>
                 <div>
@@ -52,13 +52,18 @@
 
 
                 </div>
+
               </el-card>
+              <div><el-pagination background layout="prev, pager, next" :total="1000" /></div>
 
             </el-tab-pane>
-            <el-tab-pane label="最新" name="second">最新</el-tab-pane>
+            <el-tab-pane label="全部" name="second">全部</el-tab-pane>
             <el-tab-pane label="我的" name="third">我的</el-tab-pane>
           </el-tabs>
+
         </el-card>
+
+
 
       </el-main>
     </el-container>
@@ -94,8 +99,7 @@ const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
 
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
-    `The limit is 3, you selected ${files.length} files this time, add up to ${
-      files.length + uploadFiles.length
+    `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
     } totally`
   )
 }
