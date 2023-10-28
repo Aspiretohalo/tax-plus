@@ -50,6 +50,8 @@ const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
   { name: '直播课', index: 3, icon: 'VideoCamera', router: '/courseRelease' },
+  { name: '讨论', index: 4, icon: 'ChatDotSquare', router: '/CommunityTeacher' },
+
 ])
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
