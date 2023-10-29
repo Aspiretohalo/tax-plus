@@ -41,7 +41,6 @@ const routes = [
     { path: '/living', component: LivingCourse },
     { path: '/course', component: OnlineCourse },
     { path: '/community', component: DiscussionCommunity },
-    { path: '/communityTeacher', component: DiscussionCommunityTeacher },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
     {
@@ -117,6 +116,7 @@ const routes = [
             },
         ]
     },
+    { path: '/communityTeacher', component: DiscussionCommunityTeacher },
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
     { path: '/PersonalCommunity', component: PersonalCommunity },

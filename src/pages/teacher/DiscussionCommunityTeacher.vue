@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside>
-        <LeftMenu></LeftMenu>
+        <LeftMenuTeacher></LeftMenuTeacher>
       </el-aside>
       <el-main>
         <el-card class="box-card welcomeCard">
@@ -54,13 +54,7 @@
                       :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
                   </div>
                 </div>
-
-
-
-
               </el-card>
-              
-
             </el-tab-pane>
             <el-tab-pane label="全部" name="second">全部</el-tab-pane>
             <el-tab-pane label="我的" name="third">我的</el-tab-pane>
@@ -73,7 +67,6 @@
 </template>
   
 <script lang="ts" setup>
-import LeftMenu from '../../components/LeftMenu.vue'
 import { reactive, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -81,6 +74,7 @@ import {
   Search,
 } from '@element-plus/icons-vue'
 import type { UploadProps, UploadUserFile } from 'element-plus'
+import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
 
 const input = ref('')
 const fileList = ref<UploadUserFile[]>([
@@ -110,6 +104,8 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
 }
 
 const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  console.log(uploadFiles);
+
   return ElMessageBox.confirm(
     `Cancel the transfer of ${uploadFile.name} ?`
   ).then(

@@ -8,4 +8,5 @@ export default {
     notices: [],
     chapter: [],
     allCourses: [],
+    FileData: [],
 }
