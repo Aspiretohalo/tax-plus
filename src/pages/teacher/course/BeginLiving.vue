@@ -3,8 +3,7 @@
         <el-card class="box-card welcomeCard">
             <span class="welcome">提示： </span>
             <el-text class="mx-1" type="primary">点击右侧按钮跳转直播间，创建房间后将房间号发布</el-text>
-            <el-button type="warning" class="goOnLearning">前往直播间</el-button>
-
+            <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">前往直播间</el-button>
         </el-card>
         <el-card class="box-card notice">
             <template #header>
@@ -16,7 +15,6 @@
                 <el-form-item label="房间名">
                     <el-input v-model="form.name" />
                 </el-form-item>
-                
                 <el-form-item label="直播简述">
                     <el-input v-model="form.desc" type="textarea" />
                 </el-form-item>
@@ -34,16 +32,57 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import myAxios from '../../../plugins/myAxios'
+import state from '../../../store/state'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+const courseId = ref(route.params.courseId)
+
+onMounted(async () => {
+    await getNotice(courseId.value)
+})
 
 // do not use same name with ref
 const form = reactive({
     name: '',
-   
+
     desc: '',
 })
 
 const onSubmit = () => {
     console.log('submit!')
+}
+
+const getNotice = async (value: any) => {
+    try {
+        const response = await myAxios.get('/course/getNotice', {
+            params: {
+                course_id: value
+            },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        // 处理响应数据
+        state.notices = response.data
+        sessionStorage.setItem('notices', JSON.stringify(state.notices))
+        const coursesString = sessionStorage.getItem('notices');
+        if (coursesString) {
+            noticeData.value = JSON.parse(coursesString)
+        }
+
+
+    } catch (error) {
+        console.error('获取公告信息失败', error);
+    }
+};
+const noticeData: any = ref()
+
+const goToLivingModel = () => {
+    router.push(`/courseId/${courseId.value}/livingModelTeacher`)
 }
 
 </script>

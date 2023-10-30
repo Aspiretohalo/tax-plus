@@ -29,6 +29,7 @@ const handleDownload = async (file_url: string) => {
 }
 const tableData = [
   {
+    // course_id: route.params.courseId,
     file_name: 'Q.docx',
     file_type: 'docx',
     file_size: '58kb',

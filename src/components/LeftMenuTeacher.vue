@@ -3,7 +3,6 @@
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
         <el-icon class="icon">
-          <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
           <component :is="item.icon"></component>
         </el-icon>
         <span>{{ item.name }}</span>
@@ -18,14 +17,14 @@
           <span style="padding-left: 15px;">更多</span>
         </template>
         <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
-        <el-menu-item index="1-2" >
+        <el-menu-item index="1-2">
           <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
             title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
             <template #reference>
               <span>退出登录</span>
             </template>
           </el-popconfirm>
-          
+
         </el-menu-item>
       </el-sub-menu>
     </el-menu>

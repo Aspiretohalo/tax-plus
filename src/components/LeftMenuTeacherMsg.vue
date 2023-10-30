@@ -6,13 +6,11 @@
                 <span class="kong"></span>
                 <el-avatar :size="50" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
                 <span class="kong"></span>
-                <el-text class="name">zjt</el-text>
+                <el-text class="name">{{ teacher.teacher_name }}</el-text>
             </div>
-
-
-
-
-
+            <!-- <div class="name">
+                <el-text>曹老师傅</el-text>
+            </div> -->
             <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
                 <el-icon class="icon">
                     <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
@@ -21,19 +19,20 @@
                 <span>{{ item.name }}</span>
             </el-menu-item>
         </el-menu>
-
     </div>
 </template>
   
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 // import { useRouter } from 'vue-router'
 
 // const router = useRouter()
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
+
 const menuDemo2 = reactive([
-    { name: '个人信息', index: 1, icon: 'User', router: '/StudentMsg' },
-    { name: '评论区', index: 3, icon: 'ChatDotRound', router: '/studentmsgcommunity' },
-    { name: '返回主页', index: 4, icon: 'House', router: '/' }
+    { name: '个人信息', index: 1, icon: 'User', router: '/TeacherMsg' },
+    { name: '评论区', index: 2, icon: 'ChatDotRound', router: '/PersonalCommunity' },
+    { name: '返回主页', index: 3, icon: 'House', router: '/courseManage' }
 ])
 
 const handleOpen = (key: string, keyPath: string[]) => {

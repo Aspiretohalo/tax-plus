@@ -23,32 +23,39 @@
 .upcoming {
   /* position: absolute; */
   position: fixed;
+  top: 0;
   right: 0px;
   width: 370px;
   height: 100%;
   min-height: 745px;
   background-color: #ffffff;
 }
+
 .upcoming h2 {
   /* margin: 20px auto; */
   margin-left: 80px;
 }
+
 .pl {
   padding-left: 20px;
 }
+
 .course_title {
   font-size: 26px;
 }
+
 ::v-deep .el-card {
   width: 330px;
   height: 240px;
   margin-left: 20px;
   border-radius: 10px;
 }
+
 ::v-deep .el-card .pic img {
   width: 330px;
   height: 240px;
 }
+
 ::v-deep .el-card__body {
   padding: 0;
 }

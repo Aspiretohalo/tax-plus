@@ -8,68 +8,57 @@
                 <div class="newBtn items-center">
                     <el-button type="primary" @click="dialogFormVisible = true">新建公告</el-button>
                     <el-dialog v-model="dialogFormVisible" title="新建公告">
-                        <el-form :model="form">
-                            <el-form-item label="公告标题" :label-width="formLabelWidth">
+                        <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+                            <el-form-item label="公告标题" :label-width="formLabelWidth" prop="notice_title">
                                 <el-input v-model="form.notice_title" autocomplete="off" />
                             </el-form-item>
-                            <el-form-item label="公告内容" :label-width="formLabelWidth">
+                            <el-form-item label="公告内容" :label-width="formLabelWidth" prop="notice_text">
                                 <el-input v-model="form.notice_text" autocomplete="off" type="textarea" />
                             </el-form-item>
                         </el-form>
                         <template #footer>
                             <span class="dialog-footer">
-                                <el-button @click="dialogFormVisible = false">取消</el-button>
-                                <el-button type="primary" @click="dialogFormVisible = false">
-                                    确认
-                                </el-button>
+                                <el-button @click="handleCancel()">取消</el-button>
+                                <el-button type="primary" @click="handleAssure()"> 确认</el-button>
                             </span>
                         </template>
                     </el-dialog>
                 </div>
             </template>
-            <div class="text item">
-                <h4>课程结束通知</h4>
+            <div class="text item" v-for="notice in noticeData">
+                <h4>{{ notice.notice_title }}</h4>
                 <el-text class="mx-1" type="info">
-                    最后一次课通知： 1.考试作品平台和钉钉群文件夹截止时间：今晚8点截止 2.明晚之前完成平台所有视频学习，发帖和完善笔记内容，记得给老师进行评价哈
-                    3.非常感谢这段时间以来大家的配合和支持。愿大家学有所成！
-                </el-text>
-                <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
-            </div>
-            <div class="text item">
-                <h4>课程开课通知</h4>
-                <el-text class="mx-1" type="info">
-                    最后一次课通知： 1.考试作品平台和钉钉群文件夹截止时间：今晚8点截止 2.明晚之前完成平台所有视频学习，发帖和完善笔记内容，记得给老师进行评价哈
-                    3.非常感谢这段时间以来大家的配合和支持。愿大家学有所成！
+                    {{ notice.notice_text }}
                 </el-text>
                 <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
             </div>
         </el-card>
-        <el-dialog v-model="dialogFormVisible" title="新建公告">
-
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button @click="handleCancel()">取消</el-button>
-                    <el-button type="primary" @click="handleAssure()"> 确认</el-button>
-                </span>
-            </template>
-        </el-dialog>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import myAxios from '../../../plugins/myAxios'
+import state from '../../../store/state'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const courseId = ref(route.params.courseId)
+
+onMounted(async () => {
+    await getNotice(courseId.value)
+})
+
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 const form = reactive({
     notice_title: '',
     notice_text: '',
-
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+    course_id: route.params.courseId,
+    announcer: teacher.value.teacher_name,
 })
 const handleCancel = () => {
     dialogFormVisible.value = false
@@ -78,13 +67,73 @@ const handleCancel = () => {
         type: 'warning',
     })
 }
-const handleAssure = () => {
-    dialogFormVisible.value = false
-    ElMessage({
-        message: '已发布评价',
-        type: 'success',
+const handleAssure = async () => {
+    await submitForm(ruleFormRef.value)
+
+}
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            try {
+                const response = await myAxios.post('/course/setNotice', JSON.stringify(form), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response);
+            } catch (error) {
+                console.error('新建公告失败', error);
+            }
+            dialogFormVisible.value = false
+            ElMessage({
+                message: '已发布公告',
+                type: 'success',
+            })
+            getNotice(courseId.value)
+        } else {
+            console.log('error submit!', fields)
+        }
     })
 }
+
+
+const getNotice = async (value: any) => {
+    try {
+        const response = await myAxios.get('/course/getNotice', {
+            params: {
+                course_id: value
+            },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        // 处理响应数据
+        state.notices = response.data
+        sessionStorage.setItem('notices', JSON.stringify(state.notices))
+        const coursesString = sessionStorage.getItem('notices');
+        if (coursesString) {
+            noticeData.value = JSON.parse(coursesString)
+        }
+
+    } catch (error) {
+        console.error('获取公告信息失败', error);
+    }
+};
+const noticeData: any = ref()
+import type { FormInstance } from 'element-plus'
+
+const ruleFormRef = ref<FormInstance>()
+
+const rules = reactive({
+    notice_title: [
+        { required: true, message: '请输入公告标题', trigger: 'blur' },
+    ],
+    notice_text: [
+        { required: true, message: '请输入公告正文', trigger: 'blur' },
+    ],
+})
 </script>
 
 <style lang="scss" scoped>

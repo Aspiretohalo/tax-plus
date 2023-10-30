@@ -138,11 +138,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   })
 }
+
 const rules = reactive({
   video_title: [
     { required: true, message: '请输入课程名', trigger: 'blur' },
   ],
-
 })
 
 </script>

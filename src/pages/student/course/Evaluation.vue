@@ -3,7 +3,7 @@
     <el-card class="box-card user">
       <div class="userMsg items-center">
         <el-avatar class="mr-3" :size="46" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-        <span class="text-large font-600 mr-3"> 彭于晏 </span>
+        <span class="text-large font-600 mr-3"> {{ student.student_name }} </span>
         <el-tag>学员</el-tag>
       </div>
       <div class="newBtn items-center">
