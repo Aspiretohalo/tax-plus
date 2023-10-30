@@ -106,13 +106,21 @@ const handleDownload = async (file_url: string) => {
 
 }
 let tableData = [
+  // {
+  //   course_id: route.params.courseId,
+  //   file_name: ' ',
+  //   file_type: ' ',
+  //   file_size: ' ',
+  //   file_url: '',
+  // },
   {
-    course_id: route.params.courseId,
-    file_name: ' ',
-    file_type: ' ',
-    file_size: ' ',
-    file_url: '',
+    // course_id: route.params.courseId,
+    file_name: 'Q.docx',
+    file_type: 'docx',
+    file_size: '58kb',
+    file_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/file/Q.docx',
   },
+
 ]
 
 const getFileData = async (value: any) => {

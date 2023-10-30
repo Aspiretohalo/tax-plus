@@ -59,7 +59,7 @@
 
 
               </el-card>
-              
+
 
             </el-tab-pane>
             <el-tab-pane label="全部" name="second">全部</el-tab-pane>
@@ -110,6 +110,8 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
 }
 
 const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  console.log(uploadFiles);
+
   return ElMessageBox.confirm(
     `Cancel the transfer of ${uploadFile.name} ?`
   ).then(

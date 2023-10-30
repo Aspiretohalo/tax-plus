@@ -12,6 +12,7 @@ import CourseDetails from '../pages/student/CourseDetails.vue'
 import Notice from '../pages/student/course/Notice.vue'
 import Livingroom from '../pages/student/course/Livingroom.vue'
 import LivingModel from '../pages/student/course/LivingModel.vue'
+
 import Progress from '../pages/student/course/Progress.vue'
 import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
@@ -31,8 +32,7 @@ import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 import DiscussionCommunityTeacher from '../pages/teacher/DiscussionCommunityTeacher.vue'
 import BeginLiving from '../pages/teacher/course/BeginLiving.vue'
-
-
+import LivingModelTeacher from '../pages/teacher/course/LivingModelTeacher.vue'
 
 const routes = [
     { path: '/loginStudent', name: 'login1', component: LoginStudent },
@@ -113,6 +113,10 @@ const routes = [
             {
                 path: 'beginLiving',
                 component: BeginLiving,
+            },
+            {
+                path: 'livingModelTeacher',
+                component: LivingModelTeacher,
             },
         ]
     },

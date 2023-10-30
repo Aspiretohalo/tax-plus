@@ -2,7 +2,7 @@
   <div>
     <el-container style="display:flex">
       <el-aside>
-        <LeftMenuMsg></LeftMenuMsg>
+        <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
       </el-aside>
       <el-main class="main">
         <div style="width:100%">
@@ -12,37 +12,31 @@
           <div class="bgavatar">
             <div class="imgbox">
               <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
-            </div>    
+            </div>
           </div>
           <div>
-            <span class="bgname">曹老师傅</span>
+            <span class="bgname" style="margin-left: 55px;">{{ teacher.teacher_name }}</span>
           </div>
-
           <el-col :span="6">
-            
             <el-row :gutter="12" style="margin-top:30px;">
               <el-col :span="8">
                 <div style="text-align:right; color: gray;"><span>手机号：</span></div>
               </el-col>
-              <el-col :span="16">17125463265</el-col>
+              <el-col :span="16">{{ teacher.phone_number }}</el-col>
             </el-row>
             <el-row :gutter="12" style="margin-top:30px;">
               <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>电子邮箱：</span></div>
+                <div style="text-align:right; color: gray;"><span>email：</span></div>
               </el-col>
-              <el-col :span="16">2036128127@qq.com</el-col>
-            </el-row>
-            <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>部门：</span></div>
-              </el-col>
-              <el-col :span="16">某某管理中心</el-col>
+              <el-col :span="16">{{ teacher.email }}</el-col>
             </el-row>
             <el-row :gutter="12" style="margin-top:30px;">
               <el-col :span="8">
                 <div style="text-align:right; color: gray;"><span>身份：</span></div>
               </el-col>
-              <el-col :span="16">老师</el-col>
+              <el-col :span="16">
+                <el-tag class="role" size="large">老师</el-tag>
+              </el-col>
             </el-row>
             <!-- <el-row :gutter="12" style="margin-top:30px;">
               <el-col :span="8">
@@ -62,8 +56,10 @@
 </template>
 
 <script lang="ts" setup>
-import LeftMenuMsg from '../../components/LeftMenuMsg.vue'
+import LeftMenuTeacherMsg from '../../components/LeftMenuTeacherMsg.vue';
+import { ref } from 'vue'
 
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 </script>
 
 <style lang="scss" scoped>
@@ -107,7 +103,7 @@ body {
 
 
 
-.bgname{
+.bgname {
   padding-left: 85px;
   font-size: 45px;
   font-weight: 300;
@@ -137,4 +133,5 @@ body {
   height: 100%;
   width: 100%;
 
-}</style>
+}
+</style>
