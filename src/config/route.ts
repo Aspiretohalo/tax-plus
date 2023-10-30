@@ -19,6 +19,8 @@ import Evaluation from '../pages/student/course/Evaluation.vue'
 import Discussion from '../pages/student/course/Discussion.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
+import StudentMsgCommunity from '../pages/student/StudentMsgCommunity.vue'
+import CourseDetail from "../pages/student/course/CourseDetail.vue"
 //teacher
 import CourseManage from '../pages/teacher/CourseManage.vue'
 import CourseRelease from '../pages/teacher/CourseRelease.vue'
@@ -44,6 +46,10 @@ const routes = [
     { path: '/communityTeacher', component: DiscussionCommunityTeacher },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
+    { path: '/coursedetailmeun', component: CourseDetail },
+
+
+    
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [
@@ -120,6 +126,10 @@ const routes = [
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
     { path: '/PersonalCommunity', component: PersonalCommunity },
+    { path: '/studentmsgcommunity', component: StudentMsgCommunity },
+
+
+
 
 ]
 

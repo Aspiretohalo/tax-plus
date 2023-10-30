@@ -43,7 +43,11 @@
               <el-card class="box-card-small">
                 <template #header>
                   <div class="card-header">
-                    <span>曹师傅<el-tag style="margin-left: 15px;">老师</el-tag></span>
+                    <span>曹师傅
+                      <el-tag style="margin-left: 15px;">老师</el-tag>
+                      <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
+                    </span>
+                    
                     <el-button class="button" text>回复</el-button>
                   </div>
                 </template>
@@ -59,7 +63,7 @@
 
 
               </el-card>
-              
+
 
             </el-tab-pane>
             <el-tab-pane label="全部" name="second">全部</el-tab-pane>
@@ -75,12 +79,30 @@
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
 import { reactive, ref } from 'vue'
+// import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import {
-  Search,
-} from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus' 
+import { Search, } from '@element-plus/icons-vue'
 import type { UploadProps, UploadUserFile } from 'element-plus'
+import { onUnmounted,onMounted } from 'vue';
+
+// 创建一个响应式的 currentTime 变量
+const post_time = ref(new Date().toLocaleString());
+
+// 创建一个函数来更新 currentTime
+const updateCurrentTime = () => {
+  post_time.value = new Date().toLocaleString();
+};
+
+// 在组件挂载时开始定时更新 currentTime
+onMounted(() => {
+  const timer = setInterval(updateCurrentTime, 1000);
+  // 在组件卸载时清除定时器，以防内存泄漏
+  onUnmounted(() => {
+    clearInterval(timer);
+  });
+});
+
 
 const input = ref('')
 const fileList = ref<UploadUserFile[]>([
