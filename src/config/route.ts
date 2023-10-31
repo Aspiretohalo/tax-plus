@@ -44,6 +44,7 @@ const routes = [
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
+    // { path: '/coursedetailmeun', component: CourseDetail },
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [
@@ -127,7 +128,6 @@ const routes = [
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
     { path: '/personalCommunityTeacher', component: PersonalCommunityTeacher },
-
 ]
 
 export default routes
