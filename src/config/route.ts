@@ -1,6 +1,5 @@
 import LoginStudent from "../pages/LoginStudent.vue"
 import LoginTeacher from "../pages/LoginTeacher.vue"
-import PersonalCommunity from '../pages/teacher/PersonalCommunity.vue'
 //student
 import MyLearning from '../pages/student/MyLearning.vue'
 import LivingCourse from '../pages/student/LivingCourse.vue'
@@ -12,7 +11,6 @@ import CourseDetails from '../pages/student/CourseDetails.vue'
 import Notice from '../pages/student/course/Notice.vue'
 import Livingroom from '../pages/student/course/Livingroom.vue'
 import LivingModel from '../pages/student/course/LivingModel.vue'
-
 import Progress from '../pages/student/course/Progress.vue'
 import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
@@ -20,6 +18,8 @@ import Evaluation from '../pages/student/course/Evaluation.vue'
 import Discussion from '../pages/student/course/Discussion.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
+import PersonalCommunityStudent from '../pages/student/PersonalCommunityStudent.vue'
+
 //teacher
 import CourseManage from '../pages/teacher/CourseManage.vue'
 import CourseRelease from '../pages/teacher/CourseRelease.vue'
@@ -33,6 +33,7 @@ import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 import DiscussionCommunityTeacher from '../pages/teacher/DiscussionCommunityTeacher.vue'
 import BeginLiving from '../pages/teacher/course/BeginLiving.vue'
 import LivingModelTeacher from '../pages/teacher/course/LivingModelTeacher.vue'
+import PersonalCommunityTeacher from '../pages/teacher/PersonalCommunityTeacher.vue'
 
 const routes = [
     { path: '/loginStudent', name: 'login1', component: LoginStudent },
@@ -85,6 +86,8 @@ const routes = [
             },
         ],
     },
+    { path: '/personalCommunityStudent', component: PersonalCommunityStudent },
+
     { path: '/courseRelease', component: CourseRelease },
     { path: '/courseManage', component: CourseManage },
     {
@@ -123,7 +126,7 @@ const routes = [
     { path: '/communityTeacher', component: DiscussionCommunityTeacher },
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
-    { path: '/PersonalCommunity', component: PersonalCommunity },
+    { path: '/personalCommunityTeacher', component: PersonalCommunityTeacher },
 
 ]
 

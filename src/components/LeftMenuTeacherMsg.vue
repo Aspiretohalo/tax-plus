@@ -30,8 +30,8 @@ import { reactive, ref } from 'vue'
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
 const menuDemo2 = reactive([
-    { name: '个人信息', index: 1, icon: 'User', router: '/TeacherMsg' },
-    { name: '评论区', index: 2, icon: 'ChatDotRound', router: '/PersonalCommunity' },
+    { name: '个人信息', index: 1, icon: 'User', router: '/teacherMsg' },
+    { name: '评论区', index: 2, icon: 'ChatDotRound', router: '/personalCommunityTeacher' },
     { name: '返回主页', index: 3, icon: 'House', router: '/courseManage' }
 ])
 
