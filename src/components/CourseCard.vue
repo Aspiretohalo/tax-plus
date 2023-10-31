@@ -16,9 +16,7 @@
         <el-card v-for="item in allCourses" :key="item.course_id" class="courseCard box-card" shadow="hover">
           <template #header>
             <div class="card-header">
-              <!-- <span>{{ item.teacher_name }}</span> -->
-              <span>曹师傅</span>
-
+              <span>{{ item.teacher_name }}</span>
             </div>
           </template>
           <div class="pic">

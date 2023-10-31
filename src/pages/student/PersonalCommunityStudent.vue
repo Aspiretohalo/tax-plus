@@ -2,7 +2,7 @@
   <div>
     <el-container style="display:flex">
       <el-aside>
-        <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
+        <LeftMenuStudentMsg></LeftMenuStudentMsg>
       </el-aside>
       <el-main class="main">
         <div style="width:100%">
@@ -21,7 +21,7 @@
 </template>
   
 <script lang="ts" setup>
-import LeftMenuTeacherMsg from '../../components/LeftMenuTeacherMsg.vue'
+import LeftMenuStudentMsg from '../../components/LeftMenuStudentMsg.vue'
 
 </script>
   
