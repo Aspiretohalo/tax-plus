@@ -62,7 +62,7 @@
   </template>
   
   <script lang="ts" setup>
-  import LeftMenuSMsg from '../../components/LeftMenuSMsg.vue'
+  // import LeftMenuSMsg from '../../components/LeftMenuSMsg.vue'
   import {  ref } from 'vue'
 // import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'

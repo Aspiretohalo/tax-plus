@@ -21,7 +21,7 @@ import Discussion from '../pages/student/course/Discussion.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
 import StudentMsgCommunity from '../pages/student/StudentMsgCommunity.vue'
-import CourseDetail from "../pages/student/course/CourseDetail.vue"
+// import CourseDetail from "../pages/student/course/CourseDetail.vue"
 //teacher
 import CourseManage from '../pages/teacher/CourseManage.vue'
 import CourseRelease from '../pages/teacher/CourseRelease.vue'
@@ -45,7 +45,7 @@ const routes = [
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
-    { path: '/coursedetailmeun', component: CourseDetail },
+    // { path: '/coursedetailmeun', component: CourseDetail },
 
 
     
