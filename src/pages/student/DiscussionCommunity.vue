@@ -111,7 +111,7 @@ const input = ref('')
 const imageUrl = ref('')
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
+  response5,
   uploadFile
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
@@ -211,7 +211,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   transition: var(--el-transition-duration-fast);
 }
 
-.avatar-uploader:hover {
+.avatar-uploader .el-upload:hover {
   border-color: var(--el-color-primary);
 }
 
