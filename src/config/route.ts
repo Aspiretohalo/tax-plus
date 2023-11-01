@@ -46,6 +46,7 @@ const routes = [
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
     { path: '/course/courseId/:courseId/courseSelection', component: CourseSelection },
+    
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [
