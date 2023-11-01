@@ -1,22 +1,43 @@
 <template>
   <div class="upcoming">
     <h2 class="pl">直播课即将开始</h2>
-    <el-card class="box-card">
-      <div class="pic">
-        <el-image src="src/assets/imgs/首页banner-新媒体.jpg" />
-      </div>
-      <!-- <template #header>
-        <div class="card-header">
-          <span>税务的第一课</span>
-        </div>
-      </template> -->
-    </el-card>
-    <h3 class="course_title pl">tax-plus开发第一课</h3>
-    <div class="pl">SaaS税务在线培训系统的开发流程，采用Vue3+ElementPlus开发</div>
+    <el-scrollbar height="100%">
+      <el-row v-for="(o, index) in 4" :key="o" :span="8" :offset="index > 0 ? 1 : 0">
+      <el-col style="margin-top: 5px;">
+        <el-card :body-style="{ padding: '0px' }" class="card-circle">
+          <div>
+            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            class="image" />
+          </div>
+          
+          <div style="padding: 14px">
+            <span>科目1<el-tag>曹师傅</el-tag></span>
+            <div class="bottom">
+              <time class="time">{{ currentDate }}</time>
+              <el-button text class="button" type="primary">前往</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <div style="height: 80px;"></div>
+    </el-row>
+
+
+    </el-scrollbar>
+
+    
+
+
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
+const currentDate = ref(new Date())
 </script>
 
 <style  scoped>
@@ -40,23 +61,63 @@
   padding-left: 20px;
 }
 
-.course_title {
-  font-size: 26px;
+
+.course_right {
+  width: 350px;
+  height: 200px
 }
 
-::v-deep .el-card {
-  width: 330px;
-  height: 240px;
-  margin-left: 20px;
-  border-radius: 10px;
+
+
+.time {
+  font-size: 12px;
+  color: #999;
 }
 
-::v-deep .el-card .pic img {
-  width: 330px;
-  height: 240px;
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-::v-deep .el-card__body {
+.button {
   padding: 0;
+  min-height: auto;
+}
+
+.image {
+  display: flex;
+  
+  
+  width: 100%;
+  height: 200px;
+}
+
+.demo-image .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.demo-image .block:last-child {
+  border-right: none;
+}
+
+.demo-image .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.card-circle{
+  border-radius: 30px;
+  border-color: #409EFF;
 }
 </style>
