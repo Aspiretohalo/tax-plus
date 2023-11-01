@@ -15,7 +15,7 @@ import Progress from '../pages/student/course/Progress.vue'
 import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
 import Evaluation from '../pages/student/course/Evaluation.vue'
-import Discussion from '../pages/student/course/Discussion.vue'
+import Comment from '../pages/student/course/Comment.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
 import PersonalCommunityStudent from '../pages/student/PersonalCommunityStudent.vue'
@@ -26,7 +26,7 @@ import CourseRelease from '../pages/teacher/CourseRelease.vue'
 import CourseDetailTeacher from '../pages/teacher/CourseDetailTeacher.vue'
 import CreateChapters from '../pages/teacher/course/CreateChapters.vue'
 import ManageNotice from '../pages/teacher/course/ManageNotice.vue'
-import ViewDiscussion from '../pages/teacher/course/ViewDiscussion.vue'
+import ViewComments from '../pages/teacher/course/ViewComments.vue'
 import ViewEvaluations from '../pages/teacher/course/ViewEvaluations.vue'
 import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
@@ -82,8 +82,8 @@ const routes = [
                 component: Evaluation,
             },
             {
-                path: 'discussion',
-                component: Discussion,
+                path: 'comment',
+                component: Comment,
             },
         ],
     },
@@ -103,8 +103,8 @@ const routes = [
                 component: ManageNotice,
             },
             {
-                path: 'viewDiscussion',
-                component: ViewDiscussion,
+                path: 'viewComments',
+                component: ViewComments,
             },
             {
                 path: 'viewEvaluations',
