@@ -13,7 +13,8 @@
 
     <el-space direction="vertical" alignment="start" :size="30">
       <el-space wrap :size="size">
-        <el-card v-for="item in allCourses" :key="item.course_id" class="courseCard box-card" shadow="hover">
+        <el-card v-for="item in allCourses" :key="item.course_id" @click="goToSelect()" class="courseCard box-card"
+          shadow="hover">
           <template #header>
             <div class="card-header">
               <span>{{ item.teacher_name }}</span>
@@ -35,10 +36,19 @@ import { Search } from '@element-plus/icons-vue'
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'
 import state from '../store/state'
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
+const router = useRouter()
 onMounted(async () => {
   await getAllCourses()
 })
+// 此处有错误
+const courseId = ref(route.params.courseId)
+
+const goToSelect = () => {
+  router.push(`/course/courseId/${courseId.value}/courseSelection`)
+}
 ////////////////////获得所有课程
 const getAllCourses = async () => {
   try {

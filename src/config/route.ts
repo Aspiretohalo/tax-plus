@@ -16,6 +16,7 @@ import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
 import Evaluation from '../pages/student/course/Evaluation.vue'
 import Comment from '../pages/student/course/Comment.vue'
+import CourseSelection from '../pages/student/course/CourseSelection.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
 import PersonalCommunityStudent from '../pages/student/PersonalCommunityStudent.vue'
@@ -44,7 +45,7 @@ const routes = [
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
-    // { path: '/coursedetailmeun', component: CourseDetail },
+    { path: '/course/courseId/:courseId/courseSelection', component: CourseSelection },
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [

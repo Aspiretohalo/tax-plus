@@ -35,7 +35,7 @@ onMounted(() => {
 
   console.log(player)
 
-  // player.src(url); // url 播放地址
+  // player.src('https://cdn.videosdk.live/encoded/videos/653cd69058bfdd4287a5cf80.mp4'); // url 播放地址
 })
 </script>
 

@@ -71,7 +71,7 @@ const clickoutside = {
     el.vueClickOutside = documentHandler
     document.addEventListener('click', documentHandler)
   },
-  update() {},
+  update() { },
   unbind(el, binding) {
     // 解除事件监听
     document.removeEventListener('click', el.vueClickOutside)
@@ -281,13 +281,16 @@ h5,
 h6 {
   margin: 0;
 }
+
 .box-card {
   position: relative;
   width: 900px;
+
   .userMsg {
     display: inline-block;
     margin-left: 30px;
   }
+
   .newBtn {
     position: absolute;
     right: 30px;
@@ -295,9 +298,11 @@ h6 {
     display: inline-block;
   }
 }
+
 .notice {
   margin-top: 10px;
 }
+
 .my-reply {
   padding: 20px;
   background-color: #f6f6f6;
@@ -345,9 +350,11 @@ h6 {
 
 .author-title {
   padding: 10px;
+
   .replyBtn {
     float: right;
   }
+
   .header-img {
     display: inline-block;
     vertical-align: top;
@@ -360,7 +367,7 @@ h6 {
     height: 40px;
     line-height: 20px;
 
-    > span {
+    >span {
       // display: block;
       // margin-right: 20px;
       cursor: pointer;
@@ -368,9 +375,11 @@ h6 {
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
     .marginLeft {
       margin-left: 20px;
     }
+
     .author-name {
       color: #000;
       font-size: 18px;
@@ -392,7 +401,7 @@ h6 {
       padding: 7px;
     }
 
-    > span {
+    >span {
       cursor: pointer;
     }
 
@@ -404,7 +413,7 @@ h6 {
   .talk-box {
     margin: 0 50px;
 
-    > p {
+    >p {
       margin: 0;
     }
 

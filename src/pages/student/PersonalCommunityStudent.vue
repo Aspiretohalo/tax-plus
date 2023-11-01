@@ -60,12 +60,12 @@
 <script lang="ts" setup>
 import LeftMenuStudentMsg from '../../components/LeftMenuStudentMsg.vue'
 
-import {  ref } from 'vue'
+import { ref } from 'vue'
 // import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import { Search, } from '@element-plus/icons-vue'
-import type { UploadProps} from 'element-plus'
+// import type { UploadProps } from 'element-plus'
 
 import { onUnmounted, onMounted } from 'vue';
 
@@ -86,16 +86,16 @@ onMounted(() => {
 });
 const input = ref('')
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
-}
+// const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+//   if (rawFile.type !== 'image/jpeg') {
+//     ElMessage.error('Avatar picture must be JPG format!')
+//     return false
+//   } else if (rawFile.size / 1024 / 1024 > 2) {
+//     ElMessage.error('Avatar picture size can not exceed 2MB!')
+//     return false
+//   }
+//   return true
+// }
 
 
 

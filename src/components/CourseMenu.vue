@@ -75,4 +75,5 @@ const courseMenuData = reactive([
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;
-}</style>
+}
+</style>
