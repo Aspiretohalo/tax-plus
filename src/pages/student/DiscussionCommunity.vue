@@ -13,13 +13,14 @@
               <el-form-item label="讨论内容">
                 <el-input v-model="form.desc" type="textarea" style="width: 780px;" />
               </el-form-item>
-              <el-form-item>
-                <el-upload v-model:file-list="fileList" class="upload-demo"
-                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" multiple
-                  :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="3"
-                  :on-exceed="handleExceed">
-                  <el-button type="primary">上传图片</el-button>
-
+              <el-form-item label="上传图片">
+                
+                <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
                 </el-upload>
               </el-form-item>
             </el-form>
@@ -47,7 +48,7 @@
                       <el-tag style="margin-left: 15px;">老师</el-tag>
                       <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
                     </span>
-                    
+
                     <el-button class="button" text>回复</el-button>
                   </div>
                 </template>
@@ -81,10 +82,11 @@ import LeftMenu from '../../components/LeftMenu.vue'
 import { reactive, ref } from 'vue'
 // import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus' 
+import { ElMessage } from 'element-plus'
 import { Search, } from '@element-plus/icons-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
-import { onUnmounted,onMounted } from 'vue';
+import type { UploadProps} from 'element-plus'
+import { onUnmounted, onMounted } from 'vue';
+import { Plus } from '@element-plus/icons-vue'
 
 // 创建一个响应式的 currentTime 变量
 const post_time = ref(new Date().toLocaleString());
@@ -105,42 +107,64 @@ onMounted(() => {
 
 
 const input = ref('')
-const fileList = ref<UploadUserFile[]>([
-  {
-    name: 'element-plus-logo.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
-  },
-  {
-    name: 'element-plus-logo2.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
-  },
-])
 
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
+const imageUrl = ref('')
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
 }
 
-const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-  ElMessage.warning(
-    `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
-    } totally`
-  )
-}
 
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
-  console.log(uploadFiles);
+// const fileList = ref<UploadUserFile[]>([
+//   {
+//     name: 'element-plus-logo.svg',
+//     url: 'https://element-plus.org/images/element-plus-logo.svg',
+//   },
+//   {
+//     name: 'element-plus-logo2.svg',
+//     url: 'https://element-plus.org/images/element-plus-logo.svg',
+//   },
+// ])
 
-  return ElMessageBox.confirm(
-    `Cancel the transfer of ${uploadFile.name} ?`
-  ).then(
-    () => true,
-    () => false
-  )
-}
+// const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+//   console.log(file, uploadFiles)
+// }
+
+// const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+//   console.log(uploadFile)
+// }
+
+// const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+//   ElMessage.warning(
+//     `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
+//     } totally`
+//   )
+// }
+
+// const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+//   console.log(uploadFiles);
+
+//   return ElMessageBox.confirm(
+//     `Cancel the transfer of ${uploadFile.name} ?`
+//   ).then(
+//     () => true,
+//     () => false
+//   )
+// }
 
 const dialogFormVisible = ref(false)
 
@@ -177,13 +201,20 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 </script>
   
 <style  scoped>
-.example-pagination-block+.example-pagination-block {
-  margin-top: 10px;
+
+.avatar-uploader{
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
 }
 
-.example-pagination-block .example-demonstration {
-  margin-bottom: 16px;
+.avatar-uploader:hover {
+  border-color: var(--el-color-primary);
 }
+
 
 /* div {
   display: inline-block;
@@ -211,6 +242,20 @@ h6 {
   font-size: larger;
 }
 
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
 .goOnLearning {
   position: absolute;
   right: 50px;
@@ -239,18 +284,7 @@ h6 {
   width: 900px;
 }
 
-.demo-image__error .image-slot {
-  font-size: 30px;
-}
 
-.demo-image__error .image-slot .el-icon {
-  font-size: 30px;
-}
-
-.demo-image__error .el-image {
-  width: 100%;
-  height: 200px;
-}
 
 
 .dialog-footer button:first-child {
@@ -272,4 +306,6 @@ h6 {
 .dialog-footer button:first-child {
   margin-right: 10px;
 }
+
+
 </style>

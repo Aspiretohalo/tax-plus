@@ -63,7 +63,7 @@ const router = useRouter()
 
 const menuDemo = reactive([
   { name: '我的学习', index: 1, icon: 'User', router: '/' },
-  { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
+  // { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
   { name: '在线课程及回放', index: 3, icon: 'Monitor', router: '/course' },
   { name: '讨论', index: 4, icon: 'ChatDotSquare', router: '/community' },
   { name: 'AI助手', index: 5, icon: 'Service', router: '/asistant' },
