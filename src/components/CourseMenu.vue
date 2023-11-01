@@ -36,7 +36,7 @@ const courseMenuData = reactive([
   { name: '课程视频', index: 4, icon: 'VideoPlay', router: `/courseId/${courseId.value}/courseVideo` },
   { name: '课程资料', index: 5, icon: 'Monitor', router: `/courseId/${courseId.value}/data` },
   { name: '课程评价', index: 6, icon: 'ChatDotSquare', router: `/courseId/${courseId.value}/evaluation` },
-  { name: '讨论区', index: 7, icon: 'Service', router: `/courseId/${courseId.value}/discussion` },
+  { name: '讨论区', index: 7, icon: 'Service', router: `/courseId/${courseId.value}/comment` },
 ])
 </script>
 
@@ -46,9 +46,11 @@ const courseMenuData = reactive([
   background-color: #f9f9f9;
   height: 745px;
 }
+
 .msgH2 {
   margin-left: 70px;
 }
+
 .returnBtn {
   position: absolute;
   bottom: 50px;
@@ -56,18 +58,21 @@ const courseMenuData = reactive([
   width: 180px;
   height: 40px;
 }
+
 .el-menu-vertical-demo {
   width: 258px;
 }
+
 .el-menu-item span {
   padding-left: 15px;
 }
+
 .el-menu-item .icon {
   margin-left: 40px;
 }
+
 ::v-deep .el-menu {
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;
-}
-</style>
+}</style>

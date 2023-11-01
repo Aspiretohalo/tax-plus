@@ -58,7 +58,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const courseId = ref(route.params.courseId)
-const average_evaluation_stars = ref(3.7)
+const average_evaluation_stars: any = ref(JSON.parse(sessionStorage.getItem('evaluations') || 'null')[0].average_stars || '')
 
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
