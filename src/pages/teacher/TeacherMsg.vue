@@ -1,58 +1,63 @@
 <template>
-  <div>
-    <el-container style="display:flex">
-      <el-aside>
-        <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
-      </el-aside>
-      <el-main class="main">
-        <div style="width:100%">
-          <div class="Msgbackground">
-            <img src="src\assets\imgs\Msgbackground.png" alt="cover">
-          </div>
-          <div class="bgavatar">
-            <div class="imgbox">
-              <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+  <div> <el-container>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container style="display:flex">
+        <el-aside>
+          <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
+        </el-aside>
+        <el-main class="main">
+          <div style="width:100%">
+            <div class="Msgbackground">
+              <img src="src\assets\imgs\Msgbackground.png" alt="cover">
             </div>
-          </div>
-          <div>
-            <span class="bgname" style="margin-left: 55px;">{{ teacher.teacher_name }}</span>
-          </div>
-          <el-col :span="6">
-            <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>手机号：</span></div>
-              </el-col>
-              <el-col :span="16">{{ teacher.phone_number }}</el-col>
-            </el-row>
-            <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>email：</span></div>
-              </el-col>
-              <el-col :span="16">{{ teacher.email }}</el-col>
-            </el-row>
-            <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>身份：</span></div>
-              </el-col>
-              <el-col :span="16">
-                <el-tag class="role" size="large">老师</el-tag>
-              </el-col>
-            </el-row>
-            <!-- <el-row :gutter="12" style="margin-top:30px;">
+            <div class="bgavatar">
+              <div class="imgbox">
+                <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+              </div>
+            </div>
+            <div>
+              <span class="bgname" style="margin-left: 55px;">{{ teacher.teacher_name }}</span>
+            </div>
+            <el-col :span="6">
+              <el-row :gutter="12" style="margin-top:30px;">
+                <el-col :span="8">
+                  <div style="text-align:right; color: gray;"><span>手机号：</span></div>
+                </el-col>
+                <el-col :span="16">{{ teacher.phone_number }}</el-col>
+              </el-row>
+              <el-row :gutter="12" style="margin-top:30px;">
+                <el-col :span="8">
+                  <div style="text-align:right; color: gray;"><span>email：</span></div>
+                </el-col>
+                <el-col :span="16">{{ teacher.email }}</el-col>
+              </el-row>
+              <el-row :gutter="12" style="margin-top:30px;">
+                <el-col :span="8">
+                  <div style="text-align:right; color: gray;"><span>身份：</span></div>
+                </el-col>
+                <el-col :span="16">
+                  <el-tag class="role" size="large">老师</el-tag>
+                </el-col>
+              </el-row>
+              <!-- <el-row :gutter="12" style="margin-top:30px;">
               <el-col :span="8">
                 <div style="text-align:right; color: gray;"><span>个人介绍：</span></div>
               </el-col>
               <el-col :span="16">对方很懒没留下什么</el-col>
             </el-row> -->
-          </el-col>
-        </div>
-      </el-main>
+            </el-col>
+          </div>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
 import LeftMenuTeacherMsg from '../../components/LeftMenuTeacherMsg.vue';
+import TopNav from '../../components/TopNav.vue'
 import { ref } from 'vue'
 
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')

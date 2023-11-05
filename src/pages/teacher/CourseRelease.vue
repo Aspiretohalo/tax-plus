@@ -1,88 +1,93 @@
 <template>
-  <div>
-    <el-container>
-      <el-aside>
-        <LeftMenuTeacher></LeftMenuTeacher>
-      </el-aside>
-      <el-main class="main">
-        <el-card class="box-card">
-          <el-form :rules="rules" :model="course" class="needlarge" label-width="120px" ref="ruleFormRef"
-            :hide-required-asterisk="true">
-            <el-form-item label="课程名称" prop="course_name" text-align: center>
-              <el-input v-model="course.course_name" placeholder="填写课程名称" />
-            </el-form-item>
-            <el-form-item label="课程标签" prop="course_label">
-              <el-select multiple v-model="course.course_label" placeholder="选择标签" style="width: 360px">
-                <el-option label="入门课程" value="入门课程" />
-                <el-option label="初级课程" value="初级课程" />
-                <el-option label="中级课程" value="中级课程" />
-                <el-option label="高级课程" value="高级课程" />
-                <el-option label="顶级课程" value="顶级课程" />
-              </el-select>
-            </el-form-item>
-            <!-- <el-form-item label="课程时间">
+  <div> <el-container>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container>
+        <el-aside>
+          <LeftMenuTeacher></LeftMenuTeacher>
+        </el-aside>
+        <el-main class="main">
+          <el-card class="box-card">
+            <el-form :rules="rules" :model="course" class="needlarge" label-width="120px" ref="ruleFormRef"
+              :hide-required-asterisk="true">
+              <el-form-item label="课程名称" prop="course_name" text-align: center>
+                <el-input v-model="course.course_name" placeholder="填写课程名称" />
+              </el-form-item>
+              <el-form-item label="课程标签" prop="course_label">
+                <el-select multiple v-model="course.course_label" placeholder="选择标签" style="width: 360px">
+                  <el-option label="入门课程" value="入门课程" />
+                  <el-option label="初级课程" value="初级课程" />
+                  <el-option label="中级课程" value="中级课程" />
+                  <el-option label="高级课程" value="高级课程" />
+                  <el-option label="顶级课程" value="顶级课程" />
+                </el-select>
+              </el-form-item>
+              <!-- <el-form-item label="课程时间">
               <el-col :span="11">
                 <el-date-picker v-model="course.date1" type="datetime" placeholder="Select date and time" />
               </el-col>
             </el-form-item> -->
-            <el-form-item label="老师">
-              <el-input v-model="course.course_teacher" disabled />
-            </el-form-item>
-            <el-form-item label="上传封面">
-              <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
-                list-type="picture-card" :auto-upload="false" :on-remove="handleRemove"
-                :on-preview="handlePictureCardPreview" :limit="1" :on-success="handleResponse">
-                <el-icon>
-                  <Plus />
-                </el-icon>
-              </el-upload>
-              <el-dialog v-model="dialogVisible_preview">
-                <img w-full :src="dialogImageUrl" alt="预览 " />
-              </el-dialog>
-            </el-form-item>
-            <el-form-item label="课程简介" prop="course_description">
-              <el-input v-model="course.course_description" type="textarea" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
-              <el-dialog align-center v-model="dialogVisible" title="课程确认" width="30%" :show-close="false">
-                <span>
-                  <p>
-                    <el-text tag="b">发布课程：</el-text>
-                    <el-text>{{ course.course_name }}</el-text>
-                  </p>
-                  <p>
-                    <el-text class="needgy">提交老师：</el-text>
-                    <el-text>{{ course.course_teacher }}</el-text>
-                  </p>
+              <el-form-item label="老师">
+                <el-input v-model="course.course_teacher" disabled />
+              </el-form-item>
+              <el-form-item label="上传封面">
+                <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
+                  list-type="picture-card" :auto-upload="false" :on-remove="handleRemove"
+                  :on-preview="handlePictureCardPreview" :limit="1" :on-success="handleResponse">
+                  <el-icon>
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+                <el-dialog v-model="dialogVisible_preview">
+                  <img w-full :src="dialogImageUrl" alt="预览 " />
+                </el-dialog>
+              </el-form-item>
+              <el-form-item label="课程简介" prop="course_description">
+                <el-input v-model="course.course_description" type="textarea" />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+                <el-dialog align-center v-model="dialogVisible" title="课程确认" width="30%" :show-close="false">
+                  <span>
+                    <p>
+                      <el-text tag="b">发布课程：</el-text>
+                      <el-text>{{ course.course_name }}</el-text>
+                    </p>
+                    <p>
+                      <el-text class="needgy">提交老师：</el-text>
+                      <el-text>{{ course.course_teacher }}</el-text>
+                    </p>
 
-                  <p><el-text tag="b">课程标签：</el-text>
-                    <el-text>{{ course.course_label }}</el-text>
-                  </p>
-                  <!-- <p>
+                    <p><el-text tag="b">课程标签：</el-text>
+                      <el-text>{{ course.course_label }}</el-text>
+                    </p>
+                    <!-- <p>
                     <el-text tag="b">发布时间：</el-text>
                     <el-text>{{ course.date1 }}</el-text>
                   </p> -->
 
-                </span>
-                <template #footer>
-                  <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="handleRelease()" size="large">
-                      发布
-                    </el-button>
                   </span>
-                </template>
-              </el-dialog>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </el-main>
+                  <template #footer>
+                    <span class="dialog-footer">
+                      <el-button @click="dialogVisible = false">取消</el-button>
+                      <el-button type="primary" @click="handleRelease()" size="large">
+                        发布
+                      </el-button>
+                    </span>
+                  </template>
+                </el-dialog>
+              </el-form-item>
+            </el-form>
+          </el-card>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
+import TopNav from '../../components/TopNav.vue'
 import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
 import { reactive } from 'vue'
 import { ref } from 'vue'

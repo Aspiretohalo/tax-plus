@@ -52,7 +52,7 @@ const courseMenuData = reactive([
 
 .returnBtn {
   position: absolute;
-  bottom: 50px;
+  bottom: 100px;
   margin-left: 32px;
   width: 180px;
   height: 40px;

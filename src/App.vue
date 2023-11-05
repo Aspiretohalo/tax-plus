@@ -11,4 +11,9 @@
 ::v-deep .el-aside {
   width: 258px;
 }
+
+::v-deep .el-header {
+  padding: 0;
+  height: 60px;
+}
 </style>

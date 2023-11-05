@@ -28,19 +28,19 @@
         </el-menu-item>
       </el-sub-menu>
     </el-menu>
-    <el-card class="userMsg box-card">
+    <!-- <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
         <h4 class="name">{{ teacher.teacher_name }}</h4>
         <el-tag class="role">老师</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
       </div>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
 
@@ -50,10 +50,9 @@ const menuDemo2 = reactive([
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
   { name: '学习社区', index: 4, icon: 'ChatDotSquare', router: '/communityTeacher' },
 ])
-const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
+// const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
 const confirmEvent = () => {
-  // console.log('confirm!')
   localStorage.clear()
   sessionStorage.clear()
   router.push('/loginStudent')
@@ -68,9 +67,9 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
-const checkMsg = () => {
-  router.push('/teacherMsg')
-}
+// const checkMsg = () => {
+//   router.push('/teacherMsg')
+// }
 </script>
 
 <style scoped>

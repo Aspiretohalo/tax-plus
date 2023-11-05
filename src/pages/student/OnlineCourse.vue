@@ -1,38 +1,44 @@
 <template>
   <div>
     <el-container>
-      <el-aside>
-        <LeftMenu></LeftMenu>
-      </el-aside>
-      <el-main class="main">
-        <CourseCard></CourseCard>
-        <!-- <UpcomingCourses></UpcomingCourses> -->
-        <el-card class="tools box-card">
-          <div class="tool" @click="goToSchedule()">
-            <el-icon class="icon" size="36px">
-              <Edit />
-            </el-icon>
-            <span>个性课表</span>
-          </div>
-          <div class="tool">
-            <el-icon class="icon" size="36px">
-              <Search />
-            </el-icon>
-            <span>我的证书</span>
-          </div>
-          <div class="tool">
-            <el-icon class="icon" size="36px">
-              <Star />
-            </el-icon>
-            <span>选课记录</span>
-          </div>
-        </el-card>
-      </el-main>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container>
+        <el-aside>
+          <LeftMenu></LeftMenu>
+        </el-aside>
+        <el-main class="main">
+          <CourseCard></CourseCard>
+          <!-- <UpcomingCourses></UpcomingCourses> -->
+          <el-card class="tools box-card">
+            <div class="tool" @click="goToSchedule()">
+              <el-icon class="icon" size="36px">
+                <Edit />
+              </el-icon>
+              <span>个性课表</span>
+            </div>
+            <div class="tool">
+              <el-icon class="icon" size="36px">
+                <Search />
+              </el-icon>
+              <span>我的证书</span>
+            </div>
+            <div class="tool">
+              <el-icon class="icon" size="36px">
+                <Star />
+              </el-icon>
+              <span>选课记录</span>
+            </div>
+          </el-card>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
+import TopNav from '../../components/TopNav.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import CourseCard from '../../components/CourseCard.vue'
 // import UpcomingCourses from '../../components/UpcomingCourses.vue'
@@ -50,6 +56,7 @@ const goToSchedule = () => {
 div {
   display: inline-block;
 }
+
 .main {
   padding-top: 0;
 }
@@ -74,7 +81,4 @@ div {
   display: block;
   margin: 0 auto;
 }
-
-
-
 </style>

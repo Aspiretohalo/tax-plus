@@ -1,5 +1,8 @@
 <template>
-    <div>
+  <div> <el-container>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
       <el-container style="display:flex">
         <el-aside>
           <LeftMenuSMsg></LeftMenuSMsg>
@@ -12,62 +15,64 @@
             <div class="bgavatar">
               <div class="imgbox">
                 <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
-              </div>    
+              </div>
             </div>
-            
+
             <el-card class="box-card notice">
-          <!-- <div style="display: flex;justify-content: right;padding-right: 30px;">
+              <!-- <div style="display: flex;justify-content: right;padding-right: 30px;">
             <el-input v-model="input" placeholder="请输入" clearable />
             <el-button type="primary" :icon="Search" circle />
           </div> -->
-          <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+              <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
 
-            <el-tab-pane label="我的" name="first">
-                <el-card class="box-card-small">
-                <template #header>
-                  <div class="card-header">
-                    <span>曹师傅
-                      <el-tag style="margin-left: 15px;">老师</el-tag>
-                      <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
-                    </span>
-                    
-                    <el-button class="button" text>回复</el-button>
-                  </div>
-                </template>
-                <div>
-                  <p>曹师傅牛逼，666</p>
-                  <div class="demo-image__preview">
-                    <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
-                      :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
-                  </div>
-                </div>
+                <el-tab-pane label="我的" name="first">
+                  <el-card class="box-card-small">
+                    <template #header>
+                      <div class="card-header">
+                        <span>曹师傅
+                          <el-tag style="margin-left: 15px;">老师</el-tag>
+                          <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
+                        </span>
 
-
+                        <el-button class="button" text>回复</el-button>
+                      </div>
+                    </template>
+                    <div>
+                      <p>曹师傅牛逼，666</p>
+                      <div class="demo-image__preview">
+                        <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
+                          :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
+                      </div>
+                    </div>
 
 
-              </el-card>
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
-  
-            
-  
+
+
+                  </el-card>
+                </el-tab-pane>
+              </el-tabs>
+            </el-card>
+
+
+
           </div>
-  
-  
+
+
         </el-main>
-  
+
       </el-container>
-    </div>
-  </template>
+    </el-container>
+  </div>
+</template>
   
-  <script lang="ts" setup>
-  // import LeftMenuSMsg from '../../components/LeftMenuSMsg.vue'
-  import {  ref } from 'vue'
+<script lang="ts" setup>
+import TopNav from '../../components/TopNav.vue'
+// import LeftMenuSMsg from '../../components/LeftMenuSMsg.vue'
+import { ref } from 'vue'
 // import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 //import { Search, } from '@element-plus/icons-vue'
-import { onUnmounted,onMounted } from 'vue';
+import { onUnmounted, onMounted } from 'vue';
 
 // 创建一个响应式的 currentTime 变量
 const post_time = ref(new Date().toLocaleString());
@@ -108,83 +113,83 @@ const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
+
+</script>
   
-  </script>
-  
-  <style lang="scss" scoped>
-  body {
-    background-color: #fff;
-  }
-  
-  .el-descriptions {
-    margin-top: 20px;
-  }
-  
-  ::v-deep .el-main {
-    --el-main-padding: 0px background-color: #f9f9f9;
-  }
-  
-  ::v-deep .el-col-6 {
-    padding-left: 80px;
-  }
-  
-  
-  .Msgbackground {
-    flex: 1;
-    position: relative;
-  
-    width: 100%;
-    max-height: 320px;
-    object-fit: cover;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  
-  .Msgbackground img {
-    z-index: 1;
-    width: 100%;
-    height: fit-content;
-  }
-  
-  
-  
-  .bgname{
-    padding-left: 85px;
-    font-size: 45px;
-    font-weight: 300;
-    font-family: 'Hiragino Sans GB';
-  
-  }
-  
-  .imgbox {
-    padding-left: 120px;
-    z-index: 20;
-    flex: 1;
-    position: relative;
-    height: 112px;
-    width: 112px;
-    align-items: center;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-  
-  
-  }
-  
-  .imgtip {
-  
-    transform: translateY(-50%);
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-  
-  }
-  
-  h1,
+<style lang="scss" scoped>
+body {
+  background-color: #fff;
+}
+
+.el-descriptions {
+  margin-top: 20px;
+}
+
+::v-deep .el-main {
+  --el-main-padding: 0px background-color: #f9f9f9;
+}
+
+::v-deep .el-col-6 {
+  padding-left: 80px;
+}
+
+
+.Msgbackground {
+  flex: 1;
+  position: relative;
+
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.Msgbackground img {
+  z-index: 1;
+  width: 100%;
+  height: fit-content;
+}
+
+
+
+.bgname {
+  padding-left: 85px;
+  font-size: 45px;
+  font-weight: 300;
+  font-family: 'Hiragino Sans GB';
+
+}
+
+.imgbox {
+  padding-left: 120px;
+  z-index: 20;
+  flex: 1;
+  position: relative;
+  height: 112px;
+  width: 112px;
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+
+
+}
+
+.imgtip {
+
+  transform: translateY(-50%);
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+
+}
+
+h1,
 h2,
 h3,
 h4,
@@ -234,7 +239,4 @@ h6 {
 .box-card-small {
   width: 95%;
 }
-
-
-
 </style>

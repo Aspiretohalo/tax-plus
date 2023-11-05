@@ -1,71 +1,76 @@
 <template>
-  <div>
-    <el-container style="display:flex">
-      <el-aside>
-        <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
-      </el-aside>
-      <el-main class="main">
-        <div style="width:100%">
-          <div class="Msgbackground">
-            <img src="src\assets\imgs\Msgbackground.png" alt="cover">
-          </div>
-          <div class="bgavatar">
-            <div class="imgbox">
-              <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+  <div> <el-container>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container style="display:flex">
+        <el-aside>
+          <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
+        </el-aside>
+        <el-main class="main">
+          <div style="width:100%">
+            <div class="Msgbackground">
+              <img src="src\assets\imgs\Msgbackground.png" alt="cover">
+            </div>
+            <div class="bgavatar">
+              <div class="imgbox">
+                <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+              </div>
             </div>
           </div>
-        </div>
-        <el-card class="box-card notice">
-          <div style="display: flex;justify-content: right;padding-right: 30px;">
-            <el-input v-model="input" placeholder="请输入" clearable />
-            <el-button type="primary" :icon="Search" circle />
-          </div>
-          <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-            <el-tab-pane label="最新" name="first">
-              <el-card class="box-card-small">
-                <template #header>
-                  <div class="card-header">
-                    <span>曹师傅
-                      <el-tag style="margin-left: 15px;">老师</el-tag>
-                      <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
-                    </span>
+          <el-card class="box-card notice">
+            <div style="display: flex;justify-content: right;padding-right: 30px;">
+              <el-input v-model="input" placeholder="请输入" clearable />
+              <el-button type="primary" :icon="Search" circle />
+            </div>
+            <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+              <el-tab-pane label="最新" name="first">
+                <el-card class="box-card-small">
+                  <template #header>
+                    <div class="card-header">
+                      <span>曹师傅
+                        <el-tag style="margin-left: 15px;">老师</el-tag>
+                        <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
+                      </span>
 
-                    <el-button class="button" text>回复</el-button>
+                      <el-button class="button" text>回复</el-button>
+                    </div>
+                  </template>
+                  <div>
+                    <p>曹师傅牛逼，666</p>
+                    <div class="demo-image__preview">
+                      <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
+                        :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
+                    </div>
                   </div>
-                </template>
-                <div>
-                  <p>曹师傅牛逼，666</p>
-                  <div class="demo-image__preview">
-                    <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
-                      :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
-                  </div>
-                </div>
 
 
 
 
-              </el-card>
+                </el-card>
 
 
-            </el-tab-pane>
-            <el-tab-pane label="全部" name="second">全部</el-tab-pane>
-            <el-tab-pane label="我的" name="third">我的</el-tab-pane>
-          </el-tabs>
-        </el-card>
-      </el-main>
+              </el-tab-pane>
+              <el-tab-pane label="全部" name="second">全部</el-tab-pane>
+              <el-tab-pane label="我的" name="third">我的</el-tab-pane>
+            </el-tabs>
+          </el-card>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
   
 <script lang="ts" setup>
 import LeftMenuTeacherMsg from '../../components/LeftMenuTeacherMsg.vue'
+import TopNav from '../../components/TopNav.vue'
 
-import {  ref } from 'vue'
+import { ref } from 'vue'
 // import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import { Search, } from '@element-plus/icons-vue'
-import type { UploadProps} from 'element-plus'
+// import type { UploadProps } from 'element-plus'
 
 import { onUnmounted, onMounted } from 'vue';
 
@@ -86,16 +91,16 @@ onMounted(() => {
 });
 const input = ref('')
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
-}
+// const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+//   if (rawFile.type !== 'image/jpeg') {
+//     ElMessage.error('Avatar picture must be JPG format!')
+//     return false
+//   } else if (rawFile.size / 1024 / 1024 > 2) {
+//     ElMessage.error('Avatar picture size can not exceed 2MB!')
+//     return false
+//   }
+//   return true
+// }
 
 
 

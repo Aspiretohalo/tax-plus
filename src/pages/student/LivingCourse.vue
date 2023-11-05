@@ -1,41 +1,44 @@
 <template>
-  <div>
-    <el-container>
-      <el-aside>
-        <LeftMenu></LeftMenu>
-      </el-aside>
-      <el-main>
-        <div class="ke-cover">
-        <div class="ke-coverimg">
-          <img src="src\assets\imgs\bgexample.jpg" alt="zhibo-cover" style="width: 100%; height: 100%;">
-          <div class="ke-coverword">
-            <div class="Prompt">直播即将开始</div>
-            <div class="Prompt">10月23日 18：00-20：00</div>
-            <div class="Prompt">直播间房号（复制以下房间号）</div>
-            <div class="Prompt">xxx-xxxxxx</div>
-            <el-button class="cover-btn">进入直播间</el-button>
+  <div> <el-container>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container>
+        <el-aside>
+          <LeftMenu></LeftMenu>
+        </el-aside>
+        <el-main>
+          <div class="ke-cover">
+            <div class="ke-coverimg">
+              <img src="src\assets\imgs\bgexample.jpg" alt="zhibo-cover" style="width: 100%; height: 100%;">
+              <div class="ke-coverword">
+                <div class="Prompt">直播即将开始</div>
+                <div class="Prompt">10月23日 18：00-20：00</div>
+                <div class="Prompt">直播间房号（复制以下房间号）</div>
+                <div class="Prompt">xxx-xxxxxx</div>
+                <el-button class="cover-btn">进入直播间</el-button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      </el-main>
-      
+        </el-main>
+
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
+import TopNav from '../../components/TopNav.vue'
 </script>
 
 <style  scoped>
-
-
 .ke-cover {
   width: 1080px;
   height: 620px;
   position: absolute;
   z-index: 10;
-  
+
 }
 
 .ke-coverimg {

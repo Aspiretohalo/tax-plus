@@ -10,7 +10,7 @@
       </el-menu-item>
 
     </el-menu>
-    <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+    <!-- <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-sub-menu index="1">
         <template #title>
           <el-icon style="margin-left: 20px;">
@@ -20,46 +20,46 @@
         </template>
         <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
 
-        <el-menu-item index="1-2" >
+        <el-menu-item index="1-2">
           <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
             title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
             <template #reference>
               <span>退出登录</span>
             </template>
           </el-popconfirm>
-          
+
         </el-menu-item>
 
       </el-sub-menu>
-    </el-menu>
+    </el-menu> -->
 
-    <el-card class="userMsg box-card">
+    <!-- <el-card class="userMsg box-card">
       <div>
         <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
         <h4 class="name">{{ student.student_name }}</h4>
         <el-tag class="role">学员</el-tag>
         <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
       </div>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { InfoFilled } from '@element-plus/icons-vue'
+import { reactive } from 'vue'
+// import { useRouter } from 'vue-router'
+// import { InfoFilled } from '@element-plus/icons-vue'
 
-const confirmEvent = () => {
-  // console.log('confirm!')
-  localStorage.clear()
-  sessionStorage.clear()
-  router.push('/loginStudent')
-}
-const cancelEvent = () => {
-  console.log('cancel!')
-}
+// const confirmEvent = () => {
+//   // console.log('confirm!')
+//   localStorage.clear()
+//   sessionStorage.clear()
+//   router.push('/loginStudent')
+// }
+// const cancelEvent = () => {
+//   console.log('cancel!')
+// }
 
-const router = useRouter()
+// const router = useRouter()
 
 const menuDemo = reactive([
   { name: '我的学习', index: 1, icon: 'User', router: '/' },
@@ -70,9 +70,9 @@ const menuDemo = reactive([
 ])
 
 
-const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+// const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 // const logout = () => {
-  
+
 // }
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -80,9 +80,9 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
-const checkMsg = () => {
-  router.push('/studentMsg')
-}
+// const checkMsg = () => {
+//   router.push('/studentMsg')
+// }
 </script>
 
 <style scoped>
@@ -90,6 +90,8 @@ const checkMsg = () => {
   position: fixed;
   background-color: #f9f9f9;
   height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 5px;
 }
 
 .el-menu-vertical-demo {
@@ -127,8 +129,11 @@ const checkMsg = () => {
 
 ::v-deep .el-menu {
   /* margin-top: 100px; */
+  /* padding-top: 30px; */
+  margin-top: 30px;
   border-right: 0;
   background-color: #f9f9f9;
+
 }
 
 ::v-deep .el-card {

@@ -1,44 +1,51 @@
 <template>
   <div>
     <el-container>
-      <el-aside>
-        <LeftMenu></LeftMenu>
-      </el-aside>
-      <el-main class="main">
-        <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs">
-          <el-tab-pane label="全部课程" name="first"></el-tab-pane>
-          <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
-          </el-tab-pane>
-        </el-tabs>
-        <el-table class="table" :data="activeName == 'first' ? courseData : store.getters.selectCourses"
-          :show-header="false">
-          <el-table-column prop="course_url" label="course_url" width="180">
-            <template #default="scope">
-              <div style="display: flex; align-items: center">
-                <el-image :src="scope.row.course_url" />
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="course_name" label="course_name" width="180" />
-          <el-table-column prop="teacher_name" label="teacher_name" />
-          <el-table-column prop="status" label="status">
-            <template #default="scope">
-              <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="course_id" label="course_id">
-            <template #default="scope">
-              <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <UpcomingCourses></UpcomingCourses>
-      </el-main>
+      <el-header>
+        <TopNav></TopNav>
+      </el-header>
+      <el-container>
+        <el-aside>
+          <LeftMenu></LeftMenu>
+        </el-aside>
+        <el-main class="main">
+          <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs">
+            <el-tab-pane label="全部课程" name="first"></el-tab-pane>
+            <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
+            </el-tab-pane>
+          </el-tabs>
+          <el-table class="table" :data="activeName == 'first' ? courseData : store.getters.selectCourses"
+            :show-header="false">
+            <el-table-column prop="course_url" label="course_url" width="180">
+              <template #default="scope">
+                <div style="display: flex; align-items: center">
+                  <el-image :src="scope.row.course_url" />
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="course_name" label="course_name" width="180" />
+            <el-table-column prop="teacher_name" label="teacher_name" />
+            <el-table-column prop="status" label="status">
+              <template #default="scope">
+                <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="course_id" label="course_id">
+              <template #default="scope">
+                <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <UpcomingCourses></UpcomingCourses>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
+import TopNav from '../../components/TopNav.vue'
+
 import UpcomingCourses from '../../components/UpcomingCourses.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import { onMounted, ref } from 'vue'
@@ -150,7 +157,7 @@ const courseData: any = ref()
 
 .table {
   position: absolute;
-  top: 80px;
+  top: 140px;
   width: 56%;
   border-radius: 10px;
 }
