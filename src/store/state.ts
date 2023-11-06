@@ -10,4 +10,5 @@ export default {
     allCourses: [],
     FileData: [],
     discussion: [],
+    subDiscussion: [],
 }
