@@ -29,7 +29,7 @@ const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null'
 const menuDemo2 = reactive([
     { name: '个人信息', index: 1, icon: 'User', router: '/studentMsg' },
     { name: '评论区', index: 3, icon: 'ChatDotRound', router: '/personalCommunityStudent' },
-    { name: '返回主页', index: 4, icon: 'House', router: '/' }
+    { name: '返回主页', index: 4, icon: 'House', router: '/myLearning' }
 ])
 
 const handleOpen = (key: string, keyPath: string[]) => {

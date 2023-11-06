@@ -1,5 +1,6 @@
 import LoginStudent from "../pages/LoginStudent.vue"
 import LoginTeacher from "../pages/LoginTeacher.vue"
+import Index from "../pages/Index.vue"
 //student
 import MyLearning from '../pages/student/MyLearning.vue'
 import LivingCourse from '../pages/student/LivingCourse.vue'
@@ -7,6 +8,7 @@ import OnlineCourse from '../pages/student/OnlineCourse.vue'
 import DiscussionCommunity from '../pages/student/DiscussionCommunity.vue'
 import AIAsistant from '../pages/student/AIAsistant.vue'
 import Schedule from '../pages/student/Schedule.vue'
+import CourseJoin from '../pages/student/CourseJoin.vue'
 import CourseDetails from '../pages/student/CourseDetails.vue'
 import Notice from '../pages/student/course/Notice.vue'
 import Livingroom from '../pages/student/course/Livingroom.vue'
@@ -37,16 +39,21 @@ import LivingModelTeacher from '../pages/teacher/course/LivingModelTeacher.vue'
 import PersonalCommunityTeacher from '../pages/teacher/PersonalCommunityTeacher.vue'
 
 const routes = [
+    { path: '/', component: Index },
     { path: '/loginStudent', name: 'login1', component: LoginStudent },
     { path: '/loginTeacher', name: 'login2', component: LoginTeacher },
-    { path: '/', component: MyLearning, },
+    { path: '/myLearning', component: MyLearning, },
     { path: '/living', component: LivingCourse },
     { path: '/course', component: OnlineCourse },
     { path: '/community', component: DiscussionCommunity },
     { path: '/asistant', component: AIAsistant },
     { path: '/schedule', component: Schedule },
-    { path: '/course/courseId/:courseId/courseSelection', component: CourseSelection },
-    
+    {
+        path: '/courseJoin', component: CourseJoin,
+        children: [
+            { path: '/courseJoin/courseId/:courseId/courseSelection', component: CourseSelection },
+        ]
+    },
     {
         path: '/courseId/:courseId', component: CourseDetails,
         children: [

@@ -62,7 +62,7 @@ import { reactive } from 'vue'
 // const router = useRouter()
 
 const menuDemo = reactive([
-  { name: '我的学习', index: 1, icon: 'User', router: '/' },
+  { name: '我的学习', index: 1, icon: 'User', router: '/myLearning' },
   // { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
   { name: '在线课程及回放', index: 3, icon: 'Monitor', router: '/course' },
   { name: '讨论', index: 4, icon: 'ChatDotSquare', router: '/community' },

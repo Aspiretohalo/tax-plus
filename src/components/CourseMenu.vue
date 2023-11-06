@@ -20,7 +20,7 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const goBack = () => {
-  router.push('/')
+  router.push('/myLearning')
 }
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -44,7 +44,9 @@ const courseMenuData = reactive([
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
-  height: 745px;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 5px;
 }
 
 .msgH2 {

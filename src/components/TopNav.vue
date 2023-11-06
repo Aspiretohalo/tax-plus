@@ -4,7 +4,7 @@
             <h1>税学佳</h1>
         </div>
         <div class="userMsg">
-            <el-avatar class="avatar">
+            <el-avatar @click="checkMsg" class="avatar" style="cursor: pointer;">
                 <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
             </el-avatar>
             <h4 class="name">{{ 666 }}</h4>
@@ -15,7 +15,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const checkMsg = () => {
+    router.push('/studentMsg')
+}
 </script>
 
 <style lang="scss" scoped>

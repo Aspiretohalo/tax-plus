@@ -47,7 +47,7 @@ onMounted(async () => {
 const courseId = ref(route.params.courseId)
 
 const goToSelect = () => {
-  router.push(`/course/courseId/${courseId.value}/courseSelection`)
+  router.push(`/courseJoin/courseId/${courseId.value}/courseSelection`)
 }
 ////////////////////获得所有课程
 const getAllCourses = async () => {

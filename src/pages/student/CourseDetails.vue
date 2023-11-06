@@ -1,5 +1,6 @@
 <template>
-  <div> <el-container>
+  <div>
+    <el-container>
       <el-header>
         <TopNav></TopNav>
       </el-header>
