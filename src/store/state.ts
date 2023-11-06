@@ -9,4 +9,6 @@ export default {
     chapter: [],
     allCourses: [],
     FileData: [],
+    discussion: [],
+    subDiscussion: [],
 }

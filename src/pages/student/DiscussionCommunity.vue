@@ -13,12 +13,11 @@
             <span class="welcome">讨论区</span>
             <el-button type="primary" class="goOnLearning" @click="dialogFormVisible = true">创建讨论</el-button>
             <el-dialog v-model="dialogFormVisible" title="我的讨论">
-              <el-form :model="form">
-                <el-form-item label="讨论内容">
-                  <el-input v-model="form.desc" type="textarea" style="width: 780px;" />
+              <el-form :model="discussionForm" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+                <el-form-item label="讨论内容" prop="post_text">
+                  <el-input v-model="discussionForm.post_text" type="textarea" style="width: 780px;" />
                 </el-form-item>
                 <el-form-item label="上传图片">
-
                   <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                     :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
@@ -31,51 +30,72 @@
               <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="dialogFormVisible = false">取消</el-button>
-                  <el-button type="primary" @click="dialogFormVisible = false">
+                  <el-button type="primary" @click="handleAssure()">
                     确认
                   </el-button>
                 </span>
               </template>
             </el-dialog>
           </el-card>
+
           <el-card class="box-card notice">
-            <div style="display: flex;justify-content: right;padding-right: 30px;">
-              <el-input v-model="input" placeholder="请输入" clearable />
-              <el-button type="primary" :icon="Search" circle />
-            </div>
-            <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-              <el-tab-pane label="最新" name="first">
-                <el-card class="box-card-small">
-                  <template #header>
-                    <div class="card-header">
-                      <span>曹师傅
-                        <el-tag style="margin-left: 15px;">老师</el-tag>
-                        <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
-                      </span>
-
-                      <el-button class="button" text>回复</el-button>
-                    </div>
-                  </template>
-                  <div>
-                    <p>曹师傅牛逼，666</p>
-                    <div class="demo-image__preview">
-                      <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
-                        :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
-                    </div>
+            <div v-for="item in mergedData" :key="item.post_id" class="author-title reply-father">
+              <el-avatar class="header-img" :size="40" :src="item.avatar"></el-avatar>
+              <div class="author-info">
+                <span class="author-name">{{ item.commentator_name }}</span>
+                <el-tag>{{ item.commentator_type === 'student' ? commentator_type[0] :
+                  commentator_type[1] }}</el-tag>
+                <span class="author-time marginLeft">{{ item.post_time }}</span>
+              </div>
+              <el-button type="info" plain class="replyBtn" @click="handleReply(item.post_id)">回复</el-button>
+              <div class="talk-box">
+                <p>
+                  <span class="reply">{{ item.post_text }}</span>
+                </p>
+              </div>
+              <div class="reply-box">
+                <div v-for="subItem in item.replies" :key="subItem.post_id" class="author-title">
+                  <el-avatar class="header-img" :size="40" :src="subItem.avatar"></el-avatar>
+                  <div class="author-info">
+                    <span class="author-name">{{ subItem.commentator_name }}</span>
+                    <el-tag>{{ subItem.commentator_type === 'student' ? commentator_type[0] :
+                      commentator_type[1] }}</el-tag>
+                    <span class="author-time marginLeft">{{ subItem.post_time }}</span>
                   </div>
-
-
-
-
-                </el-card>
-
-
-              </el-tab-pane>
-              <el-tab-pane label="全部" name="second">全部</el-tab-pane>
-              <el-tab-pane label="我的" name="third">我的</el-tab-pane>
-            </el-tabs>
+                  <div class="talk-box">
+                    <p>
+                      <span class="reply">{{ subItem.post_text }}</span>
+                    </p>
+                  </div>
+                  <div class="reply-box"></div>
+                </div>
+              </div>
+            </div>
           </el-card>
-
+          <el-dialog v-model="dialogFormVisible2" title="回复">
+            <el-form :model="subDiscussionForm" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+              <el-form-item label="回复内容" prop="post_text">
+                <el-input v-model="subDiscussionForm.post_text" type="textarea" style="width: 780px;" />
+              </el-form-item>
+              <el-form-item label="上传图片">
+                <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible2 = false">取消</el-button>
+                <el-button type="primary" @click="handleAssure2()">
+                  确认
+                </el-button>
+              </span>
+            </template>
+          </el-dialog>
         </el-main>
       </el-container>
     </el-container>
@@ -86,13 +106,13 @@
 import TopNav from '../../components/TopNav.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import { reactive, ref } from 'vue'
-// import { reactive,defineComponent, onMounted, onBeforeUnmount, ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { Search, } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 import { onUnmounted, onMounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
+import myAxios from '../../plugins/myAxios'
+import state from '../../store/state'
+
 
 // 创建一个响应式的 currentTime 变量
 const post_time = ref(new Date().toLocaleString());
@@ -102,18 +122,127 @@ const updateCurrentTime = () => {
   post_time.value = new Date().toLocaleString();
 };
 
-// 在组件挂载时开始定时更新 currentTime
-onMounted(() => {
+onMounted(async () => {
+  await getDiscussion()
+  await getSubDiscussion()
+  // 合并嵌套数据
+  mergedData.value = discussionData.value.map((item: DiscussionType) => {
+    const subItems = subDiscussionData.value.filter((subItem: SubDiscussionType) => subItem.parent_post_id === item.post_id);
+    return {
+      ...item,
+      replies: subItems,
+    };
+  });
+  console.log(mergedData);
+  // 在组件挂载时开始定时更新 currentTime
   const timer = setInterval(updateCurrentTime, 1000);
   // 在组件卸载时清除定时器，以防内存泄漏
   onUnmounted(() => {
     clearInterval(timer);
   });
 });
+const commentator_type = ref(['学员', '老师'])
 
 
-const input = ref('')
 
+const getDiscussion = async () => {
+  try {
+    const response = await myAxios.get('/getDiscussion', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.discussion = response.data
+    sessionStorage.setItem('discussion', JSON.stringify(state.discussion))
+    const coursesString = sessionStorage.getItem('discussion');
+    if (coursesString) {
+      discussionData.value = JSON.parse(coursesString)
+    }
+
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+
+const getSubDiscussion = async () => {
+  try {
+    const response = await myAxios.get('/getSubDiscussion', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.subDiscussion = response.data
+    sessionStorage.setItem('subDiscussion', JSON.stringify(state.subDiscussion))
+    const coursesString = sessionStorage.getItem('subDiscussion');
+    if (coursesString) {
+      subDiscussionData.value = JSON.parse(coursesString)
+    }
+
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+const discussionData: any = ref([
+  // {
+  //   post_id: 1,
+  //   commentator_type: 'student',
+  //   commentator_name: '行数搭建ad',
+  //   post_text: '撒发发发',
+  //   post_time: new Date(),
+  //   image_url: '',
+  // },
+  // {
+  //   post_id: 2,
+  //   commentator_type: 'student',
+  //   commentator_name: '李开复拉开',
+  //   post_text: '哦佛山佛山的',
+  //   post_time: new Date(),
+  //   image_url: '',
+  // }
+])
+const subDiscussionData: any = ref([
+  // {
+  //   post_id: 1,
+  //   parent_post_id: 1,
+  //   commentator_type: 'teacher',
+  //   commentator_name: '正义使者',
+  //   post_text: '奥术大师肯定会将阿斯顿',
+  //   post_time: new Date(),
+  //   image_url: '',
+  // },
+  // {
+  //   post_id: 2,
+  //   parent_post_id: 2,
+  //   commentator_type: 'teacher',
+  //   commentator_name: 'jaskdjak',
+  //   post_text: 'sadjaskdjask',
+  //   post_time: new Date(),
+  //   image_url: '',
+  // }
+])
+const mergedData: any = ref([]);
+
+
+interface DiscussionType {
+  post_id: number;
+  commentator_type: string;
+  commentator_name: string;
+  post_text: string;
+  post_time: Date;
+  image_url: string;
+}
+
+interface SubDiscussionType {
+  post_id: number;
+  parent_post_id: number;
+  commentator_type: string;
+  commentator_name: string;
+  post_text: string;
+  post_time: Date;
+  image_url: string;
+}
 const imageUrl = ref('')
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
@@ -132,80 +261,117 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   }
   return true
 }
+import type { FormInstance } from 'element-plus'
 
+const ruleFormRef = ref<FormInstance>()
 
-// const fileList = ref<UploadUserFile[]>([
-//   {
-//     name: 'element-plus-logo.svg',
-//     url: 'https://element-plus.org/images/element-plus-logo.svg',
-//   },
-//   {
-//     name: 'element-plus-logo2.svg',
-//     url: 'https://element-plus.org/images/element-plus-logo.svg',
-//   },
-// ])
-
-// const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-//   console.log(file, uploadFiles)
-// }
-
-// const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-//   console.log(uploadFile)
-// }
-
-// const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-//   ElMessage.warning(
-//     `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
-//     } totally`
-//   )
-// }
-
-// const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
-//   console.log(uploadFiles);
-
-//   return ElMessageBox.confirm(
-//     `Cancel the transfer of ${uploadFile.name} ?`
-//   ).then(
-//     () => true,
-//     () => false
-//   )
-// }
-
-const dialogFormVisible = ref(false)
-
-
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+const rules = reactive({
+  post_text: [
+    { required: true, message: '请输入文字', trigger: 'blur' },
+  ],
 })
 
+const dialogFormVisible = ref(false)
+const dialogFormVisible2 = ref(false)
 
-const url =
-  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
-const srcList = [
-  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-  'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-  'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-  'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-  'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-  'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-  'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-]
-
-const activeName = ref('first')
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+const handleAssure = async () => {
+  await submitForm(ruleFormRef.value)
 }
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      try {
+        const response = await myAxios.post('/setDiscussion', JSON.stringify(discussionForm), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(response);
+      } catch (error) {
+        console.error('评论失败', error);
+      }
+      dialogFormVisible.value = false
+      ElMessage({
+        message: '评论成功',
+        type: 'success',
+      })
+      await getDiscussion()
+      await getSubDiscussion()
+      mergedData.value = discussionData.value.map((item: DiscussionType) => {
+        const subItems = subDiscussionData.value.filter((subItem: SubDiscussionType) => subItem.parent_post_id === item.post_id);
+        return {
+          ...item,
+          replies: subItems,
+        };
+      });
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+const handleAssure2 = async () => {
+  await submitForm2(ruleFormRef.value)
+}
+
+const submitForm2 = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      try {
+        const response = await myAxios.post('/setSubDiscussion', JSON.stringify(subDiscussionForm), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(response);
+      } catch (error) {
+        console.error('评论失败', error);
+      }
+      dialogFormVisible2.value = false
+      ElMessage({
+        message: '评论成功',
+        type: 'success',
+      })
+      await getDiscussion()
+      await getSubDiscussion()
+      mergedData.value = discussionData.value.map((item: DiscussionType) => {
+        const subItems = subDiscussionData.value.filter((subItem: SubDiscussionType) => subItem.parent_post_id === item.post_id);
+        return {
+          ...item,
+          replies: subItems,
+        };
+      });
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+
+const discussionForm = reactive({
+  post_text: '',
+  commentator_name: student.value.student_name,
+  commentator_type: 'student',
+  // post_time: new Date()
+})
+const subDiscussionForm = reactive({
+  parent_post_id: 0,
+  post_text: '',
+  commentator_name: student.value.student_name,
+  commentator_type: 'student',
+  // post_time: new Date()
+})
+const handleReply = (parent_post_id: number) => {
+  dialogFormVisible2.value = true
+  subDiscussionForm.parent_post_id = parent_post_id
+}
+
 </script>
   
-<style  scoped>
+<style lang="scss"  scoped>
 .avatar-uploader {
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
@@ -218,11 +384,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 .avatar-uploader .el-upload:hover {
   border-color: var(--el-color-primary);
 }
-
-
-/* div {
-  display: inline-block;
-} */
 
 h1,
 h2,
@@ -310,5 +471,132 @@ h6 {
 
 .dialog-footer button:first-child {
   margin-right: 10px;
+}
+
+.my-reply {
+  padding: 20px;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+
+  .header-img {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .reply-info {
+    display: inline-block;
+    margin-left: 5px;
+    width: 90%;
+
+    .commentInput {
+      height: 64px;
+      margin-left: 10px;
+    }
+  }
+
+  .reply-btn-box {
+    height: 25px;
+    margin: 10px 0;
+
+    .reply-btn {
+      position: relative;
+      float: right;
+      margin-right: 10px;
+    }
+  }
+}
+
+.my-comment-reply {
+  margin-left: 50px;
+
+  .reply-input {
+    width: flex;
+  }
+}
+
+.author-title:not(:last-child) {
+  border-bottom: 1px solid rgba(178, 186, 194, 0.3);
+}
+
+.author-title {
+  padding: 10px;
+
+  .replyBtn {
+    float: right;
+  }
+
+  .header-img {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .author-info {
+    display: inline-block;
+    margin-left: 5px;
+    width: 60%;
+    height: 40px;
+    line-height: 20px;
+
+    >span {
+      // display: block;
+      // margin-right: 20px;
+      cursor: pointer;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .marginLeft {
+      margin-left: 20px;
+    }
+
+    .author-name {
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .author-time {
+      font-size: 14px;
+    }
+  }
+
+  .icon-btn {
+    width: 30%;
+    padding: 0 !important;
+    float: right;
+
+    @media screen and (max-width: 1200px) {
+      width: 20%;
+      padding: 7px;
+    }
+
+    >span {
+      cursor: pointer;
+    }
+
+    .iconfont {
+      margin: 0 5px;
+    }
+  }
+
+  .talk-box {
+    margin: 0 50px;
+
+    >p {
+      margin: 0;
+    }
+
+    .reply {
+      font-size: 16px;
+      color: #000;
+    }
+  }
+
+  .reply-box {
+    margin: 10px 0 0 50px;
+    background-color: #efefef;
+    border-radius: 5px;
+  }
 }
 </style>
