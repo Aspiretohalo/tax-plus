@@ -1,19 +1,39 @@
 <template>
-  <div class="box">
-    <el-button @click="handleClick">我是教师</el-button>
-    <h3>学生端</h3>
-    <el-form class="el-form" label-position="top" :model="student" label-width="120px" :rules="rules" ref="ruleFormRef"
-      :hide-required-asterisk="true">
-      <el-form-item class="el-form-item" label="手机号码" prop="phone_number">
-        <el-input class="el-input" v-model="student.phone_number" />
-      </el-form-item>
-      <el-form-item class="el-form-item" label="密码" prop="user_password">
-        <el-input class="el-input" v-model="student.user_password" type="password" />
-      </el-form-item>
-      <el-form-item class="el-form-item">
-        <el-button type="primary" @click="submitFormStudent(ruleFormRef)" size="large">登录</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="bgimg">
+    <img src="src\assets\imgs\login_bg.png" style="width: 1280px;height: 720px;">
+    <div class="content-overlay">
+      <el-card class="box-card" shadow="hover">
+        <div>
+          <h3>学生端<el-button @click="handleClick" style="margin-left: 30px;">我是教师</el-button></h3>
+        </div>
+        <div>
+          <h2 style="text-align: center;">欢迎来到税学佳学习平台</h2>
+        </div>
+        <div>
+          <h3 style="text-align: center;">WELCOME!</h3>
+        </div>
+
+        <div>
+          <el-form class="el-form" label-position="top" :model="student" label-width="120px" :rules="rules"
+            ref="ruleFormRef" :hide-required-asterisk="true">
+            <el-form-item class="el-form-item" label="手机号码" prop="phone_number">
+              <el-input class="el-input" v-model="student.phone_number" />
+            </el-form-item>
+            <el-form-item class="el-form-item" label="密码" prop="user_password">
+              <el-input class="el-input" v-model="student.user_password" type="password" />
+            </el-form-item>
+            <el-form-item class="el-form-item">
+              <el-button type="primary" @click="submitFormStudent(ruleFormRef)" size="large"
+                style="width: 400px;">立即登录</el-button>
+
+            </el-form-item>
+          </el-form>
+        </div>
+
+      </el-card>
+
+    </div>
+
   </div>
 </template>
 
@@ -84,21 +104,46 @@ const rules = reactive({
 </script>
 
 <style lang="scss" scoped>
-.box {
-  display: inline-block;
-  width: 1200px;
-  margin-left: 500px;
-  margin-top: 100px;
+.box-card {
+  width: 450px;
+  height: 530px;
+  margin-left: -700px;
+
+  border-radius: 30px;
+
 
   .el-form {
     display: inline-block;
 
     .el-form-item {
       margin-top: 25px;
-      width: 450px;
+      width: 400px;
     }
   }
+}
 
+.bgimg {
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.content-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
 
