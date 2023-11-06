@@ -18,7 +18,6 @@
                   <el-input v-model="form.desc" type="textarea" style="width: 780px;" />
                 </el-form-item>
                 <el-form-item label="上传图片">
-
                   <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                     :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
@@ -45,37 +44,30 @@
             </div>
             <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
               <el-tab-pane label="最新" name="first">
-                <el-card class="box-card-small">
+                <el-card class="box-card-small" v-for="item in discussionData">
                   <template #header>
                     <div class="card-header">
-                      <span>曹师傅
-                        <el-tag style="margin-left: 15px;">老师</el-tag>
-                        <el-text style="padding-left: 20px;">{{ post_time }}</el-text>
+                      <span>{{ item.commentator_name }}
+                        <el-tag style="margin-left: 15px;">{{ item.commentator_type === 'student' ? commentator_type[0] :
+                          commentator_type[1] }}</el-tag>
+                        <el-text style="padding-left: 20px;">{{ item.post_time }}</el-text>
                       </span>
-
                       <el-button class="button" text>回复</el-button>
                     </div>
                   </template>
                   <div>
-                    <p>曹师傅牛逼，666</p>
+                    <p>{{ item.post_text }}</p>
                     <div class="demo-image__preview">
                       <el-image style="width: 100px; height: 100px" :src="url" :zoom-rate="1.2" :max-scale="7"
                         :min-scale="0.2" :preview-src-list="srcList" :initial-index="4" fit="cover" />
                     </div>
                   </div>
-
-
-
-
                 </el-card>
-
-
               </el-tab-pane>
               <el-tab-pane label="全部" name="second">全部</el-tab-pane>
               <el-tab-pane label="我的" name="third">我的</el-tab-pane>
             </el-tabs>
           </el-card>
-
         </el-main>
       </el-container>
     </el-container>
@@ -93,6 +85,9 @@ import { Search, } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 import { onUnmounted, onMounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
+import myAxios from '../../plugins/myAxios'
+import state from '../../store/state'
+
 
 // 创建一个响应式的 currentTime 变量
 const post_time = ref(new Date().toLocaleString());
@@ -103,13 +98,37 @@ const updateCurrentTime = () => {
 };
 
 // 在组件挂载时开始定时更新 currentTime
-onMounted(() => {
+onMounted(async () => {
+  await getDiscussion()
+
   const timer = setInterval(updateCurrentTime, 1000);
   // 在组件卸载时清除定时器，以防内存泄漏
   onUnmounted(() => {
     clearInterval(timer);
   });
 });
+const commentator_type = ref(['学生', '老师'])
+
+const getDiscussion = async () => {
+  try {
+    const response = await myAxios.get('/getDiscussion', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.discussion = response.data
+    sessionStorage.setItem('discussion', JSON.stringify(state.discussion))
+    const coursesString = sessionStorage.getItem('discussion');
+    if (coursesString) {
+      discussionData.value = JSON.parse(coursesString)
+    }
+
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+const discussionData: any = ref()
 
 
 const input = ref('')
