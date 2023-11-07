@@ -134,20 +134,8 @@ const courseData: any = ref()
 </script>
 
 <style  scoped>
-.tools {
-  position: absolute;
-  right: 15px;
-  top: 80px;
-  width: 300px;
-  border-radius: 10px;
-}
-
-.tool {
-  display: inline-block;
-  margin: auto 2px;
-  cursor: pointer;
-  width: 80px;
-  text-align: center;
+.main {
+  /* padding-left: 15px; */
 }
 
 .icon {
@@ -171,6 +159,6 @@ div {
 }
 
 ::v-deep .el-aside {
-  width: 258px;
+  width: 258px
 }
 </style>

@@ -232,7 +232,8 @@ const rules = reactive({
 .box-card {
   /* position: relative; */
   position: absolute;
-  width: 80%
+  width: 80%;
+  border-radius: 15px;
 }
 
 .dialog-footer button:first-child {

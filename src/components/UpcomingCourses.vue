@@ -1,15 +1,15 @@
 <template>
   <div class="upcoming">
     <h2 class="pl">直播课即将开始</h2>
-    <el-scrollbar height="100%">
-      <el-row v-for="(o, index) in 4" :key="o" :span="8" :offset="index > 0 ? 1 : 0">
+    <!-- <el-scrollbar height="100%"> -->
+    <el-row v-for="(o, index) in 4" :key="o" :span="8" :offset="index > 0 ? 1 : 0">
       <el-col style="margin-top: 5px;">
-        <el-card :body-style="{ padding: '0px' }" class="card-circle" >
+        <el-card :body-style="{ padding: '0px' }" class="card-circle">
           <div>
-            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image" />
+            <img
+              src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/12aa700f-8cad-43b4-8f9b-827d1f13b997.jpg"
+              class="image" />
           </div>
-          
           <div style="padding: 14px">
             <span>科目1<el-tag>曹师傅</el-tag></span>
             <div class="bottom">
@@ -20,17 +20,10 @@
         </el-card>
       </el-col>
     </el-row>
-
-    <el-row>
+    <!-- <el-row>
       <div style="height: 80px;"></div>
-    </el-row>
-
-
-    </el-scrollbar>
-
-    
-
-
+    </el-row> -->
+    <!-- </el-scrollbar> -->
   </div>
 </template>
 
@@ -42,33 +35,28 @@ const currentDate = ref(new Date())
 
 <style  scoped>
 .upcoming {
-  /* position: absolute; */
-  position: fixed;
-  top: 0;
-  right: 0px;
-  width: 370px;
-  height: 100%;
+  position: absolute;
+  top: 140px;
+  right: 20px;
+  width: 23%;
+  /* height: 100%; */
   min-height: 745px;
   background-color: #ffffff;
+  border-radius: 15px;
 }
 
 .upcoming h2 {
-  /* margin: 20px auto; */
   margin-left: 80px;
 }
 
 .pl {
-  margin-top: 80px;
   padding-left: 20px;
 }
-
 
 .course_right {
   width: 350px;
   height: 200px
 }
-
-
 
 .time {
   font-size: 12px;
@@ -90,10 +78,8 @@ const currentDate = ref(new Date())
 
 .image {
   display: flex;
-  
-  
   width: 100%;
-  height: 200px;
+  height: 180px;
 }
 
 .demo-image .block {
@@ -117,13 +103,10 @@ const currentDate = ref(new Date())
   margin-bottom: 20px;
 }
 
-.card-circle{
-  border-radius: 30px;
+.card-circle {
+  border-radius: 15px;
   margin-left: 20px;
   margin-right: 20px;
-  
+  margin-bottom: 20px;
 }
-
-
-
 </style>

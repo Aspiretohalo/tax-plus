@@ -1,5 +1,6 @@
 <template>
   <div class="leftCard">
+    <h3>教师管理平台</h3>
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
         <el-icon class="icon">
@@ -8,43 +9,15 @@
         <span>{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
-    <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon style="margin-left: 20px;">
-            <Operation />
-          </el-icon>
-          <span style="padding-left: 15px;">更多</span>
-        </template>
-        <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
-        <el-menu-item index="1-2">
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
-            title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
-            <template #reference>
-              <span>退出登录</span>
-            </template>
-          </el-popconfirm>
-
-        </el-menu-item>
-      </el-sub-menu>
-    </el-menu>
-    <!-- <el-card class="userMsg box-card">
-      <div>
-        <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <h4 class="name">{{ teacher.teacher_name }}</h4>
-        <el-tag class="role">老师</el-tag>
-        <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
-      </div>
-    </el-card> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { InfoFilled } from '@element-plus/icons-vue'
+// import { useRouter } from 'vue-router'
+// // import { InfoFilled } from '@element-plus/icons-vue'
 
-const router = useRouter()
+// const router = useRouter()
 const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
   { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
@@ -52,14 +25,14 @@ const menuDemo2 = reactive([
 ])
 // const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
-const confirmEvent = () => {
-  localStorage.clear()
-  sessionStorage.clear()
-  router.push('/loginStudent')
-}
-const cancelEvent = () => {
-  console.log('cancel!')
-}
+// const confirmEvent = () => {
+//   localStorage.clear()
+//   sessionStorage.clear()
+//   router.push('/loginStudent')
+// }
+// const cancelEvent = () => {
+//   console.log('cancel!')
+// }
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -73,16 +46,22 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style scoped>
+h3 {
+  margin-left: 60px;
+}
+
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
+  width: 17%;
   height: 100%;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 5px;
 }
 
 .el-menu-vertical-demo {
-  width: 258px;
+  /* width: 258px; */
+  width: 100%;
 }
 
 .el-menu-item span {

@@ -25,7 +25,6 @@
             <el-form-item class="el-form-item">
               <el-button type="primary" @click="submitFormStudent(ruleFormRef)" size="large"
                 style="width: 400px;">立即登录</el-button>
-
             </el-form-item>
           </el-form>
         </div>
@@ -43,6 +42,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 import myAxios from '../plugins/myAxios'
 import { ElMessage } from 'element-plus'
+import state from '../store/state'
+
+
 
 const handleClick = () => {
   router.push('/loginTeacher')
@@ -61,11 +63,13 @@ const handleLoginStudent = async (student: { phone_number: string, user_password
       }
     });
     localStorage.setItem('token', response.data.data.jwt)
+    localStorage.setItem('role', 'student')
     ElMessage({
       showClose: true,
       message: '登录成功',
       type: 'success',
     })
+    await getUserMsg()
     router.push('/')
     console.log(response);
   } catch (error) {
@@ -78,6 +82,22 @@ const handleLoginStudent = async (student: { phone_number: string, user_password
   }
 }
 
+const getUserMsg = async () => {
+  try {
+    const response = await myAxios.get('/getStudentMsg', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.students = response.data
+    sessionStorage.setItem('students', JSON.stringify(state.students))
+
+
+  } catch (error) {
+    console.error('获取学生信息失败', error);
+  }
+};
 import type { FormInstance } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()
 
@@ -134,7 +154,7 @@ const rules = reactive({
 
 }
 
-.content-overlay{
+.content-overlay {
   position: absolute;
   top: 0;
   left: 0;

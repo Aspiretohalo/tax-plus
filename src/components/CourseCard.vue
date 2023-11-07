@@ -13,15 +13,17 @@
 
     <el-space direction="vertical" alignment="start" :size="30">
       <el-space wrap :size="size">
-        <el-card v-for="item in allCourses" :key="item.course_id" @click="goToSelect()" class="courseCard box-card"
-          shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>{{ item.teacher_name }}</span>
-            </div>
-          </template>
-          <div class="pic">
+        <el-card v-for="item in allCourses" :key="item.course_id" @click="goToSelect(item.course_id)" shadow="hover"
+          class="courseCard box-card">
+          <div>
             <el-image :src="item.course_url" />
+          </div>
+          <div style="padding: 14px">
+            <span>{{ item.course_name }}<el-tag>{{ item.teacher_name }}</el-tag></span>
+            <span>
+              <time class="time" style="font-size: small;"> 2023/11/8 </time>
+            </span>
+            <p style="font-size: 12px; color: #73767a;">{{ item.course_description }}</p>
           </div>
         </el-card>
       </el-space>
@@ -36,18 +38,15 @@ import { Search } from '@element-plus/icons-vue'
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'
 import state from '../store/state'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-const route = useRoute()
 const router = useRouter()
 onMounted(async () => {
   await getAllCourses()
 })
-// 此处有错误
-const courseId = ref(route.params.courseId)
 
-const goToSelect = () => {
-  router.push(`/courseJoin/courseId/${courseId.value}/courseSelection`)
+const goToSelect = (courseId: number) => {
+  router.push(`/courseJoin/courseId/${courseId}/courseSelection`)
 }
 ////////////////////获得所有课程
 const getAllCourses = async () => {
@@ -123,12 +122,11 @@ const options = [
   position: absolute;
   display: inline-block;
   margin-left: 10px;
-  /* margin-bottom: 20px; */
   width: 150px;
 }
 
 ::v-deep .el-card {
-  width: 400px;
+  width: 280px;
   height: 300px;
   margin-left: 10px;
   border-radius: 10px;

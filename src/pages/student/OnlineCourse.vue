@@ -10,7 +10,6 @@
         </el-aside>
         <el-main class="main">
           <CourseCard></CourseCard>
-          <!-- <UpcomingCourses></UpcomingCourses> -->
           <el-card class="tools box-card">
             <div class="tool" @click="goToSchedule()">
               <el-icon class="icon" size="36px">
@@ -41,7 +40,6 @@
 import TopNav from '../../components/TopNav.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import CourseCard from '../../components/CourseCard.vue'
-// import UpcomingCourses from '../../components/UpcomingCourses.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

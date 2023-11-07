@@ -1,26 +1,53 @@
 <template>
     <div class="topNav">
         <div class="logo">
-            <h1>税学佳</h1>
+            <img src="../assets/logo/logo.png" @click="$router.push('/')"
+                style="height: 50px; margin-top: 12px; cursor: pointer;">
         </div>
         <div class="userMsg">
-            <el-avatar @click="checkMsg" class="avatar" style="cursor: pointer;">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-            </el-avatar>
-            <h4 class="name">{{ 666 }}</h4>
-            <el-tag class="mx-1 role">Large</el-tag>
+            <el-dropdown>
+                <span class="el-dropdown-link">
+                    <el-avatar @click="checkMsg()" class="avatar" style="cursor: pointer;">
+                        <el-avatar :src="user.avatar" />
+                    </el-avatar>
+                </span>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="checkMsg()">我的主页</el-dropdown-item>
+                        <el-dropdown-item @click="handleLogout()">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
+
+            <h4 class="name">{{ role === 'student' ? user.student_name : user.teacher_name }}</h4>
+            <el-tag class="mx-1 role">{{ role === 'student' ? '学员' : '老师' }}</el-tag>
         </div>
 
     </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const role = ref(localStorage.getItem('role'))
+// 获得到学生/老师数据之后，判断哪个是要用的
+// 在登录成功时直接写到session中
+const user = ref(role.value === 'student' ? (JSON.parse(sessionStorage.getItem('students') || 'null') || '') : (JSON.parse(sessionStorage.getItem('teachers') || 'null') || ''))
+const msgRouter = ref(role.value === 'student' ? '/studentMsg' : '/teacherMsg')
+
 const checkMsg = () => {
-    router.push('/studentMsg')
+    router.push(msgRouter.value)
 }
+
+const handleLogout = () => {
+    localStorage.clear()
+    sessionStorage.clear()
+    router.push('/loginStudent')
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -30,13 +57,13 @@ const checkMsg = () => {
     z-index: 100;
     background-color: #fff;
     // width: 1920px;
-    height: 60px;
+    height: 76px;
     width: 100%;
 
     .logo {
         // display: inline-block;
         position: absolute;
-        left: 80px;
+        left: 40px;
     }
 
     .userMsg {
@@ -61,6 +88,14 @@ const checkMsg = () => {
             margin-right: 10px;
             margin-top: 20px;
         }
+
+
     }
+}
+
+.el-dropdown-link,
+.el-tooltip__trigger,
+.el-tooltip__trigger:focus-visible {
+    outline: none;
 }
 </style>

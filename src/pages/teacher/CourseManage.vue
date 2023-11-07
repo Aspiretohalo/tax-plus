@@ -128,22 +128,6 @@ const courseData: any = ref()
 </script>
 
 <style  scoped>
-.tools {
-  position: absolute;
-  right: 15px;
-  top: 80px;
-  width: 300px;
-  border-radius: 10px;
-}
-
-.tool {
-  display: inline-block;
-  margin: auto 2px;
-  cursor: pointer;
-  width: 80px;
-  text-align: center;
-}
-
 .icon {
   display: block;
   margin: 0 auto;
@@ -152,8 +136,8 @@ const courseData: any = ref()
 .table {
   position: absolute;
   top: 140px;
-  width: 56%;
-  border-radius: 10px;
+  width: 80%;
+  border-radius: 15px;
 }
 
 .demo-tabs {

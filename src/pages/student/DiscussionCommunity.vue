@@ -4,46 +4,45 @@
       <el-header>
         <TopNav></TopNav>
       </el-header>
-      <el-container>
+      <el-container class="main-container">
         <el-aside>
           <LeftMenu></LeftMenu>
         </el-aside>
         <el-main>
-          <el-card class="box-card welcomeCard">
+          <div class="tabbar">
             <span class="welcome">讨论区</span>
             <el-button type="primary" class="goOnLearning" @click="dialogFormVisible = true">创建讨论</el-button>
-            <el-dialog v-model="dialogFormVisible" title="我的讨论">
-              <el-form :model="discussionForm" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
-                <el-form-item label="讨论内容" prop="post_text">
-                  <el-input v-model="discussionForm.post_text" type="textarea" style="width: 780px;" />
-                </el-form-item>
-                <el-form-item label="上传图片">
-                  <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                    :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                    <el-icon v-else class="avatar-uploader-icon">
-                      <Plus />
-                    </el-icon>
-                  </el-upload>
-                </el-form-item>
-              </el-form>
-              <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="dialogFormVisible = false">取消</el-button>
-                  <el-button type="primary" @click="handleAssure()">
-                    确认
-                  </el-button>
-                </span>
-              </template>
-            </el-dialog>
-          </el-card>
-
+          </div>
+          <el-dialog v-model="dialogFormVisible" title="我的讨论" style="padding: 0 20px;">
+            <el-form :model="discussionForm" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+              <el-form-item label="讨论内容" prop="post_text">
+                <el-input v-model="discussionForm.post_text" type="textarea" style="width: 780px;" />
+              </el-form-item>
+              <el-form-item label="上传图片">
+                <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="handleAssure()">
+                  确认
+                </el-button>
+              </span>
+            </template>
+          </el-dialog>
           <el-card class="box-card notice">
             <div v-for="item in mergedData" :key="item.post_id" class="author-title reply-father">
-              <el-avatar class="header-img" :size="40" :src="item.avatar"></el-avatar>
+              <el-avatar class="header-img" :size="50" :src="item.avatar"></el-avatar>
               <div class="author-info">
                 <span class="author-name">{{ item.commentator_name }}</span>
-                <el-tag>{{ item.commentator_type === 'student' ? commentator_type[0] :
+                <el-tag class="author-tag">{{ item.commentator_type === 'student' ? commentator_type[0] :
                   commentator_type[1] }}</el-tag>
                 <span class="author-time marginLeft">{{ item.post_time }}</span>
               </div>
@@ -55,10 +54,10 @@
               </div>
               <div class="reply-box">
                 <div v-for="subItem in item.replies" :key="subItem.post_id" class="author-title">
-                  <el-avatar class="header-img" :size="40" :src="subItem.avatar"></el-avatar>
+                  <el-avatar class="header-img" :size="30" :src="subItem.avatar"></el-avatar>
                   <div class="author-info">
                     <span class="author-name">{{ subItem.commentator_name }}</span>
-                    <el-tag>{{ subItem.commentator_type === 'student' ? commentator_type[0] :
+                    <el-tag class="author-tag">{{ subItem.commentator_type === 'student' ? commentator_type[0] :
                       commentator_type[1] }}</el-tag>
                     <span class="author-time marginLeft">{{ subItem.post_time }}</span>
                   </div>
@@ -371,7 +370,7 @@ const handleReply = (parent_post_id: number) => {
 
 </script>
   
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 .avatar-uploader {
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
@@ -394,8 +393,17 @@ h6 {
   margin-top: 0;
 }
 
+.tabbar {
+  margin: 20px 0;
+}
+
 .box-card {
-  width: 950px;
+  width: 1200px;
+  border-radius: 15px;
+}
+
+::v-deep .el-dialog {
+  --el-dialog-border-radius: 15px;
 }
 
 .welcomeCard {
@@ -413,7 +421,6 @@ h6 {
   display: block;
 }
 
-
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -425,7 +432,7 @@ h6 {
 .goOnLearning {
   position: absolute;
   right: 50px;
-  top: 15px;
+  // top: 15px;
 }
 
 .notice {
@@ -445,13 +452,9 @@ h6 {
   align-items: center;
 }
 
-
 .box-card-small {
   width: 900px;
 }
-
-
-
 
 .dialog-footer button:first-child {
   margin-right: 10px;
@@ -472,6 +475,10 @@ h6 {
 .dialog-footer button:first-child {
   margin-right: 10px;
 }
+
+// .talk-box {
+//   margin-left: 15px;
+// }
 
 .my-reply {
   padding: 20px;
@@ -521,8 +528,11 @@ h6 {
 .author-title {
   padding: 10px;
 
+
+
   .replyBtn {
     float: right;
+    margin-right: 30px;
   }
 
   .header-img {
@@ -532,7 +542,7 @@ h6 {
 
   .author-info {
     display: inline-block;
-    margin-left: 5px;
+    margin-left: 25px;
     width: 60%;
     height: 40px;
     line-height: 20px;
@@ -554,6 +564,10 @@ h6 {
       color: #000;
       font-size: 18px;
       font-weight: bold;
+    }
+
+    .author-tag {
+      margin-left: 10px;
     }
 
     .author-time {
@@ -585,6 +599,7 @@ h6 {
 
     >p {
       margin: 0;
+      margin-left: 5px;
     }
 
     .reply {
@@ -594,8 +609,8 @@ h6 {
   }
 
   .reply-box {
-    margin: 10px 0 0 50px;
-    background-color: #efefef;
+    margin: 10px 30px 0 65px;
+    background-color: #e9e9eb;
     border-radius: 5px;
   }
 }

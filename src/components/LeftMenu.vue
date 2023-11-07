@@ -1,46 +1,15 @@
 <template>
   <div class="leftCard">
+    <h3>学员学习平台</h3>
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo">
         <el-icon class="icon">
-          <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
           <component :is="item.icon"></component>
         </el-icon>
         <span>{{ item.name }}</span>
       </el-menu-item>
 
     </el-menu>
-    <!-- <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon style="margin-left: 20px;">
-            <Operation />
-          </el-icon>
-          <span style="padding-left: 15px;">更多</span>
-        </template>
-        <el-menu-item index="1-1"><span>关于平台</span></el-menu-item>
-
-        <el-menu-item index="1-2">
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" :icon="InfoFilled" icon-color="#626AEF"
-            title="你确定退出吗?" @confirm="confirmEvent" @cancel="cancelEvent">
-            <template #reference>
-              <span>退出登录</span>
-            </template>
-          </el-popconfirm>
-
-        </el-menu-item>
-
-      </el-sub-menu>
-    </el-menu> -->
-
-    <!-- <el-card class="userMsg box-card">
-      <div>
-        <el-avatar> <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-        <h4 class="name">{{ student.student_name }}</h4>
-        <el-tag class="role">学员</el-tag>
-        <el-button @click="checkMsg()" class="personalMsgBtn" type="primary">查看个人信息</el-button>
-      </div>
-    </el-card> -->
   </div>
 </template>
 
@@ -86,16 +55,22 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style scoped>
+h3 {
+  margin-left: 60px;
+}
+
 .leftCard {
   position: fixed;
   background-color: #f9f9f9;
   height: 100%;
+  /* width: 17%; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 5px;
 }
 
 .el-menu-vertical-demo {
   width: 258px;
+  /* width: 100%; */
 }
 
 .el-menu-item span {

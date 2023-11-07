@@ -43,6 +43,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 import { ElMessage } from 'element-plus'
 import myAxios from '../plugins/myAxios'
+import state from '../store/state'
 
 const handleClick = () => {
   router.push('/loginStudent')
@@ -64,11 +65,13 @@ const handleLoginTeacher = async (teacher: { phone_number: string, user_password
       }
     });
     localStorage.setItem('token', response.data.data.jwt)
+    localStorage.setItem('role', 'teacher')
     ElMessage({
       showClose: true,
       message: '登录成功',
       type: 'success',
     })
+    await getUserMsg()
     router.push('/courseManage')
     console.log(response);
   } catch (error) {
@@ -80,6 +83,21 @@ const handleLoginTeacher = async (teacher: { phone_number: string, user_password
     console.error('账号或密码错误', error);
   }
 }
+const getUserMsg = async () => {
+  try {
+    const response = await myAxios.get('/getTeacherMsg', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.teachers = response.data
+    sessionStorage.setItem('teachers', JSON.stringify(state.teachers))
+
+  } catch (error) {
+    console.error('获取学生信息失败', error);
+  }
+};
 import type { FormInstance } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()
 
@@ -135,7 +153,7 @@ const rules = reactive({
 
 }
 
-.content-overlay{
+.content-overlay {
   position: absolute;
   top: 0;
   left: 0;
