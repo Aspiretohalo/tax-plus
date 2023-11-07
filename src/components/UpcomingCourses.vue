@@ -4,7 +4,7 @@
     <el-scrollbar height="100%">
       <el-row v-for="(o, index) in 4" :key="o" :span="8" :offset="index > 0 ? 1 : 0">
       <el-col style="margin-top: 5px;">
-        <el-card :body-style="{ padding: '0px' }" class="card-circle">
+        <el-card :body-style="{ padding: '0px' }" class="card-circle" >
           <div>
             <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
             class="image" />
@@ -58,6 +58,7 @@ const currentDate = ref(new Date())
 }
 
 .pl {
+  margin-top: 80px;
   padding-left: 20px;
 }
 
@@ -118,6 +119,11 @@ const currentDate = ref(new Date())
 
 .card-circle{
   border-radius: 30px;
-  border-color: #409EFF;
+  margin-left: 20px;
+  margin-right: 20px;
+  
 }
+
+
+
 </style>

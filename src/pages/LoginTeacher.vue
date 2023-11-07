@@ -1,6 +1,6 @@
 <template>
   <div class="bgimg">
-    <img src="src\assets\imgs\login_bg.png" style="width: 1280px;height: 720px;">
+    <img src="src\assets\imgs\bgimg.png" style="width: 100%">
     <div class="content-overlay">
       <el-card class="box-card" shadow="hover">
         <div>
@@ -108,7 +108,7 @@ const rules = reactive({
 .box-card {
   width: 450px;
   height: 530px;
-  margin-left: -700px;
+  margin-left: 1000px;
 
   border-radius: 30px;
 
