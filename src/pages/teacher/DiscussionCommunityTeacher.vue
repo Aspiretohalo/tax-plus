@@ -71,7 +71,7 @@
             </div>
           </el-card>
 
-          <el-dialog v-model="dialogFormVisible2" title="回复">
+          <el-dialog v-model="dialogFormVisible2" title="回复" style="padding: 0 20px;">
             <el-form :model="subDiscussionForm" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
               <el-form-item label="回复内容" prop="post_text">
                 <el-input v-model="subDiscussionForm.post_text" type="textarea" style="width: 780px;" />

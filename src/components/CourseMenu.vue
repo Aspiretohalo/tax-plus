@@ -1,12 +1,11 @@
 <template>
   <div class="leftCard">
     <h2 class="mb-2 msgH2">课程信息</h2>
-    <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+    <el-menu style="padding-left: 40px;" :router="true" default-active="1" class="el-menu-vertical-demo"
+      @open="handleOpen" @close="handleClose">
       <el-menu-item v-for="item in courseMenuData" :index="item.router">
-        <el-icon class="icon">
-          <component :is="item.icon"></component>
-        </el-icon>
-        <span>{{ item.name }}</span>
+        <img :src="item.icon" alt="" style="width: 28px;height: 28px;">
+        <span style="padding-left: 30px; font-size: 16px;">{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
     <el-button @click="goBack()" class="returnBtn" type="primary">返回主页</el-button>
@@ -30,13 +29,13 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 const courseId = ref(route.params.courseId)
 const courseMenuData = reactive([
-  { name: '课程公告', index: 1, icon: 'User', router: `/courseId/${courseId.value}/notice` },
-  { name: '直播间', index: 2, icon: 'User', router: `/courseId/${courseId.value}/livingroom` },
-  { name: '学习进度', index: 3, icon: 'VideoPlay', router: `/courseId/${courseId.value}/progress` },
-  { name: '课程视频', index: 4, icon: 'VideoPlay', router: `/courseId/${courseId.value}/courseVideo` },
-  { name: '课程资料', index: 5, icon: 'Monitor', router: `/courseId/${courseId.value}/data` },
-  { name: '课程评价', index: 6, icon: 'ChatDotSquare', router: `/courseId/${courseId.value}/evaluation` },
-  { name: '讨论区', index: 7, icon: 'Service', router: `/courseId/${courseId.value}/comment` },
+  { name: '课程公告', index: 1, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%85%AC%E5%91%8A.svg', router: `/courseId/${courseId.value}/notice` },
+  { name: '直播间', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B.svg', router: `/courseId/${courseId.value}/livingroom` },
+  { name: '学习进度', index: 3, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6.svg', router: `/courseId/${courseId.value}/progress` },
+  { name: '课程视频', index: 4, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%A7%86%E9%A2%91.svg', router: `/courseId/${courseId.value}/courseVideo` },
+  { name: '课程资料', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99.svg', router: `/courseId/${courseId.value}/data` },
+  { name: '课程评价', index: 6, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg', router: `/courseId/${courseId.value}/evaluation` },
+  { name: '讨论区', index: 7, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AE%A8%E8%AE%BA.svg', router: `/courseId/${courseId.value}/comment` },
 ])
 </script>
 

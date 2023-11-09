@@ -88,6 +88,10 @@ h6 {
   :deep(.el-collapse-item__header) {
     font-size: 16px;
   }
+
+  :deep(.el-card__body) {
+    padding-left: 50px;
+  }
 }
 
 .row-bg {

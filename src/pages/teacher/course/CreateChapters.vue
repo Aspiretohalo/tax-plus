@@ -12,7 +12,6 @@
         </el-upload>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
-
           <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose" :show-close="false">
             <span>
               <p>您将要发布的：{{ form.video_title }}</p>
@@ -29,15 +28,36 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <el-card class="box-card notice">
+      <template #header>
+        <div class="card-header">
+          <h3>已有章节</h3>
+        </div>
+      </template>
+      <div class="demo-collapse">
+        <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse-item v-for="item in chapterData" :title="item.video_title" :name="item.chapter_index">
+            <div style="padding-bottom: 10px">
+              <el-link :underline="false">
+                <template #default> <el-tag class="ml-2" type="success">视频</el-tag>{{ item.video_title }} </template>
+              </el-link>
+            </div>
+            <div>
+              <el-link :underline="false"> <el-tag class="ml-2" type="info">课件</el-tag>{{ }}课件</el-link>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRoute } from 'vue-router'
-
+import state from '../../../store/state'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import myAxios from '../../../plugins/myAxios'
 
@@ -88,12 +108,7 @@ const form = reactive({
   course_id: route.params.courseId,
 })
 
-const open1 = () => {
-  ElMessage({
-    message: '新建章节成功！',
-    type: 'success',
-  })
-}
+
 const handleResponse: UploadProps['onSuccess'] = (response: any) => {
   // 将响应回来的课程封面地址赋值给course
   form.file_id = response.data[0]
@@ -110,7 +125,7 @@ const handleRelease = async () => {
       psign: form.psign,
       course_id: form.course_id,
     }
-    const response = myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
+    const response = await myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -119,8 +134,12 @@ const handleRelease = async () => {
   } catch (error) {
     console.error('新建章节失败', error);
   }
-  open1()
+  ElMessage({
+    message: '新建章节成功！',
+    type: 'success',
+  })
   dialogVisible.value = false
+  getChapter(route.params.courseId)
 }
 const onSubmit = async () => {
   dialogVisible.value = true
@@ -146,6 +165,39 @@ const rules = reactive({
   ],
 })
 
+const activeNames = ref()
+const chapter_index = ref()
+const handleChange = () => {
+  chapter_index.value = activeNames.value[0]
+}
+onMounted(async () => {
+  await getChapter(route.params.courseId)
+})
+
+////////////////////获得章节
+
+const getChapter = async (value: any) => {
+  try {
+    const response = await myAxios.get('/course/getChapter', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.chapter = response.data
+    sessionStorage.setItem('chapter', JSON.stringify(state.chapter))
+    const coursesString = sessionStorage.getItem('chapter');
+    if (coursesString) {
+      chapterData.value = JSON.parse(coursesString)
+    }
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
+const chapterData: any = ref()
 </script>
 
 <style lang="scss" scoped>
@@ -178,6 +230,19 @@ const rules = reactive({
   margin-top: 20px;
   width: 1100px;
   border-radius: 15px;
+
+  :deep(.el-collapse-item__header) {
+    font-size: 16px;
+  }
+
+  :deep(.el-card__header) {
+    padding-left: 50px;
+  }
+
+  :deep(.el-card__body) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
 
   .upload-demo {
     margin-left: 120px;

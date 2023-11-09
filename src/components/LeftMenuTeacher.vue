@@ -1,12 +1,11 @@
 <template>
   <div class="leftCard">
     <h3>教师管理平台</h3>
-    <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+    <el-menu style="padding-left: 40px;" :router="true" default-active="1" class="el-menu-vertical-demo"
+      @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
-        <el-icon class="icon">
-          <component :is="item.icon"></component>
-        </el-icon>
-        <span>{{ item.name }}</span>
+        <img :src="item.icon" style="width: 28px;height: 28px;">
+        <span style="padding-left: 30px;">{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
   </div>
@@ -19,9 +18,9 @@ import { reactive } from 'vue'
 
 // const router = useRouter()
 const menuDemo2 = reactive([
-  { name: '课程管理', index: 1, icon: 'User', router: '/courseManage' },
-  { name: '课程发布', index: 2, icon: 'VideoPlay', router: '/courseRelease' },
-  { name: '学习社区', index: 4, icon: 'ChatDotSquare', router: '/communityTeacher' },
+  { name: '课程管理', index: 1, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B.svg', router: '/courseManage' },
+  { name: '课程发布', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E5%8F%91%E5%B8%83.svg', router: '/courseRelease' },
+  { name: '学习社区', index: 4, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AE%A8%E8%AE%BA%E5%8C%BA.svg', router: '/communityTeacher' },
 ])
 // const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 

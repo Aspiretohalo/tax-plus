@@ -90,10 +90,11 @@ const showDrawer = (index: number) => {
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css);
 
 $timing : 265ms;
-$iconColor : #ff003c;
-$accent : #c648c8;
-$grape : #7b00e0;
-$orchid : #ae31d9;
+$grape : #86A8E7;
+$orchid : #7F7FD5;
+$iconColor : #667db6;
+$accent : #0082c8;
+
 
 @mixin transformScale($size: 1) {
     transform: scale($size);
