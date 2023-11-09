@@ -11,16 +11,16 @@
       </div>
     </el-card>
     <el-dialog v-model="dialogFormVisible" title="评分">
-      <el-form :model="form">
-        <div class="demo-rate-block">
-          <el-rate v-model="form.evaluation_stars" size="large" :colors="colors" />
-        </div>
-        <el-input class="comment" :rows="3" v-model="form.evaluation_text" type="textarea" placeholder="请输入评论" />
+      <el-rate v-model="form.evaluation_stars" :size="42" :colors="colors" style="--el-rate-icon-size:28px" />
+      <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+        <el-form-item class="el-form-item" label="评论" prop="evaluation_text" style="margin-top: 20px;">
+          <el-input class="comment" :rows="3" v-model="form.evaluation_text" type="textarea" placeholder="请输入评论" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="handleCancel()">取消</el-button>
-          <el-button type="primary" @click="handleAssure()"> 确认</el-button>
+          <el-button type="primary" @click="submitForm(ruleFormRef)"> 确认</el-button>
         </span>
       </template>
     </el-dialog>
@@ -34,7 +34,7 @@
         <div class="commentLeft">
           <el-avatar :size="32"> <el-avatar :size="36"
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
-          <span style="display: inline-block; margin-left: 10px">{{ item.evaluator }}</span>
+          <span style="display: inline-block; margin-left: 10px">{{ item.student_name }}</span>
           <el-tag class="studentTag">学员</el-tag>
           <el-rate v-model="item.evaluation_stars" disabled size="large" :colors="colors" />
         </div>
@@ -123,7 +123,26 @@ const form = reactive({
   course_id: route.params.courseId,
   evaluator: student.value.student_name,
 })
+import type { FormInstance } from 'element-plus'
+const ruleFormRef = ref<FormInstance>()
 
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      handleAssure()
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+const rules = reactive({
+
+  evaluation_text: [
+    { required: true, message: '请输入评价', trigger: 'blur' },
+  ],
+
+})
 </script>
 
 <style lang="scss" scoped>
@@ -136,9 +155,16 @@ h6 {
   margin: 0;
 }
 
+:deep(.el-dialog) {
+  padding: 10px 25px;
+  border-radius: 15px;
+}
+
 .box-card {
   position: relative;
-  width: 950px;
+  margin-top: 20px;
+  width: 1100px;
+  border-radius: 15px;
 
   .userMsg {
     display: inline-block;

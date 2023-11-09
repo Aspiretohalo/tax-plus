@@ -7,8 +7,7 @@
         <div class="userMsg">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <el-avatar @click="checkMsg()" class="avatar" style="cursor: pointer;">
-                        <el-avatar :src="user.avatar" />
+                    <el-avatar @click="checkMsg()" :src="user.avatar" :size="50" class="avatar" style="cursor: pointer;">
                     </el-avatar>
                 </span>
                 <template #dropdown>

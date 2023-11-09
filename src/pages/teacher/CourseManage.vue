@@ -136,7 +136,7 @@ const courseData: any = ref()
 .table {
   position: absolute;
   top: 140px;
-  width: 80%;
+  width: 1100px;
   border-radius: 15px;
 }
 

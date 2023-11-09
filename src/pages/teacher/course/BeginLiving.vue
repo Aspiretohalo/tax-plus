@@ -13,18 +13,16 @@
             </template>
             <el-form :model="form" label-width="120px">
                 <el-form-item label="房间名">
-                    <el-input v-model="form.name" />
+                    <el-input v-model="form.name" style="width: 300px;" />
                 </el-form-item>
                 <el-form-item label="直播简述">
-                    <el-input v-model="form.desc" type="textarea" />
+                    <el-input v-model="form.desc" type="textarea" style="width: 500px;" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">创建</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
             </el-form>
-
-
         </el-card>
     </div>
 </template>
@@ -98,7 +96,9 @@ h6 {
 }
 
 .box-card {
-    width: 950px;
+    margin-top: 20px;
+    width: 1100px;
+    border-radius: 15px;
 }
 
 .welcomeCard {

@@ -70,7 +70,7 @@ const chapterData: any = ref()
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 h1,
 h2,
 h3,
@@ -81,7 +81,13 @@ h6 {
 }
 
 .box-card {
-  width: 950px;
+  margin-top: 20px;
+  width: 1100px;
+  border-radius: 15px;
+
+  :deep(.el-collapse-item__header) {
+    font-size: 16px;
+  }
 }
 
 .row-bg {

@@ -12,6 +12,7 @@
         </el-upload>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
+
           <el-dialog v-model="dialogVisible" title="章节确认" width="30%" :before-close="handleClose" :show-close="false">
             <span>
               <p>您将要发布的：{{ form.video_title }}</p>
@@ -148,12 +149,12 @@ const rules = reactive({
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-aside {
+:deep(.el-aside) {
   width: 258px;
 }
 
 
-::v-deep .el-form-item__label {
+:deep(.el-form-item__label) {
   font-family: 'Hiragino Sans GB';
   font-size: 2ch;
   height: 50px;
@@ -163,14 +164,20 @@ const rules = reactive({
   flex-direction: column;
 }
 
-::v-deep .el-input__wrapper {
+:deep(.el-input__wrapper) {
   height: 50px;
+}
+
+:deep(.el-dialog) {
+  padding: 10px 25px;
+  border-radius: 15px;
 }
 
 .box-card {
   position: relative;
-
-  width: 900px;
+  margin-top: 20px;
+  width: 1100px;
+  border-radius: 15px;
 
   .upload-demo {
     margin-left: 120px;

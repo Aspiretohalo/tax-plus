@@ -12,26 +12,27 @@
     </div>
 
     <el-space direction="vertical" alignment="start" :size="30">
-      <el-space wrap :size="size">
+      <el-space wrap size="large">
         <el-card v-for="item in allCourses" :key="item.course_id" @click="goToSelect(item.course_id)" shadow="hover"
           class="courseCard box-card">
           <div>
             <el-image :src="item.course_url" />
           </div>
           <div style="padding: 14px">
-            <span>{{ item.course_name }}<el-tag>{{ item.teacher_name }}</el-tag></span>
+            <span style="font-size: large;">{{ item.course_name }}</span>
+            <el-tag style="float: right;" :type="item.tag_type">{{ item.status }}</el-tag>
             <span>
-              <time class="time" style="font-size: small;"> 2023/11/8 </time>
             </span>
-            <p style="font-size: 12px; color: #73767a;">{{ item.course_description }}</p>
+            <div style="margin-top: 10px; color: #73767a;">{{ item.teacher_name }}
+              <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span>
+            </div>
+            <p style="font-size: 14px; color: #909399; margin-top: 0;">{{ item.course_description }}</p>
           </div>
         </el-card>
       </el-space>
-
     </el-space>
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
@@ -43,11 +44,31 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 onMounted(async () => {
   await getAllCourses()
+
 })
 
-const goToSelect = (courseId: number) => {
+const goToSelect = async (courseId: number) => {
+  await getCourseByCourseId(courseId)
   router.push(`/courseJoin/courseId/${courseId}/courseSelection`)
 }
+
+const getCourseByCourseId = async (value: any) => {
+  try {
+    const response = await myAxios.get('/getCourseByCourseId', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.singleCourse = response.data
+    sessionStorage.setItem('singleCourse', JSON.stringify(state.singleCourse))
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
 ////////////////////获得所有课程
 const getAllCourses = async () => {
   try {
@@ -70,9 +91,9 @@ const getAllCourses = async () => {
 };
 const allCourses: any = ref()
 
-const size = ref('large')
 const value = ref('')
 const input3 = ref('')
+
 const options = [
   {
     value: 'Option1',
@@ -97,10 +118,10 @@ const options = [
 ]
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home {
   /* margin-left: 15px; */
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .input-with-select {
@@ -113,22 +134,33 @@ const options = [
   margin-bottom: 30px;
 }
 
-::v-deep .el-input__wrapper {
+:deep(.el-space) {
+  width: 1100px;
+
+  // .el-space--horizontal {
+  //   .el-space__item {
+  //     margin-right: 0;
+  //   }
+  // }
+
+}
+
+:deep(.el-input__wrapper) {
   width: 300px;
   height: 40px;
 }
 
-::v-deep .el-select {
+:deep(.el-select) {
   position: absolute;
   display: inline-block;
   margin-left: 10px;
   width: 150px;
 }
 
-::v-deep .el-card {
-  width: 280px;
-  height: 300px;
-  margin-left: 10px;
+:deep(.el-card) {
+  width: 250px;
+  height: 290px;
+  // margin-left: 10px;
   border-radius: 10px;
 }
 
@@ -136,7 +168,7 @@ const options = [
   cursor: pointer;
 }
 
-::v-deep .el-card__body {
+:deep(.el-card__body) {
   padding: 0;
 }
 

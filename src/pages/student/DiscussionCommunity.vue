@@ -41,7 +41,7 @@
             <div v-for="item in mergedData" :key="item.post_id" class="author-title reply-father">
               <el-avatar class="header-img" :size="50" :src="item.avatar"></el-avatar>
               <div class="author-info">
-                <span class="author-name">{{ item.commentator_name }}</span>
+                <span class="author-name">{{ item.name }}</span>
                 <el-tag class="author-tag">{{ item.commentator_type === 'student' ? commentator_type[0] :
                   commentator_type[1] }}</el-tag>
                 <span class="author-time marginLeft">{{ item.post_time }}</span>
@@ -56,7 +56,7 @@
                 <div v-for="subItem in item.replies" :key="subItem.post_id" class="author-title">
                   <el-avatar class="header-img" :size="30" :src="subItem.avatar"></el-avatar>
                   <div class="author-info">
-                    <span class="author-name">{{ subItem.commentator_name }}</span>
+                    <span class="author-name">{{ subItem.name }}</span>
                     <el-tag class="author-tag">{{ subItem.commentator_type === 'student' ? commentator_type[0] :
                       commentator_type[1] }}</el-tag>
                     <span class="author-time marginLeft">{{ subItem.post_time }}</span>
@@ -141,8 +141,6 @@ onMounted(async () => {
   });
 });
 const commentator_type = ref(['学员', '老师'])
-
-
 
 const getDiscussion = async () => {
   try {
@@ -398,11 +396,12 @@ h6 {
 }
 
 .box-card {
-  width: 1200px;
+  margin-top: 20px;
+  width: 1100px;
   border-radius: 15px;
 }
 
-::v-deep .el-dialog {
+:deep(.el-dialog) {
   --el-dialog-border-radius: 15px;
 }
 
@@ -431,8 +430,7 @@ h6 {
 
 .goOnLearning {
   position: absolute;
-  right: 50px;
-  // top: 15px;
+  right: 150px;
 }
 
 .notice {

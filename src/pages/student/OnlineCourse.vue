@@ -10,7 +10,7 @@
         </el-aside>
         <el-main class="main">
           <CourseCard></CourseCard>
-          <el-card class="tools box-card">
+          <!-- <el-card class="tools box-card">
             <div class="tool" @click="goToSchedule()">
               <el-icon class="icon" size="36px">
                 <Edit />
@@ -29,7 +29,7 @@
               </el-icon>
               <span>选课记录</span>
             </div>
-          </el-card>
+          </el-card> -->
         </el-main>
       </el-container>
     </el-container>
@@ -40,13 +40,13 @@
 import TopNav from '../../components/TopNav.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import CourseCard from '../../components/CourseCard.vue'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
-const goToSchedule = () => {
-  router.push('/schedule')
-}
+// const goToSchedule = () => {
+//   router.push('/schedule')
+// }
 
 </script>
 
@@ -63,7 +63,7 @@ div {
   position: absolute;
   right: 15px;
   top: 80px;
-  width: 300px;
+  width: 200px;
   border-radius: 10px;
 }
 

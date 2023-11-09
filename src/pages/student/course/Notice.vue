@@ -72,7 +72,10 @@ h6 {
 }
 
 .box-card {
-  width: 950px;
+  margin-top: 20px;
+  width: 1100px;
+  border-radius: 15px;
+
 }
 
 .welcomeCard {

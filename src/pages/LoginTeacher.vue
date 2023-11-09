@@ -24,7 +24,7 @@
             </el-form-item>
             <el-form-item class="el-form-item">
               <el-button type="primary" @click="submitFormTeacher(ruleFormRef)" size="large"
-                style="width: 400px;">立即登录</el-button>
+                style="width: 350px;height: 50px;margin-top: 15px;">立即登录</el-button>
 
             </el-form-item>
           </el-form>
@@ -133,9 +133,10 @@ const rules = reactive({
 
   .el-form {
     display: inline-block;
+    padding-left: 30px;
 
     .el-form-item {
-      margin-top: 25px;
+      margin-top: 10px;
       width: 400px;
     }
   }
@@ -168,5 +169,6 @@ const rules = reactive({
 
 .el-input {
   height: 50px;
+  width: 350px;
 }
 </style>

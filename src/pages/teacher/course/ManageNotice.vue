@@ -148,7 +148,9 @@ h6 {
 
 .box-card {
     position: relative;
-    width: 950px;
+    margin-top: 20px;
+    width: 1100px;
+    border-radius: 15px;
 
     .newBtn {
         position: absolute;

@@ -47,28 +47,35 @@ h5,
 h6 {
   margin: 0;
 }
+
 .box-card {
-  width: 950px;
+  margin-top: 20px;
+  width: 1100px;
+  border-radius: 15px;
 }
+
 .row-bg {
   margin-top: 40px;
 }
+
 .percentage-value {
   display: block;
   margin-top: 10px;
   font-size: 28px;
 }
+
 .percentage-label {
   display: block;
   margin-top: 10px;
   font-size: 12px;
 }
+
 .progressAnnular {
   display: inline-block;
 }
+
 .progressAnnular .annularText {
   display: block;
   text-align: center;
   margin-top: 30px;
-}
-</style>
+}</style>

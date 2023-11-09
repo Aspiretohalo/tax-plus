@@ -62,8 +62,6 @@ import TopNav from '../../components/TopNav.vue'
 
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
-
-
 </script>
 
 <style lang="scss" scoped>

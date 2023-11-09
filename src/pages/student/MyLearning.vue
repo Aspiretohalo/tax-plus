@@ -133,11 +133,7 @@ const courseData: any = ref()
 
 </script>
 
-<style  scoped>
-.main {
-  /* padding-left: 15px; */
-}
-
+<style lang="scss" scoped>
 .icon {
   display: block;
   margin: 0 auto;
@@ -146,7 +142,7 @@ const courseData: any = ref()
 .table {
   position: absolute;
   top: 140px;
-  width: 56%;
+  width: 50%;
   border-radius: 10px;
 }
 
@@ -158,7 +154,7 @@ div {
   display: inline-block;
 }
 
-::v-deep .el-aside {
+:deep(.el-aside) {
   width: 258px
 }
 </style>

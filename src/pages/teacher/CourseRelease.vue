@@ -205,11 +205,11 @@ const rules = reactive({
 </script>
 
 <style  scoped>
-::v-deep .el-aside {
+:deep(.el-aside) {
   width: 258px;
 }
 
-::v-deep .el-form-item__label {
+:deep(.el-form-item__label) {
   font-family: 'Hiragino Sans GB';
   font-size: 2ch;
   height: 50px;
@@ -220,7 +220,7 @@ const rules = reactive({
 }
 
 
-::v-deep .el-input__wrapper {
+:deep(.el-input__wrapper) {
   height: 50px;
 }
 
@@ -232,7 +232,8 @@ const rules = reactive({
 .box-card {
   /* position: relative; */
   position: absolute;
-  width: 80%;
+  margin-top: 20px;
+  width: 1100px;
   border-radius: 15px;
 }
 
