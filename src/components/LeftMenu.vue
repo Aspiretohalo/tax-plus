@@ -3,11 +3,16 @@
     <h3>学员学习平台</h3>
     <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo">
-        <el-icon class="icon">
+        <!-- <el-icon class="icon">
           <component :is="item.icon"></component>
-        </el-icon>
+        </el-icon> -->
+        <img :src="item.icon" style="width: 32px;height: 32px;">
         <span>{{ item.name }}</span>
       </el-menu-item>
+      <img src="src/assets/icon/在线课程/在线课程 (1) (1).svg" style="width: 40px;height: 40px;">
+      <img src="src/assets/icon/我的学习/我的学习.svg" style="width: 40px;height: 40px;">
+      <img src="src/assets/icon/讨论社区/讨论区.svg" style="width: 40px;height: 40px;">
+      <img src="src/assets/icon/AI助手/智能助手.svg" style="width: 40px;height: 40px;">
 
     </el-menu>
   </div>
@@ -31,11 +36,11 @@ import { reactive } from 'vue'
 // const router = useRouter()
 
 const menuDemo = reactive([
-  { name: '我的学习', index: 1, icon: 'User', router: '/myLearning' },
+  { name: '我的学习', index: 1, icon: 'C:/Users/zjt/Desktop/tax-plus/tax-plus/tax-plus/src/assets/icon/在线课程/在线课程 (1) (1).svg', router: '/myLearning' },
   // { name: '直播课', index: 2, icon: 'VideoPlay', router: '/living' },
-  { name: '在线课程及回放', index: 3, icon: 'Monitor', router: '/course' },
-  { name: '讨论', index: 4, icon: 'ChatDotSquare', router: '/community' },
-  { name: 'AI助手', index: 5, icon: 'Service', router: '/asistant' },
+  { name: '在线课程', index: 3, icon: 'C:/Users/zjt/Desktop/tax-plus/tax-plus/tax-plus/src/assets/icon/在线课程/在线课程 (1).svg', router: '/course' },
+  { name: '学习社区', index: 4, icon: '../assets/icon/我的学习/我的学习.svg', router: '/community' },
+  { name: '智能助手', index: 5, icon: '../assets/icon/我的学习/我的学习.svg', router: '/asistant' },
 ])
 
 
