@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card user">
       <div class="userMsg items-center">
-        <el-avatar class="mr-3" :size="46" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+        <el-avatar class="mr-3" :size="46" :src="student.avatar" />
         <span class="text-large font-600 mr-3"> {{ student.student_name }} </span>
         <el-tag>学员</el-tag>
       </div>
@@ -32,8 +32,7 @@
       </template>
       <div class="text item" v-for="item in evaluationData" :key="item.evaluation_id">
         <div class="commentLeft">
-          <el-avatar :size="32"> <el-avatar :size="36"
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" /></el-avatar>
+          <el-avatar :size="32"> <el-avatar :size="36" :src="item.avatar" /></el-avatar>
           <span style="display: inline-block; margin-left: 10px">{{ item.student_name }}</span>
           <el-tag class="studentTag">学员</el-tag>
           <el-rate v-model="item.evaluation_stars" disabled size="large" :colors="colors" />
