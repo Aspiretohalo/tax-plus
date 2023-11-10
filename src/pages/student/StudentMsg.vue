@@ -1,41 +1,42 @@
 <template>
-  <div> <el-container>
+  <div>
+    <el-container>
       <el-header>
         <TopNav></TopNav>
       </el-header>
-      <el-container style="display:flex">
+      <el-container style="display: flex">
         <el-aside>
           <LeftMenuStudentMsg></LeftMenuStudentMsg>
         </el-aside>
         <el-main class="main">
-          <div style="width:100%">
+          <div style="width: 100%">
             <div class="Msgbackground">
-              <img src="src\assets\imgs\Msgbackground.png" alt="cover">
+              <img src="src\assets\imgs\Msgbackground.png" alt="cover" />
             </div>
             <div class="bgavatar">
               <div class="imgbox">
-                <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+                <img class="imgtip" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
               </div>
             </div>
             <div>
-              <span class="bgname" style="margin-left: 55px;">{{ student.student_name }}</span>
+              <span class="bgname" style="margin-left: 55px">{{ student.student_name }}</span>
             </div>
             <el-col :span="6">
-              <el-row :gutter="12" style="margin-top:30px;">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>手机号：</span></div>
+                  <div style="text-align: right; color: gray"><span>手机号：</span></div>
                 </el-col>
                 <el-col :span="16">{{ student.phone_number }}</el-col>
               </el-row>
-              <el-row :gutter="12" style="margin-top:30px;">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>email：</span></div>
+                  <div style="text-align: right; color: gray"><span>email：</span></div>
                 </el-col>
                 <el-col :span="16">{{ student.email }}</el-col>
               </el-row>
-              <el-row :gutter="12" style="margin-top:30px;">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>身份：</span></div>
+                  <div style="text-align: right; color: gray"><span>身份：</span></div>
                 </el-col>
                 <el-col :span="16">
                   <el-tag class="role" size="large">学员</el-tag>
@@ -49,6 +50,25 @@
             </el-row> -->
             </el-col>
           </div>
+          <div class="badge-wall">
+            <h2 class="badge-wall-title">勋章墙</h2>
+            <!-- Your badge wall content goes here -->
+            <div class="badge-slot">
+              <img src="src/assets/icon/5.svg" alt="Badge 1" class="badge-image" />
+            </div>
+            <!-- Badge Slot 2 -->
+            <div class="badge-slot">
+              <img src="src/assets/icon/3.svg" alt="Badge 2" class="badge-image" />
+            </div>
+            <!-- Badge Slot 3 -->
+            <div class="badge-slot">
+              <img src="src/assets/icon/2.svg" alt="Badge 3" class="badge-image" />
+            </div>
+            <!-- Badge Slot 4 -->
+            <div class="badge-slot">
+              <img src="src/assets/icon/1.svg" alt="Badge 4" class="badge-image" />
+            </div>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -56,17 +76,68 @@
 </template>
 
 <script lang="ts" setup>
-import LeftMenuStudentMsg from '../../components/LeftMenuStudentMsg.vue';
-import { ref } from 'vue'
-import TopNav from '../../components/TopNav.vue'
+import LeftMenuStudentMsg from "../../components/LeftMenuStudentMsg.vue";
+import { ref } from "vue";
+import TopNav from "../../components/TopNav.vue";
 
-const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
-
+const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
 </script>
 
 <style lang="scss" scoped>
 body {
   background-color: #fff;
+}
+
+/* Add styles for the badge wall */
+.badge-wall {
+  position: fixed;
+  top: 400px;
+  /* Adjust the distance from the top as needed */
+  right: 900px;
+  /* Adjust the distance from the right as needed */
+  width: 300px;
+  /* Adjust the width as needed */
+  height: 300px;
+  /* Maintain the same value as width for a square shape */
+  background: linear-gradient(45deg, #e6e6fa, #977AFF);
+  /* Light purple gradient background */
+
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  /* Adjust the radius as needed for rounded corners */
+  z-index: 1000;
+  /* Ensure the badge wall is above other elements */
+  color: #333;
+  /* Set text color to a darker shade for better contrast */
+}
+
+.badge-wall-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.badge-slots {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.badge-slot {
+  width: 60px;
+  /* Adjust the width of each badge slot */
+  height: 60px;
+  /* Adjust the height of each badge slot */
+  border-radius: 8px;
+  /* Adjust the border-radius for rounded corners */
+  overflow: hidden;
+}
+
+.badge-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .el-descriptions {
