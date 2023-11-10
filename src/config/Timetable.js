@@ -122,15 +122,15 @@ let weekCourse = [
 
 ]//课程详细信息
 let colorList = [
-    "#4BBDEE",
-    "#E86EEB",
-    "#4BBDEE",
-    "#13DAC2",
-    "#7464FB",
-    "#F18141",
-    "#57C946",
-    "#E8BE2A",
-    "#508AFA",
+    "#F56C6C",
+    "#fab6b6",
+    "#409EFF",
+    "#67C23A",
+    "#E6A23C",
+    "#a18496",
+    "#9dc6b6",
+    "#b0ced6",
+    "#d2b9b2",
 ]
 export {
     weekCourse, colorList

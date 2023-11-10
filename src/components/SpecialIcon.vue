@@ -8,6 +8,7 @@
             </li>
         </ul>
         <el-drawer v-model="drawer1" title="今日任务" direction="rtl" size="30%">
+            <div class="amount">总积分: <span style="color:#E6A23C;">100</span></div>
             <el-card class="box-card" v-for="item in tasks" :key="item.task_id">
                 <div id="checklist">
                     <input :id="item.task_id.toString()" type="checkbox" name="r" value="1" :checked="item.hasReceived"
@@ -15,11 +16,16 @@
                     <label :for="item.task_id.toString()">{{ item.task_content }}</label>
                     <el-button v-if="!item.hasReceived" @click="handleReceived()" type="warning"
                         style="position: absolute; right: 20px;" :disabled="!item.hasDone">领取</el-button>
+                    <span class="integration">
+                        <img src="../assets/logo/金币.svg" alt="" style=" width: 24px;height: 24px;">
+                        <span class="integration_number">+10</span>
+                    </span>
                 </div>
+
             </el-card>
         </el-drawer>
         <el-drawer v-model="drawer2" title="课程表" direction="rtl" size="30%">
-
+            <Schedule></Schedule>
         </el-drawer>
         <el-drawer v-model="drawer3" title="AI助手" direction="rtl" size="30%">
 
@@ -28,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import Schedule from './Schedule.vue'
 import { ref } from 'vue'
 import { ElDrawer } from 'element-plus'
 
@@ -83,6 +90,32 @@ const showDrawer = (index: number) => {
 
     :deep(.el-card__body) {
         padding: 0;
+    }
+
+    .integration {
+        position: relative;
+        margin-left: 30px;
+        margin-top: 10px;
+
+        img {
+            position: absolute;
+            z-index: 10;
+
+        }
+
+        .integration_number {
+            background-color: #faecd8;
+            padding-left: 4px;
+            padding-right: 3px;
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            font-size: 14px;
+            color: #E6A23C;
+            position: absolute;
+            left: 20px;
+            top: 2px;
+            z-index: 9;
+        }
     }
 }
 

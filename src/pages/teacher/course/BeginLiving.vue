@@ -3,60 +3,46 @@
         <el-card class="box-card welcomeCard">
             <span class="welcome">提示： </span>
             <el-text class="mx-1" type="primary">点击右侧按钮跳转直播间，创建房间后将房间号发布</el-text>
-            <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">前往直播间</el-button>
+            <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">开始直播</el-button>
         </el-card>
         <el-card class="box-card notice">
             <template #header>
                 <div class="card-header">
-                    <h3>发布直播公告</h3>
+                    <h3>直播公告</h3>
                 </div>
             </template>
-            <el-form :model="form" label-width="120px">
-                <el-form-item label="房间名">
-                    <el-input v-model="form.name" style="width: 300px;" />
-                </el-form-item>
-                <el-form-item label="直播简述">
-                    <el-input v-model="form.desc" type="textarea" style="width: 500px;" />
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit">创建</el-button>
-                    <el-button>取消</el-button>
-                </el-form-item>
-            </el-form>
+            <div class="text item" v-for="item in LivingNotices">
+                <h4>{{ item.living_course_name }}</h4>
+                <div class="link">
+                    前往直播间：<el-link type="warning">{{ item.meeting_id }}</el-link>
+                </div>
+                <el-text class="mx-1" type="info">
+                    {{ item.living_course_description }}
+                </el-text>
+
+                <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+            </div>
         </el-card>
     </div>
 </template>
   
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
 const courseId = ref(route.params.courseId)
 
 onMounted(async () => {
-    await getNotice(courseId.value)
+    await getLivingNotice(courseId.value)
 })
 
-// do not use same name with ref
-const form = reactive({
-    name: '',
-
-    desc: '',
-})
-
-const onSubmit = () => {
-    console.log('submit!')
-}
-
-const getNotice = async (value: any) => {
+const getLivingNotice = async (value: any) => {
     try {
-        const response = await myAxios.get('/course/getNotice', {
+        const response = await myAxios.get('/getLivingNotice', {
             params: {
                 course_id: value
             },
@@ -65,22 +51,21 @@ const getNotice = async (value: any) => {
             }
         });
         // 处理响应数据
-        state.notices = response.data
-        sessionStorage.setItem('notices', JSON.stringify(state.notices))
-        const coursesString = sessionStorage.getItem('notices');
+        state.LivingNotices = response.data
+        sessionStorage.setItem('LivingNotices', JSON.stringify(state.LivingNotices))
+        const coursesString = sessionStorage.getItem('LivingNotices');
         if (coursesString) {
-            noticeData.value = JSON.parse(coursesString)
+            LivingNotices.value = JSON.parse(coursesString)
         }
-
-
     } catch (error) {
         console.error('获取公告信息失败', error);
     }
 };
-const noticeData: any = ref()
+const LivingNotices: any = ref()
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
 const goToLivingModel = () => {
-    router.push(`/courseId/${courseId.value}/livingModelTeacher`)
+    window.open(`http://localhost:3000?ifStudent=${0}&courseId=${courseId.value}&name=${teacher.value.teacher_name}&course_teacher=${teacher.value.teacher_id}`, '_blank');
 }
 
 </script>

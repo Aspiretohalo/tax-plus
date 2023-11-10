@@ -1,6 +1,6 @@
 <template>
   <div class="timetable w100 h100">
-    <div class="time-b w100">
+    <!-- <div class="time-b w100">
       <el-button @click="goBack()" class="returnBtn" type="primary">返回主页</el-button>
 
       <div class="time-detail">{{ startTime }} - {{ endTime }}</div>
@@ -11,51 +11,70 @@
           <el-button type="primary" icon="el-icon-arrow-right" @click="changeCount(-1), getWeek(count)"></el-button>
         </el-button-group>
       </div>
-    </div>
+    </div> -->
     <div class="timetable-b w100">
       <table class="timetable-content w100">
-        <thead>
+        <thead style="height: 50px;">
           <tr>
             <th></th>
             <th v-for="(item1, index1) in weeks" :key="index1">
-              {{ '周' + numberToChinease(item1 + 1, 'week') }}
+              {{ numberToChinease(item1 + 1, 'week') }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item2, index2) in maxCourseLength" :key="index2">
             <td>
-              <p>{{ '第' + numberToChinease(item2) + '节' }}</p>
+              <!-- <p>{{ numberToChinease(item2) }}</p> -->
               <p>{{ timeList[item2 - 1].time }}</p>
             </td>
             <template v-for="(item3, index3) in weeks" :key="index3">
-              <td
+              <td @click="handleChooseCourse()" class="course"
                 :rowspan="showData(index3, index2 + 1).subject && showData(index3, index2).subject === showData(index3, index2 + 1).subject ? 2 : ''"
                 :style="[
                   {
                     display:
                       showData(index3, index2 - 1).subject && showData(index3, index2 - 1).subject === showData(index3, index2).subject ? 'none' : '',
                   },
-                ]"
-              >
-                <div
-                  class="dmsjandjs-b"
-                  :style="[
-                    {
-                      background: showData(index3, index2).index ? getRandomColor() : '#FFFFFF',
-                    },
-                    { color: '#fff' },
-                    { borderRadius: '15px' },
-                    { padding: '12px' },
-                    { height: '100px' },
-                  ]"
-                >
+                ]">
+                <div class="dmsjandjs-b" :style="[
+                  {
+                    background: showData(index3, index2).index ? getRandomColor() : '#FFFFFF',
+                  },
+                  { color: '#fff' },
+                  { borderRadius: '15px' },
+                  { padding: '12px' },
+                  { height: '100px' },
+                ]">
                   <p>{{ showData(index3, index2).subject }}</p>
                 </div>
               </td>
             </template>
           </tr>
         </tbody>
+        <el-dialog v-model="dialogVisible" title="选择课程" width="30%" :before-close="handleClose">
+          <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in selectedCourses">
+            <div style="padding: 14px">
+
+              <div style=" margin-top: 5px;text-align: left;">
+                <span style="color: #73767a;">课程：</span>
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.course_name
+                }}</span>
+              </div>
+              <div class="bottom" style="text-align: left;">
+                <span style="color: #73767a;">教师：</span>{{ item.teacher_name }}
+              </div>
+            </div>
+          </el-card>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="dialogVisible = false">取消</el-button>
+              <el-button type="primary" @click="dialogVisible = false">
+                确定
+              </el-button>
+            </span>
+          </template>
+        </el-dialog>
       </table>
     </div>
   </div>
@@ -63,8 +82,8 @@
  
 <script>
 import moment from 'moment'
-import { weekCourse, colorList } from '../../config/Timetable'
-import { reactive } from 'vue'
+import { weekCourse, colorList } from '../config/Timetable'
+import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default {
@@ -75,9 +94,24 @@ export default {
       router.push('/')
     }
     const timeList = reactive([{ time: '9:00-11:00' }, { time: '13:00-15:00' }, { time: '17:30-19:30' }, { time: '20:30-22:30' }])
+
+    const dialogVisible = ref(false)
+    const handleChooseCourse = () => {
+      dialogVisible.value = true
+    }
+
+    const selectedCourses = [
+      {
+        course_name: '爱神的箭阿萨德就',
+        teacher_name: '小黄'
+      }
+    ]
     return {
       timeList,
       goBack,
+      dialogVisible,
+      handleChooseCourse,
+      selectedCourses,
     }
   },
   data() {
@@ -212,23 +246,24 @@ export default {
  
 <style scoped lang="scss">
 .timetable {
-  margin-left: 180px;
   background-color: #f1f7ff;
-  .w100 {
-    width: 1200px;
-  }
+
   .h100 {
-    height: 100%;
+    height: 500px;
   }
+
   .time-b {
+
     .returnBtn {
       margin-left: 20px;
     }
+
     height: 46px;
     // margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .time-detail {
       color: #333333;
       font-weight: 700;
@@ -236,11 +271,13 @@ export default {
       font-family: 'Microsoft YaHei';
     }
   }
+
   .timetable-b {
     // height: 1207px;
     height: 100%;
     background-color: #fff;
     overflow: hidden;
+
     .timetable-content {
       height: 100%;
       table-layout: fixed;
@@ -251,18 +288,25 @@ export default {
       font-size: 18px;
 
       thead {
+
         height: 100px;
 
         th {
           border: 2px solid rgba(27, 100, 240, 0.1);
         }
       }
+
       tbody {
         height: calc(100% - 2px) / 7;
 
+        .course {
+          cursor: pointer;
+        }
+
         td {
-          padding: 12px;
+          // padding: 12px;
           border: 2px solid rgba(27, 100, 240, 0.1);
+
           .dmsjandjs-b {
             display: flex;
             flex-direction: column;
@@ -271,9 +315,17 @@ export default {
           }
         }
       }
+
+      :deep(.el-dialog) {
+        margin-right: 5%;
+        width: 20%;
+        border-radius: 15px;
+        padding: 20px;
+      }
     }
   }
 }
+
 ::v-deep {
   .time-controller {
     .el-button-group {
@@ -286,6 +338,7 @@ export default {
         border-radius: 55px;
         color: #1b64f0;
       }
+
       :nth-child(2) {
         margin: 0px 12px;
       }

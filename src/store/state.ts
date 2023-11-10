@@ -12,4 +12,5 @@ export default {
     discussion: [],
     subDiscussion: [],
     singleCourse: [],
+    LivingNotices: [],
 }

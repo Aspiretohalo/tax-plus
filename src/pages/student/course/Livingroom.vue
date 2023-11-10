@@ -3,7 +3,6 @@
     <el-card class="box-card welcomeCard">
       <span class="welcome">提示： </span>
       <el-text class="mx-1" type="primary">在下列直播公告中复制房间号，点击右侧按钮跳转</el-text>
-      <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">前往直播间</el-button>
     </el-card>
     <el-card class="box-card notice">
       <template #header>
@@ -11,11 +10,15 @@
           <h3>直播公告</h3>
         </div>
       </template>
-      <div class="text item" v-for="notice in noticeData">
-        <h4>{{ notice.notice_title }}</h4>
+      <div class="text item" v-for="item in LivingNotices">
+        <h4>{{ item.living_course_name }}</h4>
+        <div class="link">
+          前往直播间：<el-link type="warning" @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
+        </div>
         <el-text class="mx-1" type="info">
-          {{ notice.notice_text }}
+          {{ item.living_course_description }}
         </el-text>
+
         <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
       </div>
 
@@ -27,19 +30,19 @@
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
+// const router = useRouter()
 const courseId = ref(route.params.courseId)
 
 onMounted(async () => {
-  await getNotice(courseId.value)
+  await getLivingNotice(courseId.value)
 })
 
-const getNotice = async (value: any) => {
+const getLivingNotice = async (value: any) => {
   try {
-    const response = await myAxios.get('/course/getNotice', {
+    const response = await myAxios.get('/getLivingNotice', {
       params: {
         course_id: value
       },
@@ -48,22 +51,21 @@ const getNotice = async (value: any) => {
       }
     });
     // 处理响应数据
-    state.notices = response.data
-    sessionStorage.setItem('notices', JSON.stringify(state.notices))
-    const coursesString = sessionStorage.getItem('notices');
+    state.LivingNotices = response.data
+    sessionStorage.setItem('LivingNotices', JSON.stringify(state.LivingNotices))
+    const coursesString = sessionStorage.getItem('LivingNotices');
     if (coursesString) {
-      noticeData.value = JSON.parse(coursesString)
+      LivingNotices.value = JSON.parse(coursesString)
     }
-
-
   } catch (error) {
     console.error('获取公告信息失败', error);
   }
 };
-const noticeData: any = ref()
+const LivingNotices: any = ref()
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
-const goToLivingModel = () => {
-  router.push(`/courseId/${courseId.value}/livingModel`)
+const goToLivingModel = (value: string) => {
+  window.open(`http://localhost:3000?ifStudent=${1}&courseId=${courseId.value}&name=${student.value.student_name}&meeting_id=${value}`, '_blank');
 }
 </script>
 
