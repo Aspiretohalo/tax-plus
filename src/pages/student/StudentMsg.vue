@@ -42,35 +42,22 @@
                   <el-tag class="role" size="large">学员</el-tag>
                 </el-col>
               </el-row>
-              <!-- <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>个人介绍：</span></div>
-              </el-col>
-              <el-col :span="16">对方很懒没留下什么</el-col>
-            </el-row> -->
             </el-col>
+            <div style="height: 200px;width: 100%;"></div>
+
           </div>
           <div class="badge-wall">
             <h2 class="badge-wall-title">勋章墙</h2>
             <!-- Your badge wall content goes here -->
-            <div class="badge-slot">
-              <img src="src/assets/icon/5.svg" alt="Badge 1" class="badge-image" />
+            <div class="badge-slot" v-for="item in badge">
+              <img :src="item.badge_url" alt="Badge 1" class="badge-image" />
             </div>
-            <!-- Badge Slot 2 -->
-            <div class="badge-slot">
-              <img src="src/assets/icon/3.svg" alt="Badge 2" class="badge-image" />
-            </div>
-            <!-- Badge Slot 3 -->
-            <div class="badge-slot">
-              <img src="src/assets/icon/2.svg" alt="Badge 3" class="badge-image" />
-            </div>
-            <!-- Badge Slot 4 -->
-            <div class="badge-slot">
-              <img src="src/assets/icon/1.svg" alt="Badge 4" class="badge-image" />
-            </div>
+            <el-pagination class="pagination" layout="prev, pager, next" :total="50" />
           </div>
+
         </el-main>
       </el-container>
+
     </el-container>
   </div>
 </template>
@@ -80,78 +67,89 @@ import LeftMenuStudentMsg from "../../components/LeftMenuStudentMsg.vue";
 import { ref } from "vue";
 import TopNav from "../../components/TopNav.vue";
 
+const badge = [
+  {
+    badge_url: 'src/assets/icon/1.svg'
+  }, {
+    badge_url: 'src/assets/icon/2.svg'
+  }, {
+    badge_url: 'src/assets/icon/3.svg'
+  }, {
+    badge_url: 'src/assets/icon/5.svg'
+  }, {
+    badge_url: 'src/assets/icon/1.svg'
+  }, {
+    badge_url: 'src/assets/icon/2.svg'
+  }, {
+    badge_url: 'src/assets/icon/3.svg'
+  }, {
+    badge_url: 'src/assets/icon/5.svg'
+  }
+]
 const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
 </script>
 
 <style lang="scss" scoped>
 body {
   background-color: #fff;
+
 }
 
-/* Add styles for the badge wall */
 .badge-wall {
-  position: fixed;
+  position: absolute;
   top: 400px;
-  /* Adjust the distance from the top as needed */
-  right: 900px;
-  /* Adjust the distance from the right as needed */
-  width: 300px;
-  /* Adjust the width as needed */
-  height: 300px;
-  /* Maintain the same value as width for a square shape */
+  right: 100px;
+  width: 600px;
+  // height: 300px;
   background: linear-gradient(45deg, #e6e6fa, #977AFF);
-  /* Light purple gradient background */
-
   padding: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  /* Adjust the radius as needed for rounded corners */
   z-index: 1000;
-  /* Ensure the badge wall is above other elements */
   color: #333;
-  /* Set text color to a darker shade for better contrast */
-}
 
-.badge-wall-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  text-align: center;
-}
+  .pagination {
+    margin: 0 auto;
+    width: 224px;
+    margin-top: 30px;
+    --el-pagination-bg-color: transparent;
+    --el-pagination-button-disabled-bg-color: transparent;
+  }
 
-.badge-slots {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+  .badge-wall-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 
-.badge-slot {
-  width: 60px;
-  /* Adjust the width of each badge slot */
-  height: 60px;
-  /* Adjust the height of each badge slot */
-  border-radius: 8px;
-  /* Adjust the border-radius for rounded corners */
-  overflow: hidden;
-}
+  .badge-slot {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin-left: 40px;
+    margin-top: 30px;
+    border-radius: 8px;
+    overflow: hidden;
 
-.badge-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    .badge-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }
 
 .el-descriptions {
   margin-top: 20px;
 }
 
-::v-deep .el-main {
+:deep(.el-main) {
   --el-main-padding: 0px background-color: #f9f9f9;
 }
 
-::v-deep .el-col-6 {
+:deep(.el-col-6) {
   padding-left: 80px;
 }
-
 
 .Msgbackground {
   flex: 1;
@@ -173,8 +171,6 @@ body {
   width: 100%;
   height: fit-content;
 }
-
-
 
 .bgname {
   padding-left: 85px;

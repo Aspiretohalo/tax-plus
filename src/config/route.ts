@@ -11,12 +11,10 @@ import CourseJoin from '../pages/student/CourseJoin.vue'
 import CourseDetails from '../pages/student/CourseDetails.vue'
 import Notice from '../pages/student/course/Notice.vue'
 import Livingroom from '../pages/student/course/Livingroom.vue'
-import LivingModel from '../pages/student/course/LivingModel.vue'
 import Progress from '../pages/student/course/Progress.vue'
 import CourseVideo from '../pages/student/course/CourseVideo.vue'
 import Data from '../pages/student/course/Data.vue'
 import Evaluation from '../pages/student/course/Evaluation.vue'
-import Comment from '../pages/student/course/Comment.vue'
 import CourseSelection from '../pages/student/course/CourseSelection.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
@@ -29,13 +27,11 @@ import CourseRelease from '../pages/teacher/CourseRelease.vue'
 import CourseDetailTeacher from '../pages/teacher/CourseDetailTeacher.vue'
 import CreateChapters from '../pages/teacher/course/CreateChapters.vue'
 import ManageNotice from '../pages/teacher/course/ManageNotice.vue'
-import ViewComments from '../pages/teacher/course/ViewComments.vue'
 import ViewEvaluations from '../pages/teacher/course/ViewEvaluations.vue'
 import ManageCourseData from '../pages/teacher/course/ManageCourseData.vue'
 import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 import DiscussionCommunityTeacher from '../pages/teacher/DiscussionCommunityTeacher.vue'
 import BeginLiving from '../pages/teacher/course/BeginLiving.vue'
-import LivingModelTeacher from '../pages/teacher/course/LivingModelTeacher.vue'
 import PersonalCommunityTeacher from '../pages/teacher/PersonalCommunityTeacher.vue'
 
 const routes = [
@@ -64,10 +60,7 @@ const routes = [
                 path: 'livingroom',
                 component: Livingroom,
             },
-            {
-                path: 'livingModel',
-                component: LivingModel,
-            },
+
             {
                 path: 'progress',
                 component: Progress,
@@ -89,10 +82,7 @@ const routes = [
                 path: 'evaluation',
                 component: Evaluation,
             },
-            {
-                path: 'comment',
-                component: Comment,
-            },
+
         ],
     },
     { path: '/personalCommunityStudent', component: PersonalCommunityStudent },
@@ -110,10 +100,7 @@ const routes = [
                 path: 'manageNotice',
                 component: ManageNotice,
             },
-            {
-                path: 'viewComments',
-                component: ViewComments,
-            },
+
             {
                 path: 'viewEvaluations',
                 component: ViewEvaluations,
@@ -126,10 +113,7 @@ const routes = [
                 path: 'beginLiving',
                 component: BeginLiving,
             },
-            {
-                path: 'livingModelTeacher',
-                component: LivingModelTeacher,
-            },
+
         ]
     },
     { path: '/communityTeacher', component: DiscussionCommunityTeacher },

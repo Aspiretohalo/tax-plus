@@ -119,7 +119,7 @@ h6 {
   margin-bottom: 20px;
 }
 
-::v-deep .el-card__body {
+:deep(.el-card__body) {
   padding-left: 0;
   padding-right: 0;
 }

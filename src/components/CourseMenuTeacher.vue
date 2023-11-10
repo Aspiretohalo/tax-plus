@@ -35,7 +35,6 @@ const courseMenuData = reactive([
   { name: '管理章节', index: 3, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%AB%A0%E8%8A%82.svg', router: `/courseId/${courseId.value}/createChapters` },
   { name: '管理资料', index: 4, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99.svg', router: `/courseId/${courseId.value}/manageCourseData` },
   { name: '查看评价', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg', router: `/courseId/${courseId.value}/viewEvaluations` },
-  { name: '讨论区', index: 6, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AE%A8%E8%AE%BA.svg', router: `/courseId/${courseId.value}/viewComments` },
 ])
 </script>
 

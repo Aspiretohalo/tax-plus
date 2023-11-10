@@ -9,10 +9,10 @@
                     <el-button type="primary" @click="dialogFormVisible = true">新建公告</el-button>
                     <el-dialog v-model="dialogFormVisible" title="新建公告">
                         <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
-                            <el-form-item label="公告标题" :label-width="formLabelWidth" prop="notice_title">
+                            <el-form-item label="公告标题" prop="notice_title">
                                 <el-input v-model="form.notice_title" autocomplete="off" />
                             </el-form-item>
-                            <el-form-item label="公告内容" :label-width="formLabelWidth" prop="notice_text">
+                            <el-form-item label="公告内容" prop="notice_text">
                                 <el-input v-model="form.notice_text" autocomplete="off" type="textarea" />
                             </el-form-item>
                         </el-form>
@@ -51,7 +51,6 @@ onMounted(async () => {
 })
 
 const dialogFormVisible = ref(false)
-const formLabelWidth = '140px'
 
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 const form = reactive({
@@ -146,6 +145,11 @@ h6 {
     margin-top: 0;
 }
 
+:deep(.el-dialog) {
+    padding: 10px 25px;
+    border-radius: 15px;
+}
+
 .box-card {
     position: relative;
     margin-top: 20px;
@@ -194,7 +198,7 @@ h6 {
     margin-bottom: 20px;
 }
 
-::v-deep .el-card__body {
+:deep(.el-card__body) {
     padding-left: 0;
     padding-right: 0;
 }

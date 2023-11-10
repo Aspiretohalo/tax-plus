@@ -397,14 +397,15 @@ h6 {
   margin: 20px 0;
 }
 
+:deep(.el-dialog) {
+  padding: 10px 25px;
+  border-radius: 15px;
+}
+
 .box-card {
   margin-top: 20px;
   width: 1100px;
   border-radius: 15px;
-}
-
-::v-deep .el-dialog {
-  --el-dialog-border-radius: 15px;
 }
 
 .welcomeCard {

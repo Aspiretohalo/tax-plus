@@ -1,21 +1,21 @@
 <template>
   <div class="upcoming">
     <h2 class="pl">直播课即将开始</h2>
-    <el-row v-for="(o, index) in 4" :key="o" :span="8" :offset="index > 0 ? 1 : 0">
+    <el-row v-for="item in allLivingCourses" :key="item.living_course_id" :span="8">
       <el-col style="margin-top: 5px;">
         <el-card :body-style="{ padding: '0px' }" class="card-circle">
           <div style="padding: 14px">
-            <span> <el-avatar :size="50"
-                src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/12aa700f-8cad-43b4-8f9b-827d1f13b997.jpg " />
+            <span> <el-avatar :size="50" :src="item.avatar" />
             </span>
-            <p class="course_name">科爱克发卡就卡放大放假阿卡卡的积分卡的发达1</p>
+            <p class="course_name">{{ item.living_course_name }}</p>
             <div style="font-size: small; margin-top: 5px;">
-              教师：<span style="color: #73767a;">九块九阿昆达</span>
+              教师：<span style="color: #73767a;">{{ item.teacher_name }}</span>
               <span class="time" style="float: right;">{{ livingTime }}</span>
             </div>
             <div class="bottom">
               <span style="font-size: small;">归属课程：<span
-                  style="color: #73767a;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">爱神的箭阿萨德就</span></span>
+                  style="color: #73767a;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{
+                    item.course_name }}</span></span>
               <el-button text class="button" type="primary">前往</el-button>
             </div>
           </div>
@@ -26,9 +26,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import myAxios from '../plugins/myAxios'
+import state from '../store/state'
 
 const livingTime = ref("11-8 12:30")
+
+onMounted(async () => {
+  await getAllLivingCourses()
+})
+
+const getAllLivingCourses = async () => {
+  try {
+    const response = await myAxios.get('/getAllLivingCourses', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.allLivingCourses = response.data
+    sessionStorage.setItem('allLivingCourses', JSON.stringify(state.allLivingCourses))
+    const coursesString = sessionStorage.getItem('allLivingCourses');
+    if (coursesString) {
+      allLivingCourses.value = JSON.parse(coursesString)
+    }
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
+const allLivingCourses: any = ref()
+
 </script>
 
 <style lang="scss" scoped>
