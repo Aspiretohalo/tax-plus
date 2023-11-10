@@ -22,6 +22,7 @@ import CourseSelection from '../pages/student/course/CourseSelection.vue'
 import Detail from '../pages/student/course/Detail.vue'
 import StudentMsg from '../pages/student/StudentMsg.vue'
 import PersonalCommunityStudent from '../pages/student/PersonalCommunityStudent.vue'
+import IntegrationStore from '../pages/student/IntegrationStore.vue'// 导入积分商城的组件
 
 //teacher
 import CourseManage from '../pages/teacher/CourseManage.vue'
@@ -137,6 +138,7 @@ const routes = [
     { path: '/studentMsg', component: StudentMsg },
     { path: '/teacherMsg', component: TeacherMsg },
     { path: '/personalCommunityTeacher', component: PersonalCommunityTeacher },
+    { path: '/integrationStore', component: IntegrationStore }, // 添加积分商城的路由配置
 ]
 
 export default routes
