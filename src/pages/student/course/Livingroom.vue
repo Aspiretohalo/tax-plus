@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-card class="box-card welcomeCard">
+    <el-card class="box-card welcomeCard" shadow="never">
       <span class="welcome">提示： </span>
       <el-text class="mx-1" type="primary">在下列直播公告中复制房间号，点击右侧按钮跳转</el-text>
     </el-card>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>直播公告</h3>

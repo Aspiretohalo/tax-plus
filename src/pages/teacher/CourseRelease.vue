@@ -8,28 +8,19 @@
           <LeftMenuTeacher></LeftMenuTeacher>
         </el-aside>
         <el-main class="main">
-          <el-card class="box-card">
+          <el-card class="box-card" shadow="never">
             <el-form :rules="rules" :model="course" class="needlarge" label-width="120px" ref="ruleFormRef"
               :hide-required-asterisk="true">
+              <h2 style="margin-left: 20px;">填写课程信息</h2>
               <el-form-item label="课程名称" prop="course_name" text-align: center>
                 <el-input v-model="course.course_name" placeholder="填写课程名称" />
               </el-form-item>
               <el-form-item label="课程标签" prop="course_label">
-                <el-select multiple v-model="course.course_label" placeholder="选择标签" style="width: 360px">
-                  <el-option label="入门课程" value="入门课程" />
-                  <el-option label="初级课程" value="初级课程" />
-                  <el-option label="中级课程" value="中级课程" />
-                  <el-option label="高级课程" value="高级课程" />
-                  <el-option label="顶级课程" value="顶级课程" />
-                </el-select>
+                <el-select-v2 v-model="course.course_label" filterable :options="options" placeholder="选择标签"
+                  style="width: 300px;" multiple />
               </el-form-item>
-              <!-- <el-form-item label="课程时间">
-              <el-col :span="11">
-                <el-date-picker v-model="course.date1" type="datetime" placeholder="Select date and time" />
-              </el-col>
-            </el-form-item> -->
               <el-form-item label="老师">
-                <el-input v-model="course.course_teacher" disabled />
+                <el-input v-model="teacher.teacher_name" disabled />
               </el-form-item>
               <el-form-item label="上传封面">
                 <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
@@ -55,22 +46,21 @@
                       <el-text>{{ course.course_name }}</el-text>
                     </p>
                     <p>
-                      <el-text class="needgy">提交老师：</el-text>
-                      <el-text>{{ course.course_teacher }}</el-text>
+                      <el-text tag="b">提交老师：</el-text>
+                      <el-text>{{ teacher.teacher_name }}</el-text>
                     </p>
 
                     <p><el-text tag="b">课程标签：</el-text>
                       <el-text>{{ course.course_label }}</el-text>
                     </p>
-                    <!-- <p>
-                    <el-text tag="b">发布时间：</el-text>
-                    <el-text>{{ course.date1 }}</el-text>
-                  </p> -->
-
+                    <p>
+                      <el-text tag="b">课程简介：</el-text>
+                      <el-text>{{ course.course_description }}</el-text>
+                    </p>
                   </span>
                   <template #footer>
                     <span class="dialog-footer">
-                      <el-button @click="dialogVisible = false">取消</el-button>
+                      <el-button @click="dialogVisible = false" size="large">取消</el-button>
                       <el-button type="primary" @click="handleRelease()" size="large">
                         发布
                       </el-button>
@@ -99,16 +89,54 @@ import myAxios from '../../plugins/myAxios'
 const router = useRouter()
 const dialogVisible = ref(false)
 
+const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
+
 const course = reactive({
   course_name: '',
   course_label: '',
-  // date1: '',
+  teacher_name: '',
   course_url: '',
   course_description: '',
   course_teacher: 1,
 })
+const taxClassification: { classification: string; items: string[] }[] = [
+  {
+    classification: '个人所得税',
+    items: ['纳税义务人', '计税方法', '免税额', '税率表', '扣缴义务人', '申报纳税', '税务减免', '个税优惠政策', '个税申报流程']
+  },
+  {
+    classification: '企业所得税',
+    items: ['税务登记', '纳税申报', '利润分配', '税务优惠', '并购重组', '跨境税务', '税务筹划', '税务检查', '企业所得税汇算清缴']
+  }, {
+    classification: '增值税',
+    items: ['一般纳税人', '小规模纳税人', '税率', '进项税抵扣', '出口退税', '增值税发票', '跨境服务税收政策', '增值税优惠政策']
+  }, {
+    classification: '国税',
+    items: ['国内税收制度', '跨境税收政策', '对外税务合作', '税收征管']
+  }, {
+    classification: '地方税',
+    items: ['地方税种类', '地方税政策', '地方税收征管']
+  }, {
+    classification: '税务合规',
+    items: ['合规管理制度', '风险评估', '内部控制', '税务稽查', '违法处罚', '税务纠纷解决', '税务风险防范', '税务合规培训']
+  }, {
+    classification: '财务报表分析',
+    items: ['资产负债表', '利润表', '现金流量表', '财务比率分析', '财务报表解读', '财务预测', '财务报告编制', '会计准则遵循']
+  }, {
+    classification: '税务筹划',
+    items: ['个人税务筹划', '企业税务筹划', '跨境税务筹划', '税务优惠政策利用']
+  }]
 
-// const date1 = ref('')
+const options = Array.from({ length: 8 }).map((_, idx) => {
+  return {
+    value: `${taxClassification[idx].classification}`,
+    label: `${taxClassification[idx].classification}`,
+    options: Array.from({ length: taxClassification[idx].items.length }).map((_, innerIdx) => ({
+      value: `${taxClassification[idx].items[innerIdx]}`,
+      label: `${taxClassification[idx].items[innerIdx]}`,
+    })),
+  }
+})
 
 import type { UploadInstance } from 'element-plus'
 
@@ -121,16 +149,18 @@ const onSubmit = () => {
   uploadRef.value!.submit()
 }
 const handleRelease = async () => {
+  console.log(teacher.value.teacher_id);
+
   try {
     // 发布课程，即将课程信息传给后端，存入数据库
     let obj = {
       course_name: course.course_name,
       course_label: JSON.stringify(course.course_label),
-      // date1: course.date1,
       course_url: course.course_url,
       course_description: course.course_description,
-      course_teacher: 1,
+      course_teacher: teacher.value.teacher_id,
     }
+    console.log(obj);
     const response = await myAxios.post('/teacher/setCourse', JSON.stringify(obj), {
       headers: {
         'Content-Type': 'application/json'
@@ -209,6 +239,10 @@ const rules = reactive({
   width: 258px;
 }
 
+:deep(.el-input) {
+  width: 300px;
+}
+
 :deep(.el-form-item__label) {
   font-family: 'Hiragino Sans GB';
   font-size: 2ch;
@@ -219,15 +253,15 @@ const rules = reactive({
   flex-direction: column;
 }
 
-
 :deep(.el-input__wrapper) {
   height: 50px;
 }
 
-.needgy {
-  color: gray;
-  font-weight: 600;
+:deep(.el-dialog) {
+  border-radius: 15px;
+  padding: 20px;
 }
+
 
 .box-card {
   /* position: relative; */

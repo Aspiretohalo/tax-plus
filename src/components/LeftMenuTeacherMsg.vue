@@ -99,7 +99,7 @@ const handleClose = (key: string, keyPath: string[]) => {
     background-color: #f9f9f9;
 }
 
-::v-deep .el-card {
+:deep(.el-card) {
     position: absolute;
     bottom: 50px;
     left: 20px;

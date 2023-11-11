@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card user">
+    <el-card class="box-card user" shadow="never">
       <div class="userMsg items-center">
         <el-avatar class="mr-3" :size="46" :src="student.avatar" />
         <span class="text-large font-600 mr-3"> {{ student.student_name }} </span>
@@ -24,7 +24,7 @@
         </span>
       </template>
     </el-dialog>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>课程评价</h3>

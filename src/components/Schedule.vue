@@ -53,7 +53,7 @@
           </tr>
         </tbody>
         <el-dialog v-model="dialogVisible" title="选择课程" width="30%" :before-close="handleClose">
-          <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in selectedCourses">
+          <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in selectedCourses" shadow="never">
             <div style="padding: 14px">
 
               <div style=" margin-top: 5px;text-align: left;">

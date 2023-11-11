@@ -72,11 +72,11 @@ body {
   margin-top: 20px;
 }
 
-::v-deep .el-main {
+:deep(.el-main) {
   --el-main-padding: 0px background-color: #f9f9f9;
 }
 
-::v-deep .el-col-6 {
+:deep(.el-col-6) {
   padding-left: 80px;
 }
 

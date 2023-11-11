@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card">
+    <el-card class="box-card" shadow="never">
       <el-form :rules="rules" :model="form" label-width="120px" ref="ruleFormRef" :hide-required-asterisk="true">
         <el-form-item label="章节名称" prop="video_title">
           <el-input v-model="form.video_title" placeholder="填写章节名称" />
@@ -28,7 +28,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>已有章节</h3>

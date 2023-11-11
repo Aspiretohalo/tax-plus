@@ -7,7 +7,10 @@
         <el-aside>
           <LeftMenu></LeftMenu>
         </el-aside>
-        <el-main> AI助手 </el-main>
+        <el-main>
+          <iframe src="http://localhost:1002" frameborder="0" width="1200px" height="650px"
+            allow="midi;encrypted-media;display-capture;clipboard-write;clipboard-read;"></iframe>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -21,5 +24,9 @@ import TopNav from '../../components/TopNav.vue'
 <style  scoped>
 div {
   display: inline-block;
+}
+
+:deep(.el-main) {
+  padding: 0;
 }
 </style>

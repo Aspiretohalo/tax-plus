@@ -3,7 +3,7 @@
         <el-container>
             <el-main>
                 <div>
-                    <el-card class="box-card welcomeCard">
+                    <el-card class="box-card welcomeCard" shadow="never">
                         <el-page-header @back="onBack()">
                             <div style="height: 20px;"></div>
                         </el-page-header>
@@ -12,7 +12,7 @@
                             <div class="course_message" style="margin-left: 20px;">
                                 <h1>{{ singleCourse[0]?.course_name }}</h1>
                                 <el-tag style=" margin-right: 20px;margin-bottom: 20px;">初级课程</el-tag>
-                                <div class="detial">
+                                <div class="detail">
                                     <el-text class="text_course">
                                         开课时间: 2023-10-10
                                     </el-text>
@@ -114,10 +114,13 @@ h6 {
     position: relative;
 }
 
-.detial {
+.detail {
     width: 500px;
     height: 100px;
     background: #f4f4f5;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
 }
 
 :deep(.el-button) {

@@ -6,7 +6,7 @@
             </el-header>
             <el-container>
                 <el-main>
-                    <el-card class="box-card welcomeCard">
+                    <el-card class="box-card welcomeCard" shadow="never">
                         <div style="display: flex">
                             <div>
                                 <h1 style="font-size: 45px;">欢迎来到税学佳学习平台</h1>
@@ -27,7 +27,7 @@
                                     <el-button type="primary" round>
                                         进入课表
                                     </el-button>
-                                    <el-button type="primary" round>
+                                    <el-button type="primary" round @click="goToMyLearning()">
                                         立即学习
                                     </el-button>
                                 </div>
@@ -40,8 +40,28 @@
                                 </el-carousel>
                             </div>
                         </div>
-                        <div style="height: 50px;"></div>
                         <div>
+                            <h3 style="display: flex ;align-items: center">
+                                <el-icon style="font-size: 24px;color: #409EFF;">
+                                    <Notebook />
+                                </el-icon>智能推荐
+                            </h3>
+                            <div style="display: inline-block;" v-for="o in 5" :key="o">
+                                <el-card class="box-card recommendCard" shadow="never">
+                                    <img src="../assets/imgs/首页banner-餐饮.jpg" alt="" style="width: 100%;">
+                                </el-card>
+                                <div class="courseMsg">
+                                    <span style="font-size: large;">静安寺的教案设计</span>
+                                    <span>
+                                    </span>
+                                    <div style="margin-top: 10px; color: #b1b3b8;font-size: 14px;"> 小黄
+                                        <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div style="margin-top: 50px;">
                             <h3 style="display: flex ;align-items: center">
                                 <el-icon style="font-size: 24px;color: #409EFF;">
                                     <Grid />
@@ -66,33 +86,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 30px;"></div>
-                        <div>
-                            <h3 style="display: flex ;align-items: center">
-                                <el-icon style="font-size: 24px;color: #409EFF;">
-                                    <Notebook />
-                                </el-icon>智能推荐
-                            </h3>
-                            <div class="recommend" style="width: 1200px;position: relative;">
-                                <div class="recommendcard" style="width: 1200px;overflow: hidden;">
-                                    <ul class="recommendul" style="left: 0px; width: 2440px; height: 317px;">
-                                        <div class="recommendpage">
-                                            <div class="commonCourseCardItem">
-                                                <div class="_3KiL7 I5s2Q">
-                                                    <img src="src\assets\imgs\login_bg.png" style="width: 224px;">
-                                                    <div class="WFpCn" style="background: #afadad;">
-                                                        <h3>C语言程序设计进阶</h3>
-                                                        <p>浙江大学</p>
-                                                        <span>200人参加</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
                     </el-card>
                 </el-main>
             </el-container>
@@ -102,6 +97,13 @@
 
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const goToMyLearning = () => {
+    router.push('/myLearning')
+}
+
 
 </script>
 
@@ -126,7 +128,25 @@ h6 {
     width: 1200px;
     padding: 20px;
     margin: 0 auto;
+
+    .recommendCard {
+        display: inline-block;
+        margin-left: 10px;
+        border-radius: 15px;
+        width: 220px;
+        padding: 0;
+        height: 150px;
+
+        :deep(.el-card__body) {
+            padding: 0;
+        }
+    }
+
+    .courseMsg {
+        margin-left: 10px;
+    }
 }
+
 
 
 .livingcard {
@@ -224,43 +244,6 @@ h6 {
     margin-left: 12px;
 }
 
-
-
-
-
-
-.recommendul {
-    position: relative;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
-    overflow: hidden;
-    -webkit-transition: left 0.3s ease-in;
-    transition: left 0.3s ease-in;
-    height: 100%;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    height: auto;
-    margin: 0;
-    padding: 0;
-}
-
-.recommendpage {
-    cursor: pointer;
-    height: 297px;
-    display: inline-block;
-    overflow: hidden;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    -webkit-transition: all ease-in 0.2s;
-    transition: all ease-in 0.2s;
-
-}
-
 .commonCourseCardItem {
     cursor: pointer;
     float: left;
@@ -330,7 +313,7 @@ h6 {
 
 
 
-::v-deep .el-button {
+:deep(.el-button) {
     height: 50px;
     width: 150px;
     margin-top: 30px;

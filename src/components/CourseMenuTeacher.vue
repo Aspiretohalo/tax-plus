@@ -71,7 +71,7 @@ const courseMenuData = reactive([
   margin-left: 40px;
 }
 
-::v-deep .el-menu {
+:deep(.el-menu) {
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;

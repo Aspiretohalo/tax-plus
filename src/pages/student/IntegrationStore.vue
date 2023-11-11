@@ -11,7 +11,7 @@
                 <h2 class="mall-title">积分商城</h2>
                 <el-row>
                     <el-col :span="8">
-                        <el-card class="mall-card">
+                        <el-card class="mall-card" shadow="never">
                             <div class="item-img">
                                 <img src="商品1图片链接" />
                             </div>

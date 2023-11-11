@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-card class="box-card welcomeCard">
+    <el-card class="box-card welcomeCard" shadow="never">
       <span class="welcome">上次学习到： </span>
       <el-text class="mx-1" type="primary">课程一/视频小标题</el-text>
       <el-button type="warning" class="goOnLearning">继续学习</el-button>
     </el-card>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>公告</h3>
@@ -112,7 +112,7 @@ h6 {
   margin-bottom: 20px;
 }
 
-::v-deep .el-card__body {
+:deep(.el-card__body) {
   padding-left: 0;
   padding-right: 0;
 }

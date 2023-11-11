@@ -1,47 +1,47 @@
 <template>
   <div class="leftCard">
     <h3>教师管理平台</h3>
+    <el-button plain round style="margin-left: 44px;height: 50px;" v-for="item in menuDemo3" @click="releaseCourse()">
+      <img :src="item.icon" style="width: 28px;height: 28px;">
+      <span style="padding-left: 30px;">{{ item.name }}</span>
+    </el-button>
     <el-menu style="padding-left: 40px;" :router="true" default-active="1" class="el-menu-vertical-demo"
       @open="handleOpen" @close="handleClose">
       <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
         <img :src="item.icon" style="width: 28px;height: 28px;">
         <span style="padding-left: 30px;">{{ item.name }}</span>
       </el-menu-item>
+
     </el-menu>
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-// import { useRouter } from 'vue-router'
-// // import { InfoFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
-// const router = useRouter()
+const router = useRouter()
 const menuDemo2 = reactive([
   { name: '课程管理', index: 1, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B.svg', router: '/courseManage' },
-  { name: '课程发布', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E5%8F%91%E5%B8%83.svg', router: '/courseRelease' },
   { name: '学习社区', index: 4, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AE%A8%E8%AE%BA%E5%8C%BA.svg', router: '/communityTeacher' },
+  // { name: '课程发布', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E5%8F%91%E5%B8%83.svg', router: '/courseRelease' },
 ])
-// const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
-// const confirmEvent = () => {
-//   localStorage.clear()
-//   sessionStorage.clear()
-//   router.push('/loginStudent')
-// }
-// const cancelEvent = () => {
-//   console.log('cancel!')
-// }
+const menuDemo3 = reactive([
+  { name: '课程发布', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E5%8F%91%E5%B8%83.svg', router: '/courseRelease' },
+])
 
+const releaseCourse = () => {
+  router.push('/courseRelease')
+}
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
-// const checkMsg = () => {
-//   router.push('/teacherMsg')
-// }
+
 </script>
 
 <style scoped>
@@ -92,13 +92,13 @@ h3 {
   width: 120px;
 }
 
-::v-deep .el-menu {
+:deep(.el-menu) {
   /* margin-top: 100px; */
   border-right: 0;
   background-color: #f9f9f9;
 }
 
-::v-deep .el-card {
+:deep(.el-card) {
   position: absolute;
   bottom: 50px;
   left: 20px;
@@ -107,7 +107,7 @@ h3 {
   border-radius: 10px;
 }
 
-::v-deep .el-avatar {
+:deep(.el-avatar) {
   background-color: #0089ff;
 }
 </style>

@@ -9,7 +9,7 @@
         </ul>
         <el-drawer v-model="drawer1" title="今日任务" direction="rtl" size="30%">
             <div class="amount">总积分: <span style="color:#E6A23C;">100</span></div>
-            <el-card class="box-card" v-for="item in tasks" :key="item.task_id">
+            <el-card class="box-card" v-for="item in tasks" :key="item.task_id" shadow="never">
                 <div id="checklist">
                     <input :id="item.task_id.toString()" type="checkbox" name="r" value="1" :checked="item.hasReceived"
                         disabled>
@@ -27,8 +27,9 @@
         <el-drawer v-model="drawer2" title="课程表" direction="rtl" size="30%">
             <Schedule></Schedule>
         </el-drawer>
-        <el-drawer v-model="drawer3" title="AI助手" direction="rtl" size="30%">
-
+        <el-drawer v-model="drawer3" title="智能助手 税小优 为您解答" direction="rtl" size="30%">
+            <iframe src="http://localhost:1002" frameborder="0" width="100%" height="100%"
+                allow="midi;encrypted-media;display-capture;clipboard-write;clipboard-read;"></iframe>
         </el-drawer>
     </div>
 </template>

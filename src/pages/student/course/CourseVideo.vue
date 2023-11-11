@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>课程视频</h3>

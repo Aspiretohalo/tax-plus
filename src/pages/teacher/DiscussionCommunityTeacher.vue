@@ -36,34 +36,37 @@
               </span>
             </template>
           </el-dialog>
-          <el-card class="box-card notice">
+          <el-card class="box-card notice" shadow="never">
+
             <div v-for="item in mergedData" :key="item.post_id" class="author-title reply-father">
-              <el-avatar class="header-img" :size="50" :src="item.avatar"></el-avatar>
+              <el-avatar class="header-img" :size="50" :src="item.avatar" style="cursor: pointer;"
+                @click="goToANewPage()"></el-avatar>
               <div class="author-info">
-                <span class="author-name">{{ item.name }}</span>
+                <span class="author-name" @click="goToANewPage()">{{ item.name }}</span>
                 <el-tag class="author-tag">{{ item.commentator_type === 'student' ? commentator_type[0] :
                   commentator_type[1] }}</el-tag>
-                <span class="author-time marginLeft">{{ item.post_time }}</span>
               </div>
               <el-button type="info" plain class="replyBtn" @click="handleReply(item.post_id)">回复</el-button>
-              <div class="talk-box">
+              <div class="talk-box" style="margin-left: 70px;">
                 <p>
                   <span class="reply">{{ item.post_text }}</span>
                 </p>
+                <span class="author-time marginLeft">{{ item.post_time }}</span>
               </div>
               <div class="reply-box">
                 <div v-for="subItem in item.replies" :key="subItem.post_id" class="author-title">
-                  <el-avatar class="header-img" :size="30" :src="subItem.avatar"></el-avatar>
+                  <el-avatar class="header-img" :size="30" :src="subItem.avatar" style="cursor: pointer;"
+                    @click="goToANewPage()"></el-avatar>
                   <div class="author-info">
-                    <span class="author-name">{{ subItem.name }}</span>
+                    <span class="author-name" @click="goToANewPage()">{{ subItem.name }}</span>
                     <el-tag class="author-tag">{{ subItem.commentator_type === 'student' ? commentator_type[0] :
                       commentator_type[1] }}</el-tag>
-                    <span class="author-time marginLeft">{{ subItem.post_time }}</span>
                   </div>
                   <div class="talk-box">
                     <p>
                       <span class="reply">{{ subItem.post_text }}</span>
                     </p>
+                    <span class="author-time marginLeft">{{ item.post_time }}</span>
                   </div>
                   <div class="reply-box"></div>
                 </div>
@@ -367,7 +370,9 @@ const handleReply = (parent_post_id: number) => {
   dialogFormVisible2.value = true
   subDiscussionForm.parent_post_id = parent_post_id
 }
-
+const goToANewPage = () => {
+  window.open('http://localhost:5173/#/userMessage', '_blank');
+}
 </script>
   
 <style lang="scss" scoped>
@@ -413,7 +418,7 @@ h6 {
 }
 
 .welcome {
-  margin-left: 50px;
+  // margin-left: 100px;
   font-size: larger;
 }
 
@@ -477,10 +482,6 @@ h6 {
   margin-right: 10px;
 }
 
-// .talk-box {
-//   margin-left: 15px;
-// }
-
 .my-reply {
   padding: 20px;
   background-color: #f6f6f6;
@@ -527,9 +528,7 @@ h6 {
 }
 
 .author-title {
-  padding: 10px;
-
-
+  padding: 10px 60px;
 
   .replyBtn {
     float: right;
@@ -557,23 +556,24 @@ h6 {
       text-overflow: ellipsis;
     }
 
-    .marginLeft {
-      margin-left: 20px;
-    }
 
     .author-name {
-      color: #000;
-      font-size: 18px;
-      font-weight: bold;
+      color: #73767a;
+      font-size: 16px;
     }
 
     .author-tag {
       margin-left: 10px;
     }
+  }
 
-    .author-time {
-      font-size: 14px;
-    }
+  .marginLeft {
+    margin-left: 5px;
+  }
+
+  .author-time {
+    font-size: 14px;
+    color: #909399;
   }
 
   .icon-btn {
@@ -611,7 +611,7 @@ h6 {
 
   .reply-box {
     margin: 10px 30px 0 65px;
-    background-color: #e9e9eb;
+    // background-color: #e9e9eb;
     border-radius: 5px;
   }
 }

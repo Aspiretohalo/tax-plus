@@ -18,14 +18,14 @@
               </div>
             </div>
           </div>
-          <el-card class="box-card notice">
+          <el-card class="box-card notice" shadow="never">
             <div style="display: flex;justify-content: right;padding-right: 30px;">
               <el-input v-model="input" placeholder="请输入" clearable />
               <el-button type="primary" :icon="Search" circle />
             </div>
             <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
               <el-tab-pane label="最新" name="first">
-                <el-card class="box-card-small">
+                <el-card class="box-card-small" shadow="never">
                   <template #header>
                     <div class="card-header">
                       <span>曹师傅

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card notice">
+    <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>授课教师：cy</h3>
@@ -78,4 +78,5 @@ h6 {
   display: block;
   text-align: center;
   margin-top: 30px;
-}</style>
+}
+</style>
