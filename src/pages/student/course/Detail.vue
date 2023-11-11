@@ -12,6 +12,7 @@
 import { onMounted, onBeforeUnmount, ref, onUnmounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import TCPlayer from "tcplayer.js";
+import myAxios from "../../../plugins/myAxios";
 
 const timer = ref(0);
 const formattedTime = computed(() => formatTime(timer.value));
@@ -46,7 +47,7 @@ onMounted(() => {
     autoplay: false,
     licenseUrl: "https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license",
   });
-
+  getMediaData()
   // Set the start time to the last watched time
   videoPlayer.value.currentTime = startTime;
   onUnmounted(() => {
@@ -58,10 +59,28 @@ onMounted(() => {
   // Stop the timer when the video pauses or ends
   videoPlayer.value.addEventListener("pause", stopTimer);
   videoPlayer.value.addEventListener("ended", stopTimer);
-
+  console.log(123);
   console.log(player);
 });
 
+const getMediaData = async () => {
+  try {
+    // 发布课程，即将课程信息传给后端，存入数据库
+    let obj = {
+      file_id: chapter[chapter_index - 1].file_id,
+    }
+    const response = await myAxios.post('getMediaData', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    // 处理响应数据
+    console.log('media');
+    console.log(response.data);
+  } catch (error) {
+    console.error('传参失败', error);
+  }
+}
 // Save the current time before leaving the page
 onBeforeUnmount(() => {
   saveLastWatchedTime();
