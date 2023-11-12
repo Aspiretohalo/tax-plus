@@ -33,6 +33,7 @@ import TeacherMsg from '../pages/teacher/TeacherMsg.vue'
 import DiscussionCommunityTeacher from '../pages/teacher/DiscussionCommunityTeacher.vue'
 import BeginLiving from '../pages/teacher/course/BeginLiving.vue'
 import PersonalCommunityTeacher from '../pages/teacher/PersonalCommunityTeacher.vue'
+import StudySituations from "../pages/teacher/course/StudySituations.vue";
 
 const routes = [
     { path: '/', component: Index },
@@ -113,6 +114,11 @@ const routes = [
                 path: 'beginLiving',
                 component: BeginLiving,
             },
+            {
+                path: "studySituations",
+                component: StudySituations,
+            },
+
 
         ]
     },
@@ -121,6 +127,7 @@ const routes = [
     { path: '/teacherMsg', component: TeacherMsg },
     { path: '/personalCommunityTeacher', component: PersonalCommunityTeacher },
     { path: '/integrationStore', component: IntegrationStore }, // 添加积分商城的路由配置
+
 ]
 
 export default routes
