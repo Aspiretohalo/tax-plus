@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card welcomeCard" shadow="never">
       <span class="welcome">提示： </span>
-      <el-text class="mx-1" type="primary">在下列直播公告中复制房间号，点击右侧按钮跳转</el-text>
+      <el-text class="mx-1" type="primary">在下列直播公告点击链接进入直播间</el-text>
     </el-card>
     <el-card class="box-card notice" shadow="never">
       <template #header>
@@ -10,10 +10,12 @@
           <h3>直播公告</h3>
         </div>
       </template>
-      <div class="text item" v-for="item in LivingNotices">
+      <div class="text item" v-for="item in LivingNotices" style="position: relative;">
+
         <h4>{{ item.living_course_name }}</h4>
         <div class="link">
           前往直播间：<el-link type="warning" @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
+          <el-button type="info" disabled style="position: absolute;right: 50px;top: 0px;">回放</el-button>
         </div>
         <el-text class="mx-1" type="info">
           {{ item.living_course_description }}

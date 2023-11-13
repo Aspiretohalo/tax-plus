@@ -12,12 +12,14 @@ import router from './config/router'
 import 'tcplayer.js/dist/tcplayer.min.css';
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import store from './store'
-
+import * as echarts from 'echarts';
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+app.config.globalProperties.$echarts = echarts;
+// app.use(echarts)
 app.component('SvgIcon', SvgIcon);
 app.use(router)
 app.use(store)

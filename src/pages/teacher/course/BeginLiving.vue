@@ -1,26 +1,48 @@
 <template>
     <div>
-        <el-card class="box-card welcomeCard" shadow="never">
-            <span class="welcome">提示： </span>
-            <el-text class="mx-1" type="primary">点击右侧按钮跳转直播间，创建房间后将房间号发布</el-text>
-            <el-button type="warning" class="goOnLearning" @click="goToLivingModel()">开始直播</el-button>
-        </el-card>
         <el-card class="box-card notice" shadow="never">
             <template #header>
                 <div class="card-header">
                     <h3>直播公告</h3>
                 </div>
+                <el-button type="warning" class="create" @click="dialogVisible = true">新建直播课</el-button>
+                <el-dialog v-model="dialogVisible" title="直播课程内容" width="30%">
+                    <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+                        <el-form-item label="直播课标题" prop="living_course_name">
+                            <el-input v-model="form.living_course_name" style="width: 780px;" />
+                        </el-form-item>
+                    </el-form>
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取消</el-button>
+                            <el-button type="primary" @click="createNewLiving()">
+                                确定
+                            </el-button>
+                        </span>
+                    </template>
+                </el-dialog>
             </template>
-            <div class="text item" v-for="item in LivingNotices">
-                <h4>{{ item.living_course_name }}</h4>
-                <div class="link">
-                    前往直播间：<el-link type="warning">{{ item.meeting_id }}</el-link>
+            <div class="text item" v-for="item in  LivingNotices ">
+                <el-card class="Preview" shadow="none">
+                    <!-- <div class="preview_name">{{ item.living_course_name }}</div> -->
+                    <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+                    <el-button v-if="item.living_course_description === undefined" type="warning"
+                        @click="goToLivingModel(item.living_course_id, item.living_course_name)"
+                        style="margin-left: 60px;">开始直播</el-button>
+                    <el-button v-else type="info" disabled style="margin-left: 70px;">回放</el-button>
+                </el-card>
+                <div class="living-notice">
+                    <h4>{{ item.living_course_name }}</h4>
+                    <div class="link" v-if="item.living_course_description !== undefined">
+                        前往直播间：<el-link type="warning">{{ item.meeting_id }}</el-link>
+                    </div>
+                    <div class="link" v-else>
+                        直播尚未开始
+                    </div>
+                    <el-text class="mx-1" type="info">
+                        {{ item.living_course_description }}
+                    </el-text>
                 </div>
-                <el-text class="mx-1" type="info">
-                    {{ item.living_course_description }}
-                </el-text>
-
-                <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
             </div>
         </el-card>
     </div>
@@ -30,7 +52,8 @@
 <script lang="ts" setup>
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -39,7 +62,55 @@ const courseId = ref(route.params.courseId)
 onMounted(async () => {
     await getLivingNotice(courseId.value)
 })
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            try {
+                // 发布课程，即将课程信息传给后端，存入数据库
+                let obj = {
+                    course_id: courseId.value,
+                    living_course_name: form.living_course_name,
+                    course_teacher: teacher.value.teacher_id,
+                }
+                console.log(obj);
+                const response = await myAxios.post('http://localhost:8085/createNewLiving', JSON.stringify(obj), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response.data);
+            } catch (error) {
+                console.error('传参失败', error);
+            }
+            dialogVisible.value = false
+            ElMessage({
+                message: '评论成功',
+                type: 'success',
+            })
+            await getLivingNotice(courseId.value)
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
+}
+const createNewLiving = async () => {
+    await submitForm(ruleFormRef.value)
+}
+const dialogVisible = ref(false)
+import type { FormInstance } from 'element-plus'
 
+const ruleFormRef = ref<FormInstance>()
+
+const rules = reactive({
+    living_course_name: [
+        { required: true, message: '请输入文字', trigger: 'blur' },
+    ],
+})
+const form = reactive({
+
+    living_course_name: ''
+})
 const getLivingNotice = async (value: any) => {
     try {
         const response = await myAxios.get('/getLivingNotice', {
@@ -64,13 +135,15 @@ const getLivingNotice = async (value: any) => {
 const LivingNotices: any = ref()
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
-const goToLivingModel = () => {
-    window.open(`http://localhost:3000?ifStudent=${0}&courseId=${courseId.value}&name=${teacher.value.teacher_name}&course_teacher=${teacher.value.teacher_id}`, '_blank');
+const goToLivingModel = (item1: number, item2: string) => {
+    // console.log(item1,);
+
+    window.open(`http://localhost:3000?ifStudent=${0}&courseId=${courseId.value}&name=${teacher.value.teacher_name}&course_teacher=${teacher.value.teacher_id}&living_course_name=${item2}&living_course_id=${item1}`, '_blank');
 }
 
 </script>
   
-<style scoped>
+<style lang="scss" scoped>
 h1,
 h2,
 h3,
@@ -86,6 +159,11 @@ h6 {
     border-radius: 15px;
 }
 
+:deep(.el-dialog) {
+    --el-dialog-border-radius: 15px;
+    padding: 30px;
+}
+
 .welcomeCard {
     position: relative;
 }
@@ -94,14 +172,16 @@ h6 {
     margin-left: 50px;
 }
 
-.goOnLearning {
-    position: absolute;
-    right: 50px;
-    top: 15px;
-}
-
 .notice {
+    position: relative;
     margin-top: 10px;
+
+    .create {
+        position: absolute;
+        right: inherit;
+        top: 20px;
+        right: 50px;
+    }
 }
 
 .text {
@@ -110,14 +190,31 @@ h6 {
 }
 
 .item {
+    position: relative;
     margin-bottom: 18px;
 }
 
-.releaseTime {
-    display: block;
-    text-align: right;
-    margin-top: 10px;
-    margin-bottom: 20px;
+.Preview {
+
+    width: 200px;
+    margin-bottom: 30px;
+
+    .preview_name {
+        text-align: center;
+    }
+
+    .releaseTime {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+}
+
+.living-notice {
+    position: absolute;
+    left: 300px;
+    top: 20px;
 }
 
 :deep(.el-card__body) {

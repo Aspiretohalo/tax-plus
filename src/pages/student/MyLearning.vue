@@ -25,11 +25,11 @@
             </el-table-column>
             <el-table-column prop="course_name" label="course_name" width="180" />
             <el-table-column prop="teacher_name" label="teacher_name" />
-            <el-table-column prop="status" label="status">
+            <!-- <el-table-column prop="status" label="status">
               <template #default="scope">
                 <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="course_id" label="course_id">
               <template #default="scope">
                 <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>
@@ -101,14 +101,31 @@ const getCourses = async (value: any) => {
     console.error('获取课程信息失败', error);
   }
 };
-
+const getCourseByCourseId = async (value: any) => {
+  try {
+    const response = await myAxios.get('/getCourseByCourseId', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.singleCourse = response.data
+    sessionStorage.setItem('singleCourse', JSON.stringify(state.singleCourse))
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
 // tab改变之后调用，获得相应的course
 const changeStatus = (activeName: string) => {
   state.activeName = activeName
 }
 
 
-const EnterTheCourse = (courseId: Number) => {
+const EnterTheCourse = async (courseId: Number) => {
+  await getCourseByCourseId(courseId)
   router.push(`/courseId/${courseId}/notice`)
 }
 

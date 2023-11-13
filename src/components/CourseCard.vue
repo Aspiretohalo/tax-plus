@@ -16,11 +16,11 @@
         <el-card v-for="item in allCourses" :key="item.course_id" @click="goToSelect(item.course_id)" shadow="hover"
           class="courseCard box-card">
           <div>
-            <el-image :src="item.course_url" />
+            <el-image :src="item.course_url" style="height: 150px;width: 100%;" />
           </div>
           <div style="padding: 14px">
             <span style="font-size: large;">{{ item.course_name }}</span>
-            <el-tag style="float: right;" :type="item.tag_type">{{ item.status }}</el-tag>
+            <!-- <el-tag style="float: right;" :type="item.tag_type">{{ item.status }}</el-tag> -->
             <span>
             </span>
             <div style="margin-top: 10px; color: #73767a;">{{ item.teacher_name }}

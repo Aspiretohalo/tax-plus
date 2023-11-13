@@ -71,16 +71,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from "vue";
-import * as echarts from "echarts";
+import { ref, onMounted, getCurrentInstance } from "vue";
 
-const chartDom = ref(null);
-let myChart;
+const chartDom: any = ref(null);
+let myChart: any;
 
 onMounted(() => {
-  chartDom.value = document.getElementById("echarts-chart");
-  myChart = echarts.init(chartDom.value);
-  updateECharts();
+  const instance = getCurrentInstance();
+  if (instance && instance.appContext.config.globalProperties) {
+    const { $echarts } = instance.appContext.config.globalProperties;
+
+    chartDom.value = document.getElementById("echarts-chart");
+    myChart = $echarts.init(chartDom.value)
+    updateECharts();
+  }
 });
 const updateECharts = () => {
   const option = {

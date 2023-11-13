@@ -22,7 +22,7 @@ import TopNav from '../../components/TopNav.vue'
 </script>
 
 <style  scoped>
-::v-deep .el-aside {
+:deep(.el-aside) {
   width: 258px;
 }
 </style>

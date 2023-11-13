@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-card class="box-card welcomeCard" shadow="never">
+    <!-- <el-card class="box-card welcomeCard" shadow="never">
       <span class="welcome">上次学习到： </span>
       <el-text class="mx-1" type="primary">课程一/视频小标题</el-text>
       <el-button type="warning" class="goOnLearning">继续学习</el-button>
-    </el-card>
+    </el-card> -->
     <el-card class="box-card notice" shadow="never">
       <template #header>
         <div class="card-header">
@@ -35,6 +35,7 @@ const courseId = ref(route.params.courseId)
 onMounted(async () => {
   await getNotice(courseId.value)
 })
+
 
 const getNotice = async (value: any) => {
   try {

@@ -2,31 +2,31 @@
   <div class="video2">
     <h3>{{ chapter[chapter_index - 1].video_title }}</h3>
     <el-button @click="goToTalk()" type="primary" class="goToTalkBtn">去讨论</el-button>
-    <div class="timer">{{ formattedTime }}</div>
+    <!-- <div class="timer">{{ formattedTime }}</div> -->
     <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
       webkit-playsinline @timeupdate="onTimeUpdate"></video>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount, ref, onUnmounted, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { onMounted, onBeforeUnmount, ref, onUnmounted } from "vue";
+import { useRoute } from "vue-router";
 import TCPlayer from "tcplayer.js";
 import myAxios from "../../../plugins/myAxios";
+import state from '../../../store/state'
 
 const timer = ref(0);
-const formattedTime = computed(() => formatTime(timer.value));
+// const formattedTime = computed(() => formatTime(timer.value));
 let intervalId: any = null;
 let isVideoPlaying = false;
 
 const route = useRoute();
-const router = useRouter();
 const courseId = route.params.courseId;
 
 const goToTalk = () => {
   // Save the current time before navigating
   saveLastWatchedTime();
-  router.push(`/courseId/${courseId}/discussion`);
+  // router.push(`/courseId/${courseId}/discussion`);
 };
 
 const chapter = JSON.parse(sessionStorage.getItem("chapter") || "null") || "";
@@ -35,8 +35,12 @@ const lastWatchedTimeKey = `lastWatchedTime_${courseId}_${chapter_index}`;
 const videoPlayer: any = ref(null);
 
 onMounted(() => {
+  getLastWatchedTime(chapter_index)
   // Load the last watched time
-  const lastWatchedTime = localStorage.getItem(lastWatchedTimeKey);
+  const LastWatchedTimeObject = JSON.parse(sessionStorage.getItem('LastWatchedTime') || 'null');
+  const lastWatchedTime = LastWatchedTimeObject[0].last_watch_time
+  console.log(lastWatchedTime);
+
   const startTime = lastWatchedTime ? parseFloat(lastWatchedTime) : 0;
 
   // 播放视频需要传入该视频的fileID
@@ -51,6 +55,14 @@ onMounted(() => {
   // Set the start time to the last watched time
   videoPlayer.value.currentTime = startTime;
   onUnmounted(() => {
+    // 学生课程学习时长
+    setCourseLearningProgress()
+    // 单个视频学习到了哪个时间点，用于下次从这个时间点播放
+    const coursesString = localStorage.getItem(lastWatchedTimeKey);
+    if (coursesString) {
+      setLastWatchedTime(JSON.parse(coursesString))
+      console.log(JSON.parse(coursesString));
+    }
     player.dispose();
   });
 
@@ -59,9 +71,30 @@ onMounted(() => {
   // Stop the timer when the video pauses or ends
   videoPlayer.value.addEventListener("pause", stopTimer);
   videoPlayer.value.addEventListener("ended", stopTimer);
-  console.log(123);
-  console.log(player);
 });
+
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+
+
+const setCourseLearningProgress = async () => {
+  try {
+    let obj = {
+      course_id: courseId,
+      student_id: student.value.student_id,
+      course_learning_progress: timer.value,
+    }
+    console.log(obj);
+    const response = await myAxios.post('/setCourseLearningProgress', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    // 处理响应数据
+    console.log(response.data);
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+}
 
 const getMediaData = async () => {
   try {
@@ -101,7 +134,44 @@ const saveLastWatchedTime = () => {
     localStorage.setItem(lastWatchedTimeKey, currentTime.toString());
   }
 };
+const setLastWatchedTime = async (value: string) => {
+  try {
+    let obj = {
+      chapter_index: chapter_index,
+      last_watch_time: value,
+    }
+    console.log(obj);
+    const response = await myAxios.post('/setLastWatchedTime', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    // 处理响应数据
+    console.log(response.data);
+    getLastWatchedTime(chapter_index)
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+}
+const getLastWatchedTime = async (chapter_index: number) => {
+  try {
+    const response = await myAxios.get('/getLastWatchedTime', {
+      params: {
+        chapter_index: chapter_index,
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.LastWatchedTime = response.data
+    // 拿到了一整个对象，后续步骤取出其中的时间
+    sessionStorage.setItem('LastWatchedTime', JSON.stringify(state.LastWatchedTime))
 
+  } catch (error) {
+    console.error('获取公告信息失败', error);
+  }
+};
 // Update the current time when the video time changes
 const onTimeUpdate = () => {
   saveLastWatchedTime();
@@ -119,15 +189,20 @@ const startTimer = () => {
 const stopTimer = () => {
   if (isVideoPlaying) {
     isVideoPlaying = false;
+    //将上次看到的时间点存入数据库
+    const coursesString = localStorage.getItem(lastWatchedTimeKey);
+    if (coursesString) {
+      setLastWatchedTime(JSON.parse(coursesString))
+    }
     clearInterval(intervalId);
   }
 };
 
-const formatTime = (seconds: number) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-};
+// const formatTime = (seconds: number) => {
+//   const minutes = Math.floor(seconds / 60);
+//   const remainingSeconds = seconds % 60;
+//   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+// };
 </script>
 
 <style lang="scss" scoped>

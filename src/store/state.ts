@@ -14,4 +14,6 @@ export default {
     singleCourse: [],
     LivingNotices: [],
     allLivingCourses: [],
+    courseProgress: [],
+    LastWatchedTime: [],
 }

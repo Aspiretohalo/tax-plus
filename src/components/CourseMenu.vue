@@ -1,6 +1,6 @@
 <template>
   <div class="leftCard">
-    <h2 class="mb-2 msgH2">课程信息</h2>
+    <h3 class="mb-2 msgH2">{{ singleCourse[0]?.course_name }}</h3>
     <el-menu style="padding-left: 40px;" :router="true" default-active="1" class="el-menu-vertical-demo"
       @open="handleOpen" @close="handleClose">
       <el-menu-item v-for="item in courseMenuData" :index="item.router">
@@ -18,6 +18,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
+
 const goBack = () => {
   router.push('/myLearning')
 }
@@ -27,6 +28,7 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
+
 const courseId = ref(route.params.courseId)
 const courseMenuData = reactive([
   { name: '课程公告', index: 1, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%85%AC%E5%91%8A.svg', router: `/courseId/${courseId.value}/notice` },
@@ -36,6 +38,9 @@ const courseMenuData = reactive([
   { name: '课程资料', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99.svg', router: `/courseId/${courseId.value}/data` },
   { name: '课程评价', index: 6, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg', router: `/courseId/${courseId.value}/evaluation` },
 ])
+
+const singleCourse: any = ref(JSON.parse(sessionStorage.getItem('singleCourse') || 'null') || '')
+
 </script>
 
 <style  scoped>
@@ -48,7 +53,7 @@ const courseMenuData = reactive([
 }
 
 .msgH2 {
-  margin-left: 70px;
+  margin-left: 40px;
 }
 
 .returnBtn {

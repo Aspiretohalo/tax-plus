@@ -24,11 +24,11 @@
             </el-table-column>
             <el-table-column prop="course_name" label="course_name" width="180" />
             <el-table-column prop="teacher_name" label="teacher_name" />
-            <el-table-column prop="status" label="status">
+            <!-- <el-table-column prop="status" label="status">
               <template #default="scope">
                 <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="course_id" label="course_id">
               <template #default="scope">
                 <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>

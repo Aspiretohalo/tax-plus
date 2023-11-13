@@ -16,7 +16,7 @@
               <span style="font-size: small;">归属课程：<span
                   style="color: #73767a;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{
                     item.course_name }}</span></span>
-              <el-button text class="button" type="primary">前往</el-button>
+              <el-button text class="button" type="primary" @click="goToLiving(item.course_id)">前往</el-button>
             </div>
           </div>
         </el-card>
@@ -29,7 +29,9 @@
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'
 import state from '../store/state'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const livingTime = ref("11-8 12:30")
 
 onMounted(async () => {
@@ -56,6 +58,27 @@ const getAllLivingCourses = async () => {
 };
 const allLivingCourses: any = ref()
 
+const getCourseByCourseId = async (value: any) => {
+  try {
+    const response = await myAxios.get('/getCourseByCourseId', {
+      params: {
+        course_id: value
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.singleCourse = response.data
+    sessionStorage.setItem('singleCourse', JSON.stringify(state.singleCourse))
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+const goToLiving = async (courseId: number) => {
+  await getCourseByCourseId(courseId)
+  router.push(`/courseId/${courseId}/livingroom`)
+}
 </script>
 
 <style lang="scss" scoped>
