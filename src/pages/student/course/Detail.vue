@@ -1,4 +1,8 @@
 <template>
+  <el-dialog v-model="learningModalVisible" title="学习情况" @closed="recordConfirmationTime">
+    <p>点击确认以继续以继续播放视频</p>
+    <el-button type="primary" @click="closeLearningModalAndRecordTime">确定</el-button>
+  </el-dialog>
   <div class="video2">
     <h3>{{ chapter[chapter_index - 1].video_title }}</h3>
     <el-button @click="goToTalk()" type="primary" class="goToTalkBtn">去讨论</el-button>
@@ -19,6 +23,11 @@ const formattedTime = computed(() => formatTime(timer.value));
 let intervalId: any = null;
 let isVideoPlaying = false;
 
+const learningModalVisible = ref(false);
+const learningStartTime = ref(0);
+const confirmationTime = ref(0);
+const hasModalBeenShown = ref(false);
+
 const route = useRoute();
 const router = useRouter();
 const courseId = route.params.courseId;
@@ -33,6 +42,55 @@ const chapter = JSON.parse(sessionStorage.getItem("chapter") || "null") || "";
 const chapter_index: any = route.params.chapter_index;
 const lastWatchedTimeKey = `lastWatchedTime_${courseId}_${chapter_index}`;
 const videoPlayer: any = ref(null);
+const learningDisplayStartTime = ref(0);
+
+const startLearningTimer = () => {
+  console.log("startLearningTimer called");
+
+  if (hasModalBeenShown.value) {
+    console.log("Modal has already been shown, returning");
+    return;
+  }
+
+  // 检查视频是否正在播放
+  if (!videoPlayer.value.paused) {
+    const randomTime = Math.floor(Math.random() * 30) + 10;
+
+    setTimeout(() => {
+      learningDisplayStartTime.value = Date.now();
+      console.log("Timeout executed, showing modal");
+      videoPlayer.value.pause();
+      hasModalBeenShown.value = true;
+      learningModalVisible.value = true;
+    }, randomTime * 1000);
+  } else {
+    console.log("Video is paused, not showing modal");
+  }
+};
+
+const closeLearningModal = () => {
+  // 恢复视频播放逻辑
+  videoPlayer.value.play();
+};
+
+const recordConfirmationTime = () => {
+  confirmationTime.value = Math.floor((Date.now() - learningDisplayStartTime.value) / 1000);
+  console.log(`Confirmation time: ${confirmationTime.value} seconds`);
+};
+
+const stopLearningTimer = () => { };
+
+const closeLearningModalAndRecordTime = () => {
+  // 关闭学习模态
+  learningModalVisible.value = false;
+
+  videoPlayer.value.play();
+  // 记录用户确认学习模态的时间
+  recordConfirmationTime();
+
+  // 停止学习计时器
+  stopLearningTimer();
+};
 
 onMounted(() => {
   // Load the last watched time
@@ -47,7 +105,7 @@ onMounted(() => {
     autoplay: false,
     licenseUrl: "https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license",
   });
-  getMediaData()
+  getMediaData();
   // Set the start time to the last watched time
   videoPlayer.value.currentTime = startTime;
   onUnmounted(() => {
@@ -59,6 +117,10 @@ onMounted(() => {
   // Stop the timer when the video pauses or ends
   videoPlayer.value.addEventListener("pause", stopTimer);
   videoPlayer.value.addEventListener("ended", stopTimer);
+
+  videoPlayer.value.addEventListener("play", startLearningTimer);
+  videoPlayer.value.addEventListener("pause", stopLearningTimer);
+  videoPlayer.value.addEventListener("ended", stopLearningTimer);
   console.log(123);
   console.log(player);
 });
@@ -68,19 +130,19 @@ const getMediaData = async () => {
     // 发布课程，即将课程信息传给后端，存入数据库
     let obj = {
       file_id: chapter[chapter_index - 1].file_id,
-    }
-    const response = await myAxios.post('getMediaData', JSON.stringify(obj), {
+    };
+    const response = await myAxios.post("getMediaData", JSON.stringify(obj), {
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     });
     // 处理响应数据
-    console.log('media');
+    console.log("media");
     console.log(response.data);
   } catch (error) {
-    console.error('传参失败', error);
+    console.error("传参失败", error);
   }
-}
+};
 // Save the current time before leaving the page
 onBeforeUnmount(() => {
   saveLastWatchedTime();
@@ -90,6 +152,10 @@ onBeforeUnmount(() => {
   videoPlayer.value.removeEventListener("pause", stopTimer);
   videoPlayer.value.removeEventListener("ended", stopTimer);
 
+  videoPlayer.value.removeEventListener("play", startLearningTimer);
+  videoPlayer.value.removeEventListener("pause", stopLearningTimer);
+  videoPlayer.value.removeEventListener("ended", stopLearningTimer);
+  stopLearningTimer();
   // Stop the timer if it's still running
   stopTimer();
 });
@@ -128,6 +194,13 @@ const formatTime = (seconds: number) => {
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
 };
+const learningDuration = computed(() => {
+  if (learningDisplayStartTime.value) {
+    return Math.floor((Date.now() - learningDisplayStartTime.value) / 1000);
+  } else {
+    return 0;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
