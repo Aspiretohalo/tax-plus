@@ -7,31 +7,15 @@
         </div>
       </template>
       <div class="annular">
-        <h4>学习进度</h4>
         <el-row class="row-bg" justify="space-evenly">
-          <el-col :span="6">
-            <div class="progressAnnular">
-              <el-progress type="circle" stroke-width="12" :percentage="80">
-                <template #default="{ percentage }">
-                  <span class="percentage-value">{{ percentage }}%</span>
-                </template>
-              </el-progress>
-              <span class="annularText">课程进度</span>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="progressAnnular">
-              <el-progress type="circle" stroke-width="12" :percentage="66">
-                <template #default="{ percentage }">
-                  <span class="percentage-value">{{ percentage }}%</span>
-                </template>
-              </el-progress>
-              <span class="annularText">我的进度</span>
-            </div>
-          </el-col>
+          <div class="progressAnnular">
+            <div id="echarts-chart" style="width: 599px; height: 400px"></div>
+          </div>
+          <div class="progressAnnular">
+            <div id="echarts-chart2" style="width: 599px; height: 400px"></div>
+          </div>
         </el-row>
       </div>
-
       <h4>学习统计</h4>
       <div class="progress-item el-row">
         <!-- <div class="el-row">
@@ -60,9 +44,7 @@
               <div class="spaceil el-col el-col-16">75分</div>
             </div>
 
-            <div>
-              <div id="echarts-chart" style="width: 600px; height: 400px"></div>
-            </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -76,6 +58,8 @@ import { ref, onMounted, getCurrentInstance } from "vue";
 const chartDom: any = ref(null);
 let myChart: any;
 
+const chartDom2: any = ref(null);
+let myChart2: any;
 onMounted(() => {
   const instance = getCurrentInstance();
   if (instance && instance.appContext.config.globalProperties) {
@@ -84,6 +68,10 @@ onMounted(() => {
     chartDom.value = document.getElementById("echarts-chart");
     myChart = $echarts.init(chartDom.value)
     updateECharts();
+
+    chartDom2.value = document.getElementById("echarts-chart2");
+    myChart2 = $echarts.init(chartDom2.value);
+    updateECharts2();
   }
 });
 const updateECharts = () => {
@@ -123,6 +111,46 @@ const updateECharts = () => {
   };
 
   option && myChart.setOption(option);
+};
+const updateECharts2 = () => {
+  const option2 = {
+    title: {
+      text: "学习进度", // Add your desired title here
+      left: "center", // Adjust the position if needed
+      textStyle: {
+        fontSize: 24, // Adjust the font size if needed
+        fontWeight: "bold", // Adjust the font weight if needed
+      },
+    },
+    series: [
+      {
+        name: "学习进度",
+        type: "pie",
+        radius: ["30%", "60%"],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: "bold",
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [
+          { value: 60, name: "已学习", itemStyle: { color: "#79BBFF" } }, // 蓝色
+          { value: 40, name: "未学习", itemStyle: { color: "#ecf0f1" } }, // 白色
+        ],
+      },
+    ],
+  };
+
+  option2 && myChart2.setOption(option2);
 };
 </script>
 
@@ -228,6 +256,14 @@ h4 {
 }
 
 #echarts-chart {
+  margin-top: 20px;
+  margin-right: 10px;
+  /* 调整右边距 */
+  width: 600px;
+  height: 400px;
+}
+
+#echarts-chart2 {
   margin-top: 20px;
   width: 600px;
   height: 400px;
