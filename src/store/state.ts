@@ -16,4 +16,9 @@ export default {
     allLivingCourses: [],
     courseProgress: [],
     LastWatchedTime: [],
+    CourseLearningProgress: [],
+    EvaluationNumber: '',
+    DiscussionNumber: '',
+    SubDiscussionNumber: '',
+    AllCourseLearningProgress: [],
 }

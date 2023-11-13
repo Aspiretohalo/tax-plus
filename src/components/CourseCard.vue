@@ -136,13 +136,6 @@ const options = [
 
 :deep(.el-space) {
   width: 1100px;
-
-  // .el-space--horizontal {
-  //   .el-space__item {
-  //     margin-right: 0;
-  //   }
-  // }
-
 }
 
 :deep(.el-input__wrapper) {

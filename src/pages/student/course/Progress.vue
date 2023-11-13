@@ -3,7 +3,7 @@
     <el-card class="box-card notice">
       <template #header>
         <div class="card-header">
-          <h3>授课教师：cy</h3>
+          <h3>授课教师：{{ singleCourse[0]?.teacher_name }}</h3>
         </div>
       </template>
       <div class="annular">
@@ -11,74 +11,142 @@
           <div class="progressAnnular">
             <div id="echarts-chart" style="width: 599px; height: 400px"></div>
           </div>
-          <div class="progressAnnular">
+          <!-- <div class="progressAnnular">
             <div id="echarts-chart2" style="width: 599px; height: 400px"></div>
-          </div>
+          </div> -->
         </el-row>
       </div>
       <h4>学习统计</h4>
       <div class="progress-item el-row">
-        <!-- <div class="el-row">
-          <div class="sta-title el-col el-col-24">学习记录</div>
-        </div> -->
-
         <div class="el-row">
           <div class="statistics-item el-col el-col-12">
             <div class="el-row">
               <div class="el-col el-col-8">已观看视频：</div>
-              <div class="spaceil el-col el-col-16">10分钟</div>
+              <div class="spaceil el-col el-col-16">{{ CourseLearningProgress }}分钟</div>
             </div>
             <div class="el-row">
               <div class="el-col el-col-8">已发表讨论：</div>
-              <div class="spaceil el-col el-col-16">1条</div>
+              <div class="spaceil el-col el-col-16">{{ DiscussionNumber + SubDiscussionNumber }}条</div>
             </div>
             <div class="el-row">
               <div class="el-col el-col-8">已发表评价：</div>
-              <div class="spaceil el-col el-col-16">0条</div>
+              <div class="spaceil el-col el-col-16">{{ EvaluationNumber }}条</div>
             </div>
           </div>
-
           <div class="statistics-item el-col el-col-12">
             <div class="el-row">
-              <div class="el-col el-col-8">课程成绩：</div>
-              <div class="spaceil el-col el-col-16">75分</div>
+              <div class="el-col el-col-8">学习专注度：</div>
+              <div class="spaceil el-col el-col-16">{{ confirmationTime < 10 ? '优秀' : confirmationTime >= 10 &&
+                confirmationTime <= 30 ? '良好' : '不够专注' }}</div>
+              </div>
+              <div class="el-row">
+                <div class="el-col el-col-8">课程成绩：</div>
+                <div class="spaceil el-col el-col-16">{{ (CourseLearningProgress) * 0.60 + ((DiscussionNumber
+                  + SubDiscussionNumber)) * 0.20 + Math.ceil((EvaluationNumber)) * 0.20 }}分</div>
+              </div>
+              <div>
+              </div>
             </div>
-
-            <div></div>
           </div>
         </div>
-      </div>
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance, onBeforeMount } from "vue";
+import myAxios from "../../../plugins/myAxios";
+import state from '../../../store/state'
+import { useRoute } from "vue-router";
 
+const route = useRoute();
+const courseId = route.params.courseId;
 const chartDom: any = ref(null);
 let myChart: any;
 
-const chartDom2: any = ref(null);
-let myChart2: any;
-onMounted(() => {
+// const chartDom2: any = ref(null);
+// let myChart2: any;
+onBeforeMount(async () => {
+  await getCourseLearningProgress();
+  await getEvaluationNumber();
+  await getDiscussionNumber();
+  await getSubDiscussionNumber();
+})
+onMounted(async () => {
+
   const instance = getCurrentInstance();
   if (instance && instance.appContext.config.globalProperties) {
     const { $echarts } = instance.appContext.config.globalProperties;
 
     chartDom.value = document.getElementById("echarts-chart");
     myChart = $echarts.init(chartDom.value)
-    updateECharts();
+    // 转到getSubDiscussionNumber执行完后初始化
+    // updateECharts();
 
-    chartDom2.value = document.getElementById("echarts-chart2");
-    myChart2 = $echarts.init(chartDom2.value);
-    updateECharts2();
+    // chartDom2.value = document.getElementById("echarts-chart2");
+    // myChart2 = $echarts.init(chartDom2.value);
+    // updateECharts2();
   }
 });
+
+// const updateECharts2 = () => {
+//   const option2 = {
+//     title: {
+//       text: "学习进度", // Add your desired title here
+//       left: "center", // Adjust the position if needed
+//       textStyle: {
+//         fontSize: 24, // Adjust the font size if needed
+//         fontWeight: "bold", // Adjust the font weight if needed
+//       },
+//     },
+//     series: [
+//       {
+//         name: "学习进度",
+//         type: "pie",
+//         radius: ["30%", "60%"],
+//         avoidLabelOverlap: false,
+//         label: {
+//           show: false,
+//           position: "center",
+//         },
+//         emphasis: {
+//           label: {
+//             show: true,
+//             fontSize: 40,
+//             fontWeight: "bold",
+//           },
+//         },
+//         labelLine: {
+//           show: false,
+//         },
+//         data: [
+//           { value: 60, name: "已学习", itemStyle: { color: "#79BBFF" } }, // 蓝色
+//           { value: 40, name: "未学习", itemStyle: { color: "#ecf0f1" } }, // 白色
+//         ],
+//       },
+//     ],
+//   };
+
+//   option2 && myChart2.setOption(option2);
+// };
+const singleCourse: any = ref(JSON.parse(sessionStorage.getItem('singleCourse') || 'null') || '')
+const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+const CourseLearningProgress: any = ref()
+const EvaluationNumber: any = ref()
+const DiscussionNumber: any = ref()
+const SubDiscussionNumber: any = ref()
+const confirmationTime: any = ref()
 const updateECharts = () => {
+  // console.log(CourseLearningProgress.value);
+  // console.log(EvaluationNumber.value);
+  // console.log(DiscussionNumber.value);
+  // console.log(SubDiscussionNumber.value);
+  // console.log(66);
+
   const option = {
     title: {
       text: "课程分数占比",
-      subtext: "按百分百%",
+      subtext: "按百分比%",
       left: "center",
     },
     tooltip: {
@@ -90,14 +158,22 @@ const updateECharts = () => {
     },
     series: [
       {
-        name: "Access From",
+        name: "详细数据",
         type: "pie",
         radius: "50%",
         data: [
-          { value: 20, name: "已观看视频" },
-          { value: 10, name: "已发表讨论" },
-          { value: 10, name: "已发表评价" },
-          { value: 60, name: "课程成绩" },
+          {
+            // 假定课程总时长为100
+            value: (CourseLearningProgress.value) * 0.60, name: "已观看视频"
+          },
+          {
+            // 假定讨论20条为满分
+            value: ((DiscussionNumber.value + SubDiscussionNumber.value)) * 0.20, name: "已发表讨论"
+          },
+          {
+            // 假定评论20条记为满分
+            value: Math.ceil((EvaluationNumber.value)) * 0.20, name: "已发表评价"
+          },
         ],
         emphasis: {
           itemStyle: {
@@ -109,48 +185,99 @@ const updateECharts = () => {
       },
     ],
   };
-
   option && myChart.setOption(option);
 };
-const updateECharts2 = () => {
-  const option2 = {
-    title: {
-      text: "学习进度", // Add your desired title here
-      left: "center", // Adjust the position if needed
-      textStyle: {
-        fontSize: 24, // Adjust the font size if needed
-        fontWeight: "bold", // Adjust the font weight if needed
-      },
-    },
-    series: [
-      {
-        name: "学习进度",
-        type: "pie",
-        radius: ["30%", "60%"],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: "center",
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: "bold",
-          },
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [
-          { value: 60, name: "已学习", itemStyle: { color: "#79BBFF" } }, // 蓝色
-          { value: 40, name: "未学习", itemStyle: { color: "#ecf0f1" } }, // 白色
-        ],
-      },
-    ],
-  };
 
-  option2 && myChart2.setOption(option2);
+const getCourseLearningProgress = async () => {
+  try {
+    const response = await myAxios.get('/getCourseLearningProgress', {
+      params: {
+        course_id: courseId,
+        student_id: student.value.student_id,
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.CourseLearningProgress = response.data
+    sessionStorage.setItem('CourseLearningProgress', JSON.stringify(state.CourseLearningProgress))
+    const coursesString = sessionStorage.getItem('CourseLearningProgress');
+    if (coursesString) {
+      CourseLearningProgress.value = Math.ceil(parseFloat(JSON.parse(coursesString)[0].course_learning_progress) / 60)
+      confirmationTime.value = JSON.parse(coursesString)[0].confirmation_time
+    }
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+
+const getEvaluationNumber = async () => {
+  try {
+    const response = await myAxios.get('/getEvaluationNumber', {
+      params: {
+        course_id: courseId,
+        evaluator: student.value.student_id,
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.EvaluationNumber = response.data
+    sessionStorage.setItem('EvaluationNumber', JSON.stringify(state.EvaluationNumber))
+    const coursesString = sessionStorage.getItem('EvaluationNumber');
+    if (coursesString) {
+      EvaluationNumber.value = parseInt(JSON.parse(coursesString)[0].evaluation_count)
+    }
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+
+const getDiscussionNumber = async () => {
+  try {
+    const response = await myAxios.get('/getDiscussionNumber', {
+      params: {
+        commentator: student.value.student_id,
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.DiscussionNumber = response.data
+    sessionStorage.setItem('DiscussionNumber', JSON.stringify(state.DiscussionNumber))
+    const coursesString = sessionStorage.getItem('DiscussionNumber');
+    if (coursesString) {
+      DiscussionNumber.value = parseInt(JSON.parse(coursesString)[0].discussion_count)
+    }
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+};
+
+const getSubDiscussionNumber = async () => {
+  try {
+    const response = await myAxios.get('/getSubDiscussionNumber', {
+      params: {
+        commentator: student.value.student_id,
+      },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.SubDiscussionNumber = response.data
+    sessionStorage.setItem('SubDiscussionNumber', JSON.stringify(state.SubDiscussionNumber))
+    const coursesString = sessionStorage.getItem('SubDiscussionNumber');
+    if (coursesString) {
+      SubDiscussionNumber.value = parseInt(JSON.parse(coursesString)[0].subDiscussion_count)
+    }
+    updateECharts();
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
 };
 </script>
 

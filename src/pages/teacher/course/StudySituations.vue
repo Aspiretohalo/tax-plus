@@ -1,34 +1,45 @@
 <template>
 	<div>
-		<div class="charts-container">
-			<!-- ECharts pie chart container -->
-			<div id="echarts-chart" style="width: 600px; height: 400px"></div>
-			<!-- ECharts line chart container -->
-			<div id="echarts-line-chart" class="chart-box"></div>
-		</div>
+		<el-card class="box-card notice">
 
-		<div class="student-list">
-			<div v-for="(student, index) in paginatedStudents" :key="index" class="student-item">
-				<div class="student-info">
-					<h2>{{ student.name }}</h2>
-					<p><strong>学习时长：</strong> {{ student.studyDuration }} 小时</p>
-					<p><strong>评论条数：</strong> {{ student.commentCount }}</p>
+			<div class="charts-container">
+				<!-- ECharts pie chart container -->
+				<div id="echarts-chart" style="width: 500px; height: 400px"></div>
+				<!-- ECharts line chart container -->
+				<div id="echarts-line-chart" class="chart-box"></div>
+			</div>
+
+			<div class="student-list">
+				<div v-for="(student, index) in paginatedStudents" :key="index" class="student-item">
+					<div class="student-info">
+						<h2>{{ student.name }}</h2>
+						<p><strong>学习时长：</strong> {{ student.studyDuration }} 小时</p>
+						<p><strong>专注程度：</strong> {{ student.commentCount }}</p>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="pagination">
-			<button v-for="pageNumber in totalPages" :key="pageNumber" @click="setCurrentPage(pageNumber)"
-				:class="{ active: pageNumber === currentPage }">
-				{{ pageNumber }}
-			</button>
-		</div>
+			<div class="pagination">
+				<button v-for="pageNumber in totalPages" :key="pageNumber" @click="setCurrentPage(pageNumber)"
+					:class="{ active: pageNumber === currentPage }">
+					{{ pageNumber }}
+				</button>
+			</div>
+		</el-card>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import * as echarts from "echarts";
+import { ref, computed, getCurrentInstance, onMounted, onBeforeMount, watch } from "vue";
+import myAxios from "../../../plugins/myAxios";
+import state from '../../../store/state'
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const courseId = route.params.courseId;
+// const CourseLearningProgress: any = ref()
+// const confirmationTime: any = ref()
+const AllCourseLearningProgress: any = ref()
 
 const students = [
 	{ name: "张三", studyDuration: 50, commentCount: 5 },
@@ -50,32 +61,45 @@ const students = [
 
 const itemsPerRow = 4;
 const currentPage = ref(1);
-
 const paginatedStudents = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerRow;
 	const endIndex = startIndex + itemsPerRow;
+	////////////////////////////////////////这段代码有问题
+	// return AllCourseLearningProgress.value.slice(startIndex, endIndex);
 	return students.slice(startIndex, endIndex);
 });
 
+watch(AllCourseLearningProgress, () => {
+	paginatedStudents.value; // Triggers re-computation
+});
 const totalPages = computed(() => Math.ceil(students.length / itemsPerRow));
 
-function setCurrentPage(pageNumber) {
+function setCurrentPage(pageNumber: number) {
 	currentPage.value = pageNumber;
 }
-const chartDom = ref(null);
-let myChart;
+const chartDom: any = ref(null);
+let myChart: any;
 
-const lineChartDom = ref(null);
-let lineChart;
+const lineChartDom: any = ref(null);
+let lineChart: any;
+
+onBeforeMount(async () => {
+	getAllCourseLearningProgress();
+})
 
 onMounted(() => {
-	chartDom.value = document.getElementById("echarts-chart");
-	myChart = echarts.init(chartDom.value);
-	updateECharts();
+	const instance = getCurrentInstance();
+	if (instance && instance.appContext.config.globalProperties) {
+		const { $echarts } = instance.appContext.config.globalProperties;
 
-	lineChartDom.value = document.getElementById("echarts-line-chart");
-	lineChart = echarts.init(lineChartDom.value);
-	updateLineChart();
+		chartDom.value = document.getElementById("echarts-chart");
+		myChart = $echarts.init(chartDom.value);
+		updateECharts();
+
+		lineChartDom.value = document.getElementById("echarts-line-chart");
+		lineChart = $echarts.init(lineChartDom.value);
+		updateLineChart();
+	}
 });
 
 const updateECharts = () => {
@@ -120,13 +144,13 @@ const updateECharts = () => {
 const updateLineChart = () => {
 	const option = {
 		title: {
-			text: "学生评论情况",
+			text: "学生专注程度",
 			subtext: "",
 			left: "center",
 		},
 		xAxis: {
 			type: "category",
-			data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			data: ["优秀", "良好", "不够专注"],
 		},
 		yAxis: {
 			type: "value",
@@ -141,9 +165,42 @@ const updateLineChart = () => {
 
 	option && lineChart.setOption(option);
 };
+
+const getAllCourseLearningProgress = async () => {
+	try {
+		const response = await myAxios.get('/getAllCourseLearningProgress', {
+			params: {
+				course_id: courseId,
+			},
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			}
+		});
+		// 处理响应数据
+		state.AllCourseLearningProgress = response.data
+		sessionStorage.setItem('AllCourseLearningProgress', JSON.stringify(state.AllCourseLearningProgress))
+		const coursesString = sessionStorage.getItem('AllCourseLearningProgress');
+		if (coursesString) {
+			AllCourseLearningProgress.value = JSON.parse(coursesString)
+			console.log(AllCourseLearningProgress.value);
+
+			// CourseLearningProgress.value = Math.ceil(parseFloat(JSON.parse(coursesString)[0].course_learning_progress) / 60)
+			// confirmationTime.value = JSON.parse(coursesString)[0].confirmation_time
+		}
+	} catch (error) {
+		console.error('获取信息失败', error);
+	}
+};
+
 </script>
 
 <style scoped>
+.box-card {
+	margin-top: 20px;
+	width: 1100px;
+	border-radius: 15px;
+}
+
 .student-list {
 	display: flex;
 	flex-wrap: wrap;
@@ -152,12 +209,11 @@ const updateLineChart = () => {
 
 
 .student-item {
-	min-width: 285px;
+	min-width: 240px;
 	min-height: 175.83px;
 	/* flex: 1 0 calc(20% - 20px); */
 	/* 100% / 5 items - margin-right */
 	margin: 10px;
-	padding: 15px;
 	border: 1px solid #ddd;
 	border-radius: 15px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -168,7 +224,7 @@ const updateLineChart = () => {
 
 .echarts-chart {
 	margin-top: 20px;
-	width: 600px;
+	width: 500px;
 	height: 400px;
 }
 

@@ -186,51 +186,15 @@ const getSubDiscussion = async () => {
     console.error('获取信息失败', error);
   }
 };
-const discussionData: any = ref([
-  // {
-  //   post_id: 1,
-  //   commentator_type: 'student',
-  //   commentator_name: '行数搭建ad',
-  //   post_text: '撒发发发',
-  //   post_time: new Date(),
-  //   image_url: '',
-  // },
-  // {
-  //   post_id: 2,
-  //   commentator_type: 'student',
-  //   commentator_name: '李开复拉开',
-  //   post_text: '哦佛山佛山的',
-  //   post_time: new Date(),
-  //   image_url: '',
-  // }
-])
-const subDiscussionData: any = ref([
-  // {
-  //   post_id: 1,
-  //   parent_post_id: 1,
-  //   commentator_type: 'teacher',
-  //   commentator_name: '正义使者',
-  //   post_text: '奥术大师肯定会将阿斯顿',
-  //   post_time: new Date(),
-  //   image_url: '',
-  // },
-  // {
-  //   post_id: 2,
-  //   parent_post_id: 2,
-  //   commentator_type: 'teacher',
-  //   commentator_name: 'jaskdjak',
-  //   post_text: 'sadjaskdjask',
-  //   post_time: new Date(),
-  //   image_url: '',
-  // }
-])
+const discussionData: any = ref([])
+const subDiscussionData: any = ref([])
 const mergedData: any = ref([]);
 
 
 interface DiscussionType {
   post_id: number;
   commentator_type: string;
-  commentator_name: string;
+  commentator: string;
   post_text: string;
   post_time: Date;
   image_url: string;
@@ -240,7 +204,7 @@ interface SubDiscussionType {
   post_id: number;
   parent_post_id: number;
   commentator_type: string;
-  commentator_name: string;
+  commentator: string;
   post_text: string;
   post_time: Date;
   image_url: string;
@@ -355,14 +319,14 @@ const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null'
 
 const discussionForm = reactive({
   post_text: '',
-  commentator_name: teacher.value.teacher_name,
+  commentator: teacher.value.teacher_name,
   commentator_type: 'teacher',
   // post_time: new Date()
 })
 const subDiscussionForm = reactive({
   parent_post_id: 0,
   post_text: '',
-  commentator_name: teacher.value.teacher_name,
+  commentator: teacher.value.teacher_name,
   commentator_type: 'teacher',
   // post_time: new Date()
 })

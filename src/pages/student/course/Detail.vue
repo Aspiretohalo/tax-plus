@@ -1,12 +1,14 @@
 <template>
-  <el-dialog v-model="learningModalVisible" title="学习情况" @closed="recordConfirmationTime">
-    <p>点击确认以继续以继续播放视频</p>
-    <el-button type="primary" @click="closeLearningModalAndRecordTime">确定</el-button>
+  <el-dialog v-model="learningModalVisible" title="学习情况" align-center width="30%" style="padding: 10px 20px;">
+    <p>点击继续学习以播放视频</p>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="closeLearningModalAndRecordTime">继续学习</el-button>
+      </span>
+    </template>
   </el-dialog>
   <div class="video2">
     <h3>{{ chapter[chapter_index - 1].video_title }}</h3>
-    <el-button @click="goToTalk()" type="primary" class="goToTalkBtn">去讨论</el-button>
-    <!-- <div class="timer">{{ formattedTime }}</div> -->
     <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
       webkit-playsinline @timeupdate="onTimeUpdate"></video>
   </div>
@@ -25,18 +27,12 @@ let intervalId: any = null;
 let isVideoPlaying = false;
 
 const learningModalVisible = ref(false);
-const learningStartTime = ref(0);
+// const learningStartTime = ref(0);
 const confirmationTime = ref(0);
 const hasModalBeenShown = ref(false);
 
 const route = useRoute();
 const courseId = route.params.courseId;
-
-const goToTalk = () => {
-  // Save the current time before navigating
-  saveLastWatchedTime();
-  // router.push(`/courseId/${courseId}/discussion`);
-};
 
 const chapter = JSON.parse(sessionStorage.getItem("chapter") || "null") || "";
 const chapter_index: any = route.params.chapter_index;
@@ -68,14 +64,11 @@ const startLearningTimer = () => {
   }
 };
 
-const closeLearningModal = () => {
-  // 恢复视频播放逻辑
-  videoPlayer.value.play();
-};
-
 const recordConfirmationTime = () => {
   confirmationTime.value = Math.floor((Date.now() - learningDisplayStartTime.value) / 1000);
   console.log(`Confirmation time: ${confirmationTime.value} seconds`);
+  // 在这里把反应时长发给数据库
+  setConfirmationTime()
 };
 
 const stopLearningTimer = () => { };
@@ -137,7 +130,25 @@ onMounted(() => {
 
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
-
+const setConfirmationTime = async () => {
+  try {
+    let obj = {
+      course_id: courseId,
+      student_id: student.value.student_id,
+      confirmation_time: confirmationTime.value,
+    }
+    console.log(obj);
+    const response = await myAxios.post('/setConfirmationTime', JSON.stringify(obj), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    // 处理响应数据
+    console.log(response.data);
+  } catch (error) {
+    console.error('获取信息失败', error);
+  }
+}
 const setCourseLearningProgress = async () => {
   try {
     let obj = {
@@ -264,18 +275,6 @@ const stopTimer = () => {
   }
 };
 
-const formatTime = (seconds: number) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-};
-const learningDuration = computed(() => {
-  if (learningDisplayStartTime.value) {
-    return Math.floor((Date.now() - learningDisplayStartTime.value) / 1000);
-  } else {
-    return 0;
-  }
-});
 </script>
 
 <style lang="scss" scoped>
@@ -287,6 +286,12 @@ h5,
 h6 {
   margin: 0;
 }
+
+:deep(.el-overlay-dialog) {
+  border-radius: 15px;
+  padding: 20px;
+}
+
 
 .video2 {
   padding: 30px;
