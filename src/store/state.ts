@@ -21,4 +21,5 @@ export default {
     DiscussionNumber: '',
     SubDiscussionNumber: '',
     AllCourseLearningProgress: [],
+    CourseByStudentId: [],
 }

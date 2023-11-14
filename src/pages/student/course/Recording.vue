@@ -1,15 +1,20 @@
 <template>
-    <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
-        webkit-playsinline></video>
+    <div class="video2">
+        <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
+            webkit-playsinline></video>
+    </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, } from "vue";
+import { onUnmounted, onBeforeMount, ref } from "vue";
 import TCPlayer from "tcplayer.js";
 // import myAxios from "../../../plugins/myAxios";
 
-onMounted(async () => {
-    // Your API request code
+const url = `https://api.videosdk.live/v2/recordings?roomId=ypob-bgdr-zmz7`;
+const fileUrl = ref('')
+const playerRef: any = ref(null);
+
+onBeforeMount(async () => {
     const options = {
         method: "GET",
         headers: {
@@ -17,37 +22,36 @@ onMounted(async () => {
             "Content-Type": "application/json",
         },
     };
-
-    const url = `https://api.videosdk.live/v2/recordings?roomId=ypob-bgdr-zmz7`;
-
+    const response = await fetch(url, options);
+    const data = await response.json();
     try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        console.log(data);
-
         // Extracting fileUrl from the response data
         if (data && data.data && data.data.length > 0) {
-            const fileUrl = data.data[0].file.fileUrl;
-
-            // Load the video player with the obtained fileUrl
-            const player = TCPlayer("player-container-id", {
-                autoplay: false,
-                licenseUrl: "https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license",
-            });
-
-            player.src(fileUrl);
-
-            // Set the start time to the last watched time
-
-            // Dispose the player when the component is unmounted
-            onUnmounted(() => {
-                player.dispose();
-            });
+            fileUrl.value = data.data[0].file.fileUrl;
+            onMountedLogic()
         } else {
             console.error("No data or invalid response format");
         }
     } catch (error) {
         console.error("Error fetching data:", error);
+    }
+})
+const onMountedLogic = () => {
+    // 创建 TCPlayer 实例
+    const player = TCPlayer("player-container-id", {
+        autoplay: false,
+        licenseUrl: "https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license",
+    });
+    // 将 player 实例保存到 ref 中
+    playerRef.value = player;
+    // 设置播放源
+    player.src(fileUrl.value);
+}
+
+onUnmounted(() => {
+    // 在组件卸载时释放播放器
+    if (playerRef.value) {
+        playerRef.value.dispose();
     }
 });
 </script>

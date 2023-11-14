@@ -52,20 +52,26 @@
             </template>
           </tr>
         </tbody>
-        <el-dialog v-model="dialogVisible" title="选择课程" width="30%" :before-close="handleClose">
-          <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in selectedCourses" shadow="never">
-            <div style="padding: 14px">
+        <el-dialog v-model="dialogVisible" title="选择课程" width="30%" :before-close="handleClose"
+          :open="getCourseByStudentId()">
+          <el-radio-group v-model="radio1" class="ml-4">
+            <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in CourseByStudentId"
+              shadow="never">
+              <el-radio :label="item.course_id" size="large">
 
-              <div style=" margin-top: 5px;text-align: left;">
-                <span style="color: #73767a;">课程：</span>
-                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.course_name
-                }}</span>
-              </div>
-              <div class="bottom" style="text-align: left;">
-                <span style="color: #73767a;">教师：</span>{{ item.teacher_name }}
-              </div>
-            </div>
-          </el-card>
+                <div style="padding: 14px">
+                  <div style=" margin-top: 5px;text-align: left;">
+                    <span style="color: #73767a;">课程：</span>
+                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.course_name
+                    }}</span>
+                  </div>
+                  <div class="bottom" style="text-align: left;">
+                    <span style="color: #73767a;">教师：</span>{{ item.teacher_name }}
+                  </div>
+                </div>
+              </el-radio>
+            </el-card>
+          </el-radio-group>
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
@@ -85,6 +91,8 @@ import moment from 'moment'
 import { weekCourse, colorList } from '../config/Timetable'
 import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import myAxios from '../plugins/myAxios';
+import state from '../store/state'
 
 export default {
   setup() {
@@ -106,12 +114,41 @@ export default {
         teacher_name: '小黄'
       }
     ]
+    const student = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
+    const CourseByStudentId = ref([])
+
+    const getCourseByStudentId = async () => {
+      console.log(student.value);
+      try {
+        const response = await myAxios.get('/getCourseByStudentId', {
+          params: {
+            student_id: student.value.student_id,
+          },
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          }
+        });
+        // 处理响应数据
+        state.CourseByStudentId = response.data
+        sessionStorage.setItem('CourseByStudentId', JSON.stringify(state.CourseByStudentId))
+        const coursesString = sessionStorage.getItem('CourseByStudentId');
+        if (coursesString) {
+          CourseByStudentId.value = JSON.parse(coursesString)
+          console.log(CourseByStudentId.value);
+        }
+      } catch (error) {
+        console.error('获取信息失败', error);
+      }
+    };
     return {
       timeList,
       goBack,
       dialogVisible,
       handleChooseCourse,
       selectedCourses,
+      getCourseByStudentId,
+      student,
+      CourseByStudentId,
     }
   },
   data() {
