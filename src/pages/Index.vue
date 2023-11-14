@@ -48,7 +48,7 @@
                             </h3>
                             <div style="display: inline-block;" v-for="o in 5" :key="o">
                                 <el-card class="box-card recommendCard" shadow="never">
-                                    <img src="../assets/imgs/首页banner-餐饮.jpg" alt="" style="width: 100%;">
+                                    <img src="../assets/imgs/首页banner-餐饮.jpg" alt="" style="width: 100%; cursor: pointer;">
                                 </el-card>
                                 <div class="courseMsg">
                                     <span style="font-size: large;">静安寺的教案设计</span>

@@ -149,8 +149,6 @@ const onSubmit = () => {
   uploadRef.value!.submit()
 }
 const handleRelease = async () => {
-  console.log(teacher.value.teacher_id);
-
   try {
     // 发布课程，即将课程信息传给后端，存入数据库
     let obj = {

@@ -1,19 +1,8 @@
 <template>
     <div class="leftCard">
         <el-menu :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-
-            <div class="touxiang">
-                <span class="kong"></span>
-                <el-avatar :size="50" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-                <span class="kong"></span>
-                <el-text class="name">{{ teacher.teacher_name }}</el-text>
-            </div>
-            <!-- <div class="name">
-                <el-text>曹老师傅</el-text>
-            </div> -->
             <el-menu-item :index="item.router" class="el-menu-item" v-for="item in menuDemo2">
                 <el-icon class="icon">
-                    <!-- <SvgIcon :className="item.icon"></SvgIcon> -->
                     <component :is="item.icon"></component>
                 </el-icon>
                 <span>{{ item.name }}</span>
@@ -23,11 +12,7 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-// import { useRouter } from 'vue-router'
-
-// const router = useRouter()
-const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
+import { reactive } from 'vue'
 
 const menuDemo2 = reactive([
     { name: '个人信息', index: 1, icon: 'User', router: '/teacherMsg' },
@@ -93,7 +78,7 @@ const handleClose = (key: string, keyPath: string[]) => {
     width: 25px;
 }
 
-::v-deep .el-menu {
+:deep(.el-menu) {
     /* margin-top: 100px; */
     border-right: 0;
     background-color: #f9f9f9;
@@ -107,8 +92,4 @@ const handleClose = (key: string, keyPath: string[]) => {
     height: 211px;
     border-radius: 10px;
 }
-
-/* ::v-deep .el-avatar {
-    background-color: #0089ff;
-} */
 </style>

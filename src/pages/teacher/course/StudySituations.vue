@@ -40,9 +40,7 @@ const route = useRoute();
 const courseId = route.params.courseId;
 // const CourseLearningProgress: any = ref()
 // const confirmationTime: any = ref()
-const AllCourseLearningProgress: any = ref([
-
-])
+const AllCourseLearningProgress: any = ref([])
 
 const students = [
 	{ name: "张三", studyDuration: 50, commentCount: 5 },
@@ -65,15 +63,9 @@ const students = [
 const itemsPerRow = 4;
 const currentPage = ref(1);
 const paginatedStudents = computed(() => {
-	console.log(123);
-
-	console.log(AllCourseLearningProgress.value);
-
 	const startIndex = (currentPage.value - 1) * itemsPerRow;
 	const endIndex = startIndex + itemsPerRow;
-	////////////////////////////////////////这段代码有问题
 	return AllCourseLearningProgress.value.slice(startIndex, endIndex);
-	// return students.slice(startIndex, endIndex);
 });
 
 watch(AllCourseLearningProgress, () => {
