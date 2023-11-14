@@ -21,20 +21,21 @@
 			</div>
 
 			<div class="pagination">
-				<button v-for="pageNumber in totalPages" :key="pageNumber" @click="setCurrentPage(pageNumber)"
-					:class="{ active: pageNumber === currentPage }">
-					{{ pageNumber }}
-				</button>
+				<el-pagination background layout="prev, pager, next" :total="AllCourseLearningProgress.length * 2.5"
+					@current-change="setCurrentPage" :current-page="currentPage" />
 			</div>
 		</el-card>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance, onMounted, onBeforeMount, watch } from "vue";
+import { ref, computed, getCurrentInstance, onMounted, onBeforeMount } from "vue";
 import myAxios from "../../../plugins/myAxios";
 import state from '../../../store/state'
 import { useRoute } from "vue-router";
+
+
+
 
 const route = useRoute();
 const courseId = route.params.courseId;
@@ -42,40 +43,47 @@ const courseId = route.params.courseId;
 // const confirmationTime: any = ref()
 const AllCourseLearningProgress: any = ref([])
 
-const students = [
-	{ name: "张三", studyDuration: 50, commentCount: 5 },
-	{ name: "李四", studyDuration: 45, commentCount: 8 },
-	{ name: "王五", studyDuration: 60, commentCount: 3 },
-	{ name: "赵六", studyDuration: 55, commentCount: 6 },
-	{ name: "钱七", studyDuration: 40, commentCount: 7 },
-	{ name: "孙八", studyDuration: 48, commentCount: 4 },
-	{ name: "周九", studyDuration: 53, commentCount: 9 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-	// Add more students as needed
-];
+// const students = [
+// 	{ name: "张三", studyDuration: 50, commentCount: 5 },
+// 	{ name: "李四", studyDuration: 45, commentCount: 8 },
+// 	{ name: "王五", studyDuration: 60, commentCount: 3 },
+// 	{ name: "赵六", studyDuration: 55, commentCount: 6 },
+// 	{ name: "钱七", studyDuration: 40, commentCount: 7 },
+// 	{ name: "孙八", studyDuration: 48, commentCount: 4 },
+// 	{ name: "周九", studyDuration: 53, commentCount: 9 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
+// 	// Add more students as needed
+// ];
 
-const itemsPerRow = 4;
+
+
+const itemsPerPage = 4; // 每页显示的记录数
 const currentPage = ref(1);
+
 const paginatedStudents = computed(() => {
-	const startIndex = (currentPage.value - 1) * itemsPerRow;
-	const endIndex = startIndex + itemsPerRow;
+	const startIndex = (currentPage.value - 1) * itemsPerPage;
+	const endIndex = currentPage.value * itemsPerPage;
 	return AllCourseLearningProgress.value.slice(startIndex, endIndex);
 });
-
-watch(AllCourseLearningProgress, () => {
-	paginatedStudents.value; // Triggers re-computation
-});
-const totalPages = computed(() => Math.ceil(students.length / itemsPerRow));
 
 function setCurrentPage(pageNumber: number) {
 	currentPage.value = pageNumber;
 }
+
+
+
+// watch(AllCourseLearningProgress, () => {
+// 	paginatedStudents.value; // Triggers re-computation
+// });
+// const totalPages = computed(() => Math.ceil(AllCourseLearningProgress.value.length / itemsPerRow));
+
+
 const chartDom: any = ref(null);
 let myChart: any;
 
