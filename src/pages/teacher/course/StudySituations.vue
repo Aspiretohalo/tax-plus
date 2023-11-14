@@ -149,18 +149,22 @@ const updateLineChart = () => {
 			left: "center",
 		},
 		xAxis: {
-			type: "category",
+			type: 'category',
 			data: ["优秀", "良好", "不够专注"],
 		},
 		yAxis: {
-			type: "value",
+			type: 'value'
 		},
 		series: [
 			{
-				data: [10, 20, 24, 18, 35, 47, 60],
-				type: "line",
-			},
-		],
+				data: [10, 20, 24],
+				type: 'bar',
+				showBackground: true,
+				backgroundStyle: {
+					color: 'rgba(180, 180, 180, 0.2)'
+				}
+			}
+		]
 	};
 
 	option && lineChart.setOption(option);
