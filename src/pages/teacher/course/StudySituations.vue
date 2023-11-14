@@ -10,11 +10,12 @@
 			</div>
 
 			<div class="student-list">
-				<div v-for="(student, index) in paginatedStudents" :key="index" class="student-item">
+				<div v-for="item in paginatedStudents" :key="item.student_id" class="student-item">
 					<div class="student-info">
-						<h2>{{ student.name }}</h2>
-						<p><strong>学习时长：</strong> {{ student.studyDuration }} 小时</p>
-						<p><strong>专注程度：</strong> {{ student.commentCount }}</p>
+						<h2>{{ item.student_name }}</h2>
+						<p><strong>学习时长：</strong> {{ (item.course_learning_progress
+							/ 3600).toFixed(2) }} 小时</p>
+						<p><strong>专注程度：</strong> {{ item.confirmation_time }}</p>
 					</div>
 				</div>
 			</div>
@@ -39,7 +40,9 @@ const route = useRoute();
 const courseId = route.params.courseId;
 // const CourseLearningProgress: any = ref()
 // const confirmationTime: any = ref()
-const AllCourseLearningProgress: any = ref()
+const AllCourseLearningProgress: any = ref([
+
+])
 
 const students = [
 	{ name: "张三", studyDuration: 50, commentCount: 5 },
@@ -62,11 +65,15 @@ const students = [
 const itemsPerRow = 4;
 const currentPage = ref(1);
 const paginatedStudents = computed(() => {
+	console.log(123);
+
+	console.log(AllCourseLearningProgress.value);
+
 	const startIndex = (currentPage.value - 1) * itemsPerRow;
 	const endIndex = startIndex + itemsPerRow;
 	////////////////////////////////////////这段代码有问题
-	// return AllCourseLearningProgress.value.slice(startIndex, endIndex);
-	return students.slice(startIndex, endIndex);
+	return AllCourseLearningProgress.value.slice(startIndex, endIndex);
+	// return students.slice(startIndex, endIndex);
 });
 
 watch(AllCourseLearningProgress, () => {
@@ -101,7 +108,9 @@ onMounted(() => {
 		updateLineChart();
 	}
 });
-
+// onUnmounted(() => {
+// 	sessionStorage.removeItem('AllCourseLearningProgress')
+// })
 const updateECharts = () => {
 	const option = {
 		title: {
@@ -144,7 +153,7 @@ const updateECharts = () => {
 const updateLineChart = () => {
 	const option = {
 		title: {
-			text: "学生专注程度",
+			text: "学生专注情况",
 			subtext: "",
 			left: "center",
 		},
@@ -159,7 +168,7 @@ const updateLineChart = () => {
 			{
 				data: [10, 20, 24],
 				type: 'bar',
-				showBackground: true,
+				barWidth: '40%',
 				backgroundStyle: {
 					color: 'rgba(180, 180, 180, 0.2)'
 				}
