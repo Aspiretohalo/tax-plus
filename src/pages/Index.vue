@@ -24,9 +24,9 @@
                                     </el-text>
                                 </div>
                                 <div>
-                                    <el-button type="primary" round>
+                                    <!-- <el-button type="primary" round>
                                         进入课表
-                                    </el-button>
+                                    </el-button> -->
                                     <el-button type="primary" round @click="goToMyLearning()">
                                         立即学习
                                     </el-button>
@@ -40,22 +40,23 @@
                                 </el-carousel>
                             </div>
                         </div>
-                        <div>
+                        <div style="margin-top: 100px;">
                             <h3 style="display: flex ;align-items: center">
                                 <el-icon style="font-size: 24px;color: #409EFF;">
                                     <Notebook />
-                                </el-icon>智能推荐
+                                </el-icon>智能推荐<span
+                                    style="font-size: 16px; font-weight: normal;margin-left: 20px;color: #E6A23C;">平台根据您的课程偏好，为您定制化推荐以下课程</span>
                             </h3>
-                            <div style="display: inline-block;" v-for="o in 5" :key="o">
+                            <div style="display: inline-block;" v-for="item in RecommendedCourse" :key="item.course_id">
                                 <el-card class="box-card recommendCard" shadow="never">
-                                    <img src="../assets/imgs/首页banner-餐饮.jpg" alt="" style="width: 100%; cursor: pointer;">
+                                    <img :src="item.course_url" alt="" style="width: 100%;height: 100%; cursor: pointer;">
                                 </el-card>
                                 <div class="courseMsg">
-                                    <span style="font-size: large;">静安寺的教案设计</span>
+                                    <span style="font-size: large;">{{ item.course_name }}</span>
                                     <span>
                                     </span>
-                                    <div style="margin-top: 10px; color: #b1b3b8;font-size: 14px;"> 小黄
-                                        <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span>
+                                    <div style="margin-top: 10px; color: #73767a;font-size: 14px;"> {{ item.teacher_name }}
+                                        <!-- <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span> -->
                                     </div>
                                 </div>
 
@@ -97,14 +98,46 @@
 
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
+import { ref, onMounted } from 'vue'
+import myAxios from '../plugins/myAxios'
+import state from '../store/state'
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
+
+onMounted(async () => {
+    console.log(student.value);
+
+    await getRecommendedCourse(student.value.student_id)
+})
 const goToMyLearning = () => {
     router.push('/myLearning')
 }
+const RecommendedCourse: any = ref()
 
+const getRecommendedCourse = async (value: number) => {
+    try {
+        const response = await myAxios.get('/getRecommendedCourse', {
+            params: {
+                student_id: value
+            },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        // 处理响应数据
+        state.RecommendedCourse = response.data
+        sessionStorage.setItem('RecommendedCourse', JSON.stringify(state.RecommendedCourse))
+        const coursesString = sessionStorage.getItem('RecommendedCourse');
+        if (coursesString) {
+            RecommendedCourse.value = JSON.parse(coursesString)
+        }
 
+    } catch (error) {
+        console.error('获取公告信息失败', error);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -237,7 +270,7 @@ h6 {
 
 .livingp3 {
     font-size: 12px;
-    color: rgba(153, 153, 153, 1);
+    color: #73767a;
 }
 
 .livingp3 .livingspan {

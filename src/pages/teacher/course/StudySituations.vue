@@ -15,7 +15,7 @@
 						<h2>{{ item.student_name }}</h2>
 						<p><strong>学习时长：</strong> {{ (item.course_learning_progress
 							/ 3600).toFixed(2) }} 小时</p>
-						<p><strong>专注程度：</strong> {{ item.confirmation_time }}</p>
+						<p><strong>专注程度：</strong> {{ item.confirmation_time }}s</p>
 					</div>
 				</div>
 			</div>
@@ -34,34 +34,11 @@ import myAxios from "../../../plugins/myAxios";
 import state from '../../../store/state'
 import { useRoute } from "vue-router";
 
-
-
-
 const route = useRoute();
 const courseId = route.params.courseId;
 // const CourseLearningProgress: any = ref()
 // const confirmationTime: any = ref()
 const AllCourseLearningProgress: any = ref([])
-
-// const students = [
-// 	{ name: "张三", studyDuration: 50, commentCount: 5 },
-// 	{ name: "李四", studyDuration: 45, commentCount: 8 },
-// 	{ name: "王五", studyDuration: 60, commentCount: 3 },
-// 	{ name: "赵六", studyDuration: 55, commentCount: 6 },
-// 	{ name: "钱七", studyDuration: 40, commentCount: 7 },
-// 	{ name: "孙八", studyDuration: 48, commentCount: 4 },
-// 	{ name: "周九", studyDuration: 53, commentCount: 9 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	{ name: "吴十", studyDuration: 42, commentCount: 2 },
-// 	// Add more students as needed
-// ];
-
-
 
 const itemsPerPage = 4; // 每页显示的记录数
 const currentPage = ref(1);
@@ -76,41 +53,40 @@ function setCurrentPage(pageNumber: number) {
 	currentPage.value = pageNumber;
 }
 
-
-
-// watch(AllCourseLearningProgress, () => {
-// 	paginatedStudents.value; // Triggers re-computation
-// });
-// const totalPages = computed(() => Math.ceil(AllCourseLearningProgress.value.length / itemsPerRow));
-
-
 const chartDom: any = ref(null);
 let myChart: any;
 
 const lineChartDom: any = ref(null);
 let lineChart: any;
 
+interface Student {
+	course_id: number;
+	student_name: string;
+	course_learning_progress: number;
+	badge_got: boolean;
+	student_id: number;
+	confirmation_time: number;
+}
+
 onBeforeMount(async () => {
-	getAllCourseLearningProgress();
+	await getAllCourseLearningProgress();
 })
 
-onMounted(() => {
+onMounted(async () => {
+
 	const instance = getCurrentInstance();
+
 	if (instance && instance.appContext.config.globalProperties) {
 		const { $echarts } = instance.appContext.config.globalProperties;
 
 		chartDom.value = document.getElementById("echarts-chart");
 		myChart = $echarts.init(chartDom.value);
-		updateECharts();
 
 		lineChartDom.value = document.getElementById("echarts-line-chart");
 		lineChart = $echarts.init(lineChartDom.value);
-		updateLineChart();
 	}
+
 });
-// onUnmounted(() => {
-// 	sessionStorage.removeItem('AllCourseLearningProgress')
-// })
 const updateECharts = () => {
 	const option = {
 		title: {
@@ -131,11 +107,11 @@ const updateECharts = () => {
 				type: "pie",
 				radius: "50%",
 				data: [
-					{ value: 1048, name: "0~10h" },
-					{ value: 735, name: "10~20h" },
-					{ value: 580, name: "20~40h" },
-					{ value: 484, name: "40~80h" },
-					{ value: 300, name: "80h以上" },
+					{ value: rangeCounts["<10"], name: "0~10h" },
+					{ value: rangeCounts["10~20"], name: "10~20h" },
+					{ value: rangeCounts["20~30"], name: "20~30h" },
+					{ value: rangeCounts["30~40"], name: "30~40h" },
+					{ value: rangeCounts[">40"], name: "40h以上" },
 				],
 				emphasis: {
 					itemStyle: {
@@ -150,6 +126,22 @@ const updateECharts = () => {
 
 	option && myChart.setOption(option);
 };
+// 分别用<10, 10~20, 20~30, 30~40, 40~50来筛选
+const rangeCounts: { [key: string]: number } = {
+	"<10": 0,
+	"10~20": 0,
+	"20~30": 0,
+	"30~40": 0,
+	">40": 0
+};
+
+// 分别用<10和10~30来筛选
+const rangeCounts2: { [key: string]: number } = {
+	"<10": 0,
+	"10~30": 0,
+	">30": 0
+};
+
 const updateLineChart = () => {
 	const option = {
 		title: {
@@ -166,7 +158,11 @@ const updateLineChart = () => {
 		},
 		series: [
 			{
-				data: [10, 20, 24],
+				data: [
+					rangeCounts2["<10"],
+					rangeCounts2["10~30"],
+					rangeCounts2[">30"]
+				],
 				type: 'bar',
 				barWidth: '40%',
 				backgroundStyle: {
@@ -178,7 +174,6 @@ const updateLineChart = () => {
 
 	option && lineChart.setOption(option);
 };
-
 const getAllCourseLearningProgress = async () => {
 	try {
 		const response = await myAxios.get('/getAllCourseLearningProgress', {
@@ -196,14 +191,41 @@ const getAllCourseLearningProgress = async () => {
 		if (coursesString) {
 			AllCourseLearningProgress.value = JSON.parse(coursesString)
 			console.log(AllCourseLearningProgress.value);
-
-			// CourseLearningProgress.value = Math.ceil(parseFloat(JSON.parse(coursesString)[0].course_learning_progress) / 60)
-			// confirmationTime.value = JSON.parse(coursesString)[0].confirmation_time
 		}
+		// 统计学习进度
+		AllCourseLearningProgress.value.forEach((student: Student) => {
+			const progress = student.course_learning_progress;
+			if (progress < 10) {
+				rangeCounts["<10"] += 1;
+			} else if (progress >= 10 && progress < 20) {
+				rangeCounts["10~20"] += 1;
+			} else if (progress >= 20 && progress < 30) {
+				rangeCounts["20~30"] += 1;
+			} else if (progress >= 30 && progress < 40) {
+				rangeCounts["30~40"] += 1;
+			} else if (progress >= 40 && progress < 50) {
+				rangeCounts["40~50"] += 1;
+			}
+		});
+		// 统计确认时间
+		AllCourseLearningProgress.value.forEach((student: Student) => {
+			const confirmationTime = student.confirmation_time;
+
+			if (confirmationTime < 10) {
+				rangeCounts2["<10"] += 1;
+			} else if (confirmationTime >= 10 && confirmationTime <= 30) {
+				rangeCounts2["10~30"] += 1;
+			} else if (confirmationTime > 30) {
+				rangeCounts2[">30"] += 1;
+			}
+		});
+		updateECharts();
+		updateLineChart();
 	} catch (error) {
 		console.error('获取信息失败', error);
 	}
 };
+
 
 </script>
 

@@ -15,7 +15,7 @@
         <h4>{{ item.living_course_name }}</h4>
         <div class="link">
           前往直播间：<el-link type="warning" @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
-          <el-button type="warning" style="position: absolute;right: 50px;top: 0px;"
+          <el-button v-if="item.meeting_id !== undefined" type="warning" style="position: absolute;right: 50px;top: 0px;"
             @click="goToWatchReplay(item.meeting_id)">回放</el-button>
         </div>
         <el-text class="mx-1" type="info">

@@ -45,7 +45,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 onMounted(async () => {
   await getAllCourses()
-
 })
 
 const goToSelect = async (courseId: number) => {
