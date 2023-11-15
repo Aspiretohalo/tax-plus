@@ -63,7 +63,7 @@ const courseMenuData = reactive([
   {
     name: "学生情况",
     index: 6,
-    icon: "https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg",
+    icon: "https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90.svg",
     router: `/courseId/${courseId.value}/studySituations`,
   },
 ]);

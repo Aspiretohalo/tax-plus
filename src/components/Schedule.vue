@@ -96,6 +96,7 @@ import state from '../store/state'
 
 export default {
   setup() {
+    const radio1 = ref('1')
     const route = useRoute()
     const router = useRouter()
     const goBack = () => {
@@ -115,7 +116,21 @@ export default {
       }
     ]
     const student = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
-    const CourseByStudentId = ref([])
+    const CourseByStudentId = ref([
+      {
+        course_id: 1,
+        course_name: 'asdjkas',
+        teacher_name: '小黑子'
+      }, {
+        course_id: 2,
+        course_name: 'asdjkas',
+        teacher_name: '小黑子'
+      }, {
+        course_id: 3,
+        course_name: 'asdjkas',
+        teacher_name: '小黑子'
+      },
+    ])
 
     const getCourseByStudentId = async () => {
       console.log(student.value);
@@ -149,6 +164,7 @@ export default {
       getCourseByStudentId,
       student,
       CourseByStudentId,
+      radio1,
     }
   },
   data() {

@@ -35,7 +35,7 @@
                 </el-dialog>
               </el-form-item>
               <el-form-item label="课程简介" prop="course_description">
-                <el-input v-model="course.course_description" type="textarea" />
+                <el-input v-model="course.course_description" type="textarea" :autosize="{ minRows: 2 }" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
@@ -85,6 +85,9 @@ import { Plus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import myAxios from '../../plugins/myAxios'
+import type { UploadInstance } from 'element-plus'
+import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const dialogVisible = ref(false)
@@ -138,7 +141,6 @@ const options = Array.from({ length: 8 }).map((_, idx) => {
   }
 })
 
-import type { UploadInstance } from 'element-plus'
 
 
 const fileList = ref<UploadUserFile[]>([])
@@ -172,7 +174,6 @@ const handleRelease = async () => {
   dialogVisible.value = false
 }
 
-import { ElMessage } from 'element-plus'
 
 const open1 = () => {
   ElMessage({
@@ -199,7 +200,6 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   dialogImageUrl.value = uploadFile.url!
   dialogVisible_preview.value = true
 }
-import type { FormInstance } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()
 
 const submitForm = async (formEl: FormInstance | undefined) => {

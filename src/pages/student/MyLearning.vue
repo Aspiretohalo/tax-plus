@@ -9,17 +9,18 @@
           <LeftMenu></LeftMenu>
         </el-aside>
         <el-main class="main">
-          <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs">
+          <!-- <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs"> -->
+          <el-tabs v-model="activeName" class="demo-tabs">
             <el-tab-pane label="全部课程" name="first"></el-tab-pane>
-            <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
-            </el-tab-pane>
+            <!-- <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
+            </el-tab-pane> -->
           </el-tabs>
           <el-table class="table" :data="activeName == 'first' ? courseData : store.getters.selectCourses"
             :show-header="false">
             <el-table-column prop="course_url" label="course_url" width="180">
               <template #default="scope">
                 <div style="display: flex; align-items: center">
-                  <el-image :src="scope.row.course_url" />
+                  <el-image :src="scope.row.course_url" style="width: 100%;height: 120px;" />
                 </div>
               </template>
             </el-table-column>
@@ -49,7 +50,6 @@ import TopNav from '../../components/TopNav.vue'
 import UpcomingCourses from '../../components/UpcomingCourses.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import { onMounted, ref } from 'vue'
-import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
@@ -118,10 +118,10 @@ const getCourseByCourseId = async (value: any) => {
     console.error('获取信息失败', error);
   }
 };
-// tab改变之后调用，获得相应的course
-const changeStatus = (activeName: string) => {
-  state.activeName = activeName
-}
+// // tab改变之后调用，获得相应的course
+// const changeStatus = (activeName: string) => {
+//   state.activeName = activeName
+// }
 
 
 const EnterTheCourse = async (courseId: Number) => {
@@ -130,20 +130,20 @@ const EnterTheCourse = async (courseId: Number) => {
 }
 
 const activeName = ref('first')
-const courseStatus = reactive([
-  {
-    status: 'Ongoing',
-    name: '进行中',
-  },
-  {
-    status: 'Completed',
-    name: '已结束',
-  },
-  {
-    status: 'Coming',
-    name: '即将开始',
-  },
-])
+// const courseStatus = reactive([
+//   {
+//     status: 'Ongoing',
+//     name: '进行中',
+//   },
+//   {
+//     status: 'Completed',
+//     name: '已结束',
+//   },
+//   {
+//     status: 'Coming',
+//     name: '即将开始',
+//   },
+// ])
 
 //课程数据
 const courseData: any = ref()

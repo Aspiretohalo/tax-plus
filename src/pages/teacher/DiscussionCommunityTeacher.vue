@@ -114,6 +114,7 @@ import { onUnmounted, onMounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
+import type { FormInstance } from 'element-plus'
 
 
 // 创建一个响应式的 currentTime 变量
@@ -227,7 +228,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   }
   return true
 }
-import type { FormInstance } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -319,14 +319,14 @@ const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null'
 
 const discussionForm = reactive({
   post_text: '',
-  commentator: teacher.value.teacher_name,
+  commentator: teacher.value.teacher_id,
   commentator_type: 'teacher',
   // post_time: new Date()
 })
 const subDiscussionForm = reactive({
   parent_post_id: 0,
   post_text: '',
-  commentator: teacher.value.teacher_name,
+  commentator: teacher.value.teacher_id,
   commentator_type: 'teacher',
   // post_time: new Date()
 })
