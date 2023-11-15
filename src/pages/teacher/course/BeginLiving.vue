@@ -29,7 +29,7 @@
                     <el-button v-if="item.living_course_description === undefined" type="warning"
                         @click="goToLivingModel(item.living_course_id, item.living_course_name)"
                         style="margin-left: 60px;">开始直播</el-button>
-                    <el-button v-else type="info" disabled style="margin-left: 70px;">回放</el-button>
+                    <el-text v-else type="" disabled style="margin-left: 70px;">回放已生成</el-text>
                 </el-card>
                 <div class="living-notice">
                     <h4>{{ item.living_course_name }}</h4>
@@ -136,8 +136,6 @@ const LivingNotices: any = ref()
 const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
 
 const goToLivingModel = (item1: number, item2: string) => {
-    // console.log(item1,);
-
     window.open(`http://localhost:3000?ifStudent=${0}&courseId=${courseId.value}&name=${teacher.value.teacher_name}&course_teacher=${teacher.value.teacher_id}&living_course_name=${item2}&living_course_id=${item1}`, '_blank');
 }
 

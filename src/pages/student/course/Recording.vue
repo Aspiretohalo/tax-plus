@@ -8,13 +8,18 @@
 <script lang="ts" setup>
 import { onUnmounted, onBeforeMount, ref } from "vue";
 import TCPlayer from "tcplayer.js";
-// import myAxios from "../../../plugins/myAxios";
+import { useRoute } from 'vue-router'
 
-const url = `https://api.videosdk.live/v2/recordings?roomId=ypob-bgdr-zmz7`;
+const route = useRoute()
 const fileUrl = ref('')
 const playerRef: any = ref(null);
+const meetingId = ref(route.params.meetingId)
+
+const url = `https://api.videosdk.live/v2/recordings?roomId=${meetingId.value}`;
 
 onBeforeMount(async () => {
+    console.log(meetingId.value);
+
     const options = {
         method: "GET",
         headers: {
@@ -24,6 +29,7 @@ onBeforeMount(async () => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log(data)
     try {
         // Extracting fileUrl from the response data
         if (data && data.data && data.data.length > 0) {

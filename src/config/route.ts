@@ -87,7 +87,8 @@ const routes = [
                 component: Evaluation,
             },
             {
-                path: "recording",
+                path: "recording/:meetingId",
+                name: 'recording',
                 component: Recording,
             },
         ],

@@ -15,7 +15,8 @@
         <h4>{{ item.living_course_name }}</h4>
         <div class="link">
           前往直播间：<el-link type="warning" @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
-          <el-button type="info" disabled style="position: absolute;right: 50px;top: 0px;">回放</el-button>
+          <el-button type="warning" style="position: absolute;right: 50px;top: 0px;"
+            @click="goToWatchReplay(item.meeting_id)">回放</el-button>
         </div>
         <el-text class="mx-1" type="info">
           {{ item.living_course_description }}
@@ -32,14 +33,15 @@
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
-// const router = useRouter()
+const router = useRouter()
 const courseId = ref(route.params.courseId)
 
 onMounted(async () => {
   await getLivingNotice(courseId.value)
+  // hasReplay()
 })
 
 const getLivingNotice = async (value: any) => {
@@ -68,6 +70,16 @@ const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null'
 
 const goToLivingModel = (value: string) => {
   window.open(`http://localhost:3000?ifStudent=${1}&courseId=${courseId.value}&name=${student.value.student_name}&meeting_id=${value}`, '_blank');
+}
+const goToWatchReplay = (value: string) => {
+  console.log(value);
+
+  router.push({
+    name: 'recording',
+    params: {
+      meetingId: value  // 参数名和值
+    }
+  })
 }
 </script>
 
