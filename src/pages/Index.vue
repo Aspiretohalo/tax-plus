@@ -93,10 +93,12 @@
                 </el-main>
             </el-container>
         </el-container>
+        <SpecialIcon></SpecialIcon>
     </div>
 </template>
 
 <script lang="ts" setup>
+import SpecialIcon from '../components/SpecialIcon.vue';
 import TopNav from '../components/TopNav.vue'
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'

@@ -31,7 +31,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const role = ref(localStorage.getItem('role'))
+const role = ref(sessionStorage.getItem('role'))
 // 获得到学生/老师数据之后，判断哪个是要用的
 // 在登录成功时直接写到session中
 const user = ref(role.value === 'student' ? (JSON.parse(sessionStorage.getItem('students') || 'null') || '') : (JSON.parse(sessionStorage.getItem('teachers') || 'null') || ''))

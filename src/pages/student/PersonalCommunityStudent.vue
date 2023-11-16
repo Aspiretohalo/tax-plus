@@ -58,6 +58,7 @@
         </el-main>
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
   
@@ -73,6 +74,7 @@ import { Search, } from '@element-plus/icons-vue'
 // import type { UploadProps } from 'element-plus'
 
 import { onUnmounted, onMounted } from 'vue';
+import SpecialIcon from '../../components/SpecialIcon.vue'
 
 const post_time = ref(new Date().toLocaleString());
 

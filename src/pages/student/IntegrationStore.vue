@@ -1,37 +1,41 @@
 <template>
-    <el-container>
-        <el-header>
-            <TopNav></TopNav>
-        </el-header>
+    <div>
         <el-container>
-            <el-aside>
-                <LeftMenuStudentMsg></LeftMenuStudentMsg>
-            </el-aside>
-            <el-main class="main">
-                <h2 class="mall-title">积分商城</h2>
-                <el-row>
-                    <el-col :span="8">
-                        <el-card class="mall-card" shadow="never">
-                            <div class="item-img">
-                                <img src="商品1图片链接" />
-                            </div>
-                            <div class="text">
-                                <h3>商品1</h3>
-                                <p class="description">商品1描述</p>
-                                <p class="points">所需积分：100</p>
-                                <el-button type="primary">兑换</el-button>
-                            </div>
-                        </el-card>
-                    </el-col>
+            <el-header>
+                <TopNav></TopNav>
+            </el-header>
+            <el-container>
+                <el-aside>
+                    <LeftMenuStudentMsg></LeftMenuStudentMsg>
+                </el-aside>
+                <el-main class="main">
+                    <h2 class="mall-title">积分商城</h2>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-card class="mall-card" shadow="never">
+                                <div class="item-img">
+                                    <img src="商品1图片链接" />
+                                </div>
+                                <div class="text">
+                                    <h3>商品1</h3>
+                                    <p class="description">商品1描述</p>
+                                    <p class="points">所需积分：100</p>
+                                    <el-button type="primary">兑换</el-button>
+                                </div>
+                            </el-card>
+                        </el-col>
 
-                    <!-- 可以继续添加其他商品的 el-col -->
-                </el-row>
-            </el-main>
+                        <!-- 可以继续添加其他商品的 el-col -->
+                    </el-row>
+                </el-main>
+            </el-container>
         </el-container>
-    </el-container>
+        <SpecialIcon></SpecialIcon>
+    </div>
 </template>
 <script lang="ts" setup>
 import LeftMenuStudentMsg from '../../components/LeftMenuStudentMsg.vue';
+import SpecialIcon from '../../components/SpecialIcon.vue';
 import TopNav from '../../components/TopNav.vue'
 </script>
 

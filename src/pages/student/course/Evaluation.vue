@@ -43,6 +43,7 @@
         <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
       </div>
     </el-card>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -124,6 +125,7 @@ const form = reactive({
   evaluation_time: new Date()
 })
 import type { FormInstance } from 'element-plus'
+import SpecialIcon from '../../../components/SpecialIcon.vue'
 const ruleFormRef = ref<FormInstance>()
 
 const submitForm = async (formEl: FormInstance | undefined) => {

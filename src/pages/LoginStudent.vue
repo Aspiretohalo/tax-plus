@@ -28,11 +28,8 @@
             </el-form-item>
           </el-form>
         </div>
-
       </el-card>
-
     </div>
-
   </div>
 </template>
 
@@ -61,7 +58,7 @@ const handleLoginStudent = async (student: { phone_number: string, user_password
       }
     });
     localStorage.setItem('token', response.data.data.jwt)
-    localStorage.setItem('role', 'student')
+    sessionStorage.setItem('role', 'student')
     ElMessage({
       showClose: true,
       message: '登录成功',

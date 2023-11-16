@@ -50,6 +50,7 @@
           </div>
         </div>
     </el-card>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -58,6 +59,7 @@ import { ref, onMounted, getCurrentInstance, onBeforeMount } from "vue";
 import myAxios from "../../../plugins/myAxios";
 import state from '../../../store/state'
 import { useRoute } from "vue-router";
+import SpecialIcon from "../../../components/SpecialIcon.vue";
 
 const route = useRoute();
 const courseId = route.params.courseId;

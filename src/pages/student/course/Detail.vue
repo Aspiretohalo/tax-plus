@@ -9,9 +9,10 @@
   </el-dialog>
   <div class="video2">
     <h3>{{ chapter[chapter_index - 1].video_title }}</h3>
-    <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
+    <video ref="videoPlayer" id="player-container-id" width="1000" height="500" preload="auto" playbackRates playsinline
       webkit-playsinline @timeupdate="onTimeUpdate"></video>
   </div>
+  <SpecialIcon></SpecialIcon>
 </template>
 
 <script lang="ts" setup>
@@ -20,6 +21,7 @@ import { useRoute } from "vue-router";
 import TCPlayer from "tcplayer.js";
 import myAxios from "../../../plugins/myAxios";
 import state from '../../../store/state'
+import SpecialIcon from "../../../components/SpecialIcon.vue";
 
 const timer = ref(0);
 // const formattedTime = computed(() => formatTime(timer.value));
@@ -300,10 +302,6 @@ h6 {
   h3 {
     margin-bottom: 20px;
     display: inline-block;
-  }
-
-  .goToTalkBtn {
-    float: right;
   }
 }
 </style>

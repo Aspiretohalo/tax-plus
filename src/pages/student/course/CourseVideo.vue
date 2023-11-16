@@ -23,6 +23,7 @@
         </el-collapse>
       </div>
     </el-card>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import { ref, onMounted } from 'vue'
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { useRoute } from 'vue-router'
+import SpecialIcon from '../../../components/SpecialIcon.vue';
 
 const route = useRoute()
 const courseId = ref(route.params.courseId)

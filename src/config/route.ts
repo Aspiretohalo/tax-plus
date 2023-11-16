@@ -17,6 +17,7 @@ import Data from "../pages/student/course/Data.vue";
 import Evaluation from "../pages/student/course/Evaluation.vue";
 import CourseSelection from "../pages/student/course/CourseSelection.vue";
 import Detail from "../pages/student/course/Detail.vue";
+import Recording from "../pages/student/course/Recording.vue";
 import StudentMsg from "../pages/student/StudentMsg.vue";
 import PersonalCommunityStudent from "../pages/student/PersonalCommunityStudent.vue";
 import IntegrationStore from "../pages/student/IntegrationStore.vue"; // 导入积分商城的组件
@@ -32,7 +33,6 @@ import ManageCourseData from "../pages/teacher/course/ManageCourseData.vue";
 import TeacherMsg from "../pages/teacher/TeacherMsg.vue";
 import DiscussionCommunityTeacher from "../pages/teacher/DiscussionCommunityTeacher.vue";
 import BeginLiving from "../pages/teacher/course/BeginLiving.vue";
-import Recording from "../pages/student/course/Recording.vue";
 import PersonalCommunityTeacher from "../pages/teacher/PersonalCommunityTeacher.vue";
 import StudySituations from "../pages/teacher/course/StudySituations.vue";
 

@@ -102,6 +102,7 @@
         </el-main>
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
   
@@ -116,6 +117,7 @@ import { Plus } from '@element-plus/icons-vue'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
 import type { FormInstance } from 'element-plus'
+import SpecialIcon from '../../components/SpecialIcon.vue'
 
 
 // 创建一个响应式的 currentTime 变量

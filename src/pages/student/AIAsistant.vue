@@ -13,11 +13,13 @@
         </el-main>
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
 <script lang="ts" setup>
 import LeftMenu from '../../components/LeftMenu.vue'
+import SpecialIcon from '../../components/SpecialIcon.vue';
 import TopNav from '../../components/TopNav.vue'
 </script>
 

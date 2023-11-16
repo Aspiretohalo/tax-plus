@@ -20,10 +20,12 @@
       </div>
 
     </el-card>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
 <script lang="ts" setup>
+import SpecialIcon from '../../../components/SpecialIcon.vue';
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'

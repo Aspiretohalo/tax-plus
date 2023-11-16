@@ -65,7 +65,7 @@ const handleLoginTeacher = async (teacher: { phone_number: string, user_password
       }
     });
     localStorage.setItem('token', response.data.data.jwt)
-    localStorage.setItem('role', 'teacher')
+    sessionStorage.setItem('role', 'teacher')
     ElMessage({
       showClose: true,
       message: '登录成功',

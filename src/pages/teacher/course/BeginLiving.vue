@@ -71,7 +71,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 let obj = {
                     course_id: courseId.value,
                     living_course_name: form.living_course_name,
-                    living_course_description: ' ',
                     course_teacher: teacher.value.teacher_id,
                 }
                 console.log(obj);

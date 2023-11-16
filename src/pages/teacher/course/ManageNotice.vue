@@ -30,7 +30,7 @@
                 <el-text class="mx-1" type="info">
                     {{ notice.notice_text }}
                 </el-text>
-                <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+                <el-text class="releaseTime mx-1">{{ notice.notice_time }}</el-text>
             </div>
         </el-card>
     </div>

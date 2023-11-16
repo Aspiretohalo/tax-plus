@@ -41,6 +41,7 @@
         </el-main>
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -54,6 +55,7 @@ import { useRouter } from 'vue-router'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
 import store from '../../store'
+import SpecialIcon from '../../components/SpecialIcon.vue'
 
 const router = useRouter()
 onMounted(async () => {

@@ -1,12 +1,13 @@
 <template>
   <div>
     <router-view></router-view>
-    <SpecialIcon></SpecialIcon>
+    <!-- <SpecialIcon></SpecialIcon> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import SpecialIcon from './components/SpecialIcon.vue'
+// import SpecialIcon from './components/SpecialIcon.vue'
+// const token = ref(localStorage.getItem('token'))
 </script>
 
 <style scoped>

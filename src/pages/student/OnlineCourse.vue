@@ -13,6 +13,7 @@
         </el-main>
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -20,6 +21,7 @@
 import TopNav from '../../components/TopNav.vue'
 import LeftMenu from '../../components/LeftMenu.vue'
 import CourseCard from '../../components/CourseCard.vue'
+import SpecialIcon from '../../components/SpecialIcon.vue';
 </script>
 
 <style  scoped>

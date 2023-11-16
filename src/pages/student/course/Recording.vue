@@ -1,14 +1,18 @@
 <template>
     <div class="video2">
-        <video ref="videoPlayer" id="player-container-id" width="1000" height="600" preload="auto" playbackRates playsinline
+        <h3>回放</h3>
+
+        <video ref="videoPlayer" id="player-container-id" width="1000" height="500" preload="auto" playbackRates playsinline
             webkit-playsinline></video>
     </div>
+    <SpecialIcon></SpecialIcon>
 </template>
 
 <script lang="ts" setup>
 import { onUnmounted, onBeforeMount, ref } from "vue";
 import TCPlayer from "tcplayer.js";
 import { useRoute } from 'vue-router'
+import SpecialIcon from "../../../components/SpecialIcon.vue";
 
 const route = useRoute()
 const fileUrl = ref('')
@@ -79,10 +83,6 @@ h6 {
     h3 {
         margin-bottom: 20px;
         display: inline-block;
-    }
-
-    .goToTalkBtn {
-        float: right;
     }
 }
 </style>

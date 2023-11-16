@@ -17,10 +17,13 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
 <script lang="ts" setup>
+import SpecialIcon from '../../../components/SpecialIcon.vue';
+
 // import myAxios from '../../../plugins/myAxios'
 
 const handleDownload = async (file_url: string) => {

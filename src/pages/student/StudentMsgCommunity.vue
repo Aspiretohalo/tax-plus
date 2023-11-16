@@ -62,6 +62,8 @@
 
       </el-container>
     </el-container>
+    <SpecialIcon></SpecialIcon>
+
   </div>
 </template>
   
@@ -73,6 +75,7 @@ import { ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 //import { Search, } from '@element-plus/icons-vue'
 import { onUnmounted, onMounted } from 'vue';
+import SpecialIcon from '../../components/SpecialIcon.vue';
 
 // 创建一个响应式的 currentTime 变量
 const post_time = ref(new Date().toLocaleString());

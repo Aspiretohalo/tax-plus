@@ -52,6 +52,7 @@
                 </div>
             </el-main>
         </el-container>
+        <SpecialIcon></SpecialIcon>
     </div>
 </template>
   
@@ -78,6 +79,7 @@ const continueToLearn = () => {
     router.push(`/courseId/${courseId.value}/notice`)
 }
 import { ElMessage } from 'element-plus'
+import SpecialIcon from '../../../components/SpecialIcon.vue';
 
 const handleSelectCourse = async () => {
     try {

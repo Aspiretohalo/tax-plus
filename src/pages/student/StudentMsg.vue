@@ -59,6 +59,7 @@
       </el-container>
 
     </el-container>
+    <SpecialIcon></SpecialIcon>
   </div>
 </template>
 
@@ -66,6 +67,7 @@
 import LeftMenuStudentMsg from "../../components/LeftMenuStudentMsg.vue";
 import { ref } from "vue";
 import TopNav from "../../components/TopNav.vue";
+import SpecialIcon from "../../components/SpecialIcon.vue";
 
 const badge = [
   {
