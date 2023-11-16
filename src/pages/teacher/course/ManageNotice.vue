@@ -41,6 +41,7 @@ import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
+import moment from 'moment'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -60,6 +61,7 @@ const form = reactive({
     announcer: teacher.value.teacher_id,
     notice_time: new Date()
 })
+
 const handleCancel = () => {
     dialogFormVisible.value = false
     ElMessage({
@@ -98,7 +100,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 }
 
-
 const getNotice = async (value: any) => {
     try {
         const response = await myAxios.get('/course/getNotice', {
@@ -115,6 +116,9 @@ const getNotice = async (value: any) => {
         const coursesString = sessionStorage.getItem('notices');
         if (coursesString) {
             noticeData.value = JSON.parse(coursesString)
+            noticeData.value.forEach((item: any) => {
+                item.notice_time = moment(item.notice_time).format('YYYY/MM/DD HH:mm:ss')
+            });
         }
 
     } catch (error) {

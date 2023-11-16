@@ -11,7 +11,7 @@
         <el-main class="main">
           <!-- <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs"> -->
           <el-tabs v-model="activeName" class="demo-tabs">
-            <el-tab-pane label="全部课程" name="first"></el-tab-pane>
+            <el-tab-pane label="我的选课" name="first"></el-tab-pane>
             <!-- <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
             </el-tab-pane> -->
           </el-tabs>

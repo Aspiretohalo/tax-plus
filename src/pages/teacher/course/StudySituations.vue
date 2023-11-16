@@ -4,7 +4,7 @@
 
 			<div class="charts-container">
 				<!-- ECharts pie chart container -->
-				<div id="echarts-chart" style="width: 500px; height: 400px"></div>
+				<div id="echarts-chart" style="width: 500px; height: 360px"></div>
 				<!-- ECharts line chart container -->
 				<div id="echarts-line-chart" class="chart-box"></div>
 			</div>
@@ -15,7 +15,8 @@
 						<h2>{{ item.student_name }}</h2>
 						<p><strong>学习时长：</strong> {{ (item.course_learning_progress
 							/ 3600).toFixed(2) }} 小时</p>
-						<p><strong>专注程度：</strong> {{ item.confirmation_time }}s</p>
+						<p><strong>专注程度：</strong> {{ item.confirmation_time < 10 ? '优秀' : item.confirmation_time >= 10 &&
+							item.confirmation_time <= 30 ? '良好' : '不够专注' }}</p>
 					</div>
 				</div>
 			</div>
@@ -231,7 +232,7 @@ const getAllCourseLearningProgress = async () => {
 
 <style scoped>
 .box-card {
-	margin-top: 20px;
+	/* margin-top: 20px; */
 	width: 1100px;
 	border-radius: 15px;
 }
@@ -245,7 +246,7 @@ const getAllCourseLearningProgress = async () => {
 
 .student-item {
 	min-width: 240px;
-	min-height: 175.83px;
+	/* min-height: 175.83px; */
 	/* flex: 1 0 calc(20% - 20px); */
 	/* 100% / 5 items - margin-right */
 	margin: 10px;
@@ -295,6 +296,6 @@ const getAllCourseLearningProgress = async () => {
 	flex: 1;
 	margin: 0 10px;
 	width: 600px;
-	height: 400px;
+	height: 360px;
 }
 </style>

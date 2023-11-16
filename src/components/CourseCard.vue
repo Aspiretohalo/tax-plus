@@ -24,7 +24,7 @@
             <span>
             </span>
             <div style="margin-top: 10px; color: #73767a;">{{ item.teacher_name }}
-              <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span>
+              <!-- <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span> -->
             </div>
             <el-text line-clamp="2" :truncated="true" style="font-size: 14px; color: #909399; margin-top: 20px;">
               {{ item.course_description }}</el-text>

@@ -10,7 +10,7 @@
         <el-main class="main">
           <!-- <el-tabs v-model="activeName" @tab-change="changeStatus(activeName)" class="demo-tabs"> -->
           <el-tabs v-model="activeName" class="demo-tabs">
-            <el-tab-pane label="全部课程" name="first"></el-tab-pane>
+            <el-tab-pane label="已发布的课程" name="first"></el-tab-pane>
             <!-- <el-tab-pane v-for="item in courseStatus" :label="item.name" :name="item.status" :key="item.status">
             </el-tab-pane> -->
           </el-tabs>
@@ -23,7 +23,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="course_name" label="course_name" width="180" />
+            <el-table-column prop="course_name" label="course_name" width="300" />
             <el-table-column prop="teacher_name" label="teacher_name" />
             <!-- <el-table-column prop="status" label="status">
               <template #default="scope">

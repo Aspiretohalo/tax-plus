@@ -34,8 +34,8 @@
                             </div>
                             <div style="margin-left: 110px;width: 600px;">
                                 <el-carousel indicator-position="outside" class="lunbo">
-                                    <el-carousel-item v-for="item in 4" :key="item" class="lunbo_page">
-                                        <img src="src\assets\imgs\login_bg.png">
+                                    <el-carousel-item v-for="item in carouselImg" :key="item" class="lunbo_page">
+                                        <img :src="item.img" style="height: 350px;width: 550px;">
                                     </el-carousel-item>
                                 </el-carousel>
                             </div>
@@ -49,7 +49,7 @@
                             </h3>
                             <div style="display: inline-block;" v-for="item in RecommendedCourse" :key="item.course_id">
                                 <el-card class="box-card recommendCard" shadow="never">
-                                    <img :src="item.course_url" alt="" style="width: 100%;height: 100%; cursor: pointer;">
+                                    <img :src="item.course_url" alt="" style="width: 220px;height: 150px; cursor: pointer;">
                                 </el-card>
                                 <div class="courseMsg">
                                     <span style="font-size: large;">{{ item.course_name }}</span>
@@ -108,6 +108,12 @@ const router = useRouter();
 
 const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
 
+const carouselImg = ref([
+    { img: 'https://img1.baidu.com/it/u=567729574,2492561565&fm=253&fmt=auto&app=138&f=JPEG?w=676&h=500' },
+    { img: 'https://img1.baidu.com/it/u=4118407280,1876108124&fm=253&fmt=auto&app=120&f=JPEG?w=600&h=400' },
+    { img: 'https://www.tax4a.com/upload/editor/image/2022/01/10/6377740938916553091310979.jpg' },
+    { img: 'https://img2.baidu.com/it/u=3086357251,2639553427&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=455' },
+])
 onMounted(async () => {
     console.log(student.value);
 
@@ -346,13 +352,15 @@ h6 {
 
 }
 
-
-
 :deep(.el-button) {
     height: 50px;
     width: 150px;
     margin-top: 30px;
     margin-left: 10px;
     border-radius: 50px;
+}
+
+:deep(.el-carousel__container) {
+    height: 350px;
 }
 </style>

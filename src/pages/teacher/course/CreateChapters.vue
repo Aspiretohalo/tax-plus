@@ -237,6 +237,7 @@ const chapterData: any = ref()
 
   :deep(.el-card__header) {
     padding-left: 50px;
+    border-bottom: none;
   }
 
   :deep(.el-card__body) {

@@ -41,7 +41,7 @@
                 <el-text class="mx-1 commentText" type="info">
                     {{ item.evaluation_text }}
                 </el-text>
-                <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+                <el-text class="releaseTime mx-1">{{ item.evaluation_time }}</el-text>
             </div>
         </el-card>
     </div>
@@ -52,6 +52,7 @@ import { reactive, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
+import moment from 'moment'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -82,6 +83,9 @@ const getEvaluation = async (value: any) => {
         const coursesString = sessionStorage.getItem('evaluations');
         if (coursesString) {
             evaluationData.value = JSON.parse(coursesString)
+            evaluationData.value.forEach((item: any) => {
+                item.evaluation_time = moment(item.evaluation_time).format('YYYY/MM/DD HH:mm:ss')
+            });
         }
 
     } catch (error) {

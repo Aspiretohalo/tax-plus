@@ -16,7 +16,7 @@
         <el-text class="mx-1" type="info">
           {{ notice.notice_text }}
         </el-text>
-        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+        <el-text class="releaseTime mx-1">{{ notice.notice_time }}</el-text>
       </div>
 
     </el-card>
@@ -29,6 +29,7 @@ import SpecialIcon from '../../../components/SpecialIcon.vue';
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref } from 'vue'
+import moment from 'moment'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -55,6 +56,9 @@ const getNotice = async (value: any) => {
     const coursesString = sessionStorage.getItem('notices');
     if (coursesString) {
       noticeData.value = JSON.parse(coursesString)
+      noticeData.value.forEach((item: any) => {
+        item.notice_time = moment(item.notice_time).format('YYYY/MM/DD HH:mm:ss')
+      });
     }
 
   } catch (error) {

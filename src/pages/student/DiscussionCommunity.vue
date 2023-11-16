@@ -9,6 +9,7 @@
           <LeftMenu></LeftMenu>
         </el-aside>
         <el-main>
+
           <div class="tabbar">
             <span class="welcome">讨论区</span>
             <el-button type="primary" class="goOnLearning" @click="dialogFormVisible = true">创建讨论</el-button>
@@ -67,7 +68,7 @@
                     <p>
                       <span class="reply">{{ subItem.post_text }}</span>
                     </p>
-                    <span class="author-time marginLeft">{{ item.post_time }}</span>
+                    <span class="author-time marginLeft">{{ subItem.post_time }}</span>
 
                   </div>
                   <div class="reply-box"></div>
@@ -112,21 +113,13 @@ import LeftMenu from '../../components/LeftMenu.vue'
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadProps } from 'element-plus'
-import { onUnmounted, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
+import moment from 'moment'
 import type { FormInstance } from 'element-plus'
 import SpecialIcon from '../../components/SpecialIcon.vue'
-
-
-// 创建一个响应式的 currentTime 变量
-const post_time = ref(new Date().toLocaleString());
-
-// 创建一个函数来更新 currentTime
-const updateCurrentTime = () => {
-  post_time.value = new Date().toLocaleString();
-};
 
 onMounted(async () => {
   await getDiscussion()
@@ -140,12 +133,7 @@ onMounted(async () => {
     };
   });
   console.log(mergedData);
-  // 在组件挂载时开始定时更新 currentTime
-  const timer = setInterval(updateCurrentTime, 1000);
-  // 在组件卸载时清除定时器，以防内存泄漏
-  onUnmounted(() => {
-    clearInterval(timer);
-  });
+
 });
 const commentator_type = ref(['学员', '老师'])
 
@@ -162,6 +150,9 @@ const getDiscussion = async () => {
     const coursesString = sessionStorage.getItem('discussion');
     if (coursesString) {
       discussionData.value = JSON.parse(coursesString)
+      discussionData.value.forEach((item: any) => {
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+      });
     }
 
   } catch (error) {
@@ -182,6 +173,9 @@ const getSubDiscussion = async () => {
     const coursesString = sessionStorage.getItem('subDiscussion');
     if (coursesString) {
       subDiscussionData.value = JSON.parse(coursesString)
+      subDiscussionData.value.forEach((item: any) => {
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+      });
     }
 
   } catch (error) {
@@ -403,7 +397,7 @@ h6 {
 
 .goOnLearning {
   position: absolute;
-  right: 150px;
+  right: 160px;
 }
 
 .notice {

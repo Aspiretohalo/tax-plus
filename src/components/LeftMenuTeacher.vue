@@ -1,7 +1,8 @@
 <template>
   <div class="leftCard">
     <h3>教师管理平台</h3>
-    <el-button plain round style="margin-left: 44px;height: 50px;" v-for="item in menuDemo3" @click="releaseCourse()">
+    <el-button plain round style="margin-left: 24px;height: 50px;width: 200px;" v-for="item in menuDemo3"
+      @click="releaseCourse()">
       <img :src="item.icon" style="width: 28px;height: 28px;">
       <span style="padding-left: 30px;">{{ item.name }}</span>
     </el-button>

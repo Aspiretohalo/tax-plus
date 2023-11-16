@@ -8,7 +8,7 @@
           <LeftMenu></LeftMenu>
         </el-aside>
         <el-main>
-          <iframe src="http://localhost:1002" frameborder="0" width="1200px" height="650px"
+          <iframe src="http://localhost:1002" frameborder="0" width="1150px" height="650px"
             allow="midi;encrypted-media;display-capture;clipboard-write;clipboard-read;"></iframe>
         </el-main>
       </el-container>

@@ -66,7 +66,7 @@
                     <p>
                       <span class="reply">{{ subItem.post_text }}</span>
                     </p>
-                    <span class="author-time marginLeft">{{ item.post_time }}</span>
+                    <span class="author-time marginLeft">{{ subItem.post_time }}</span>
                   </div>
                   <div class="reply-box"></div>
                 </div>
@@ -112,6 +112,7 @@ import { ElMessage } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { onUnmounted, onMounted } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
+import moment from 'moment'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
 import type { FormInstance } from 'element-plus'
@@ -126,6 +127,7 @@ const updateCurrentTime = () => {
 };
 
 onMounted(async () => {
+
   await getDiscussion()
   await getSubDiscussion()
   // 合并嵌套数据
@@ -161,6 +163,9 @@ const getDiscussion = async () => {
     const coursesString = sessionStorage.getItem('discussion');
     if (coursesString) {
       discussionData.value = JSON.parse(coursesString)
+      discussionData.value.forEach((item: any) => {
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+      });
     }
 
   } catch (error) {
@@ -181,6 +186,9 @@ const getSubDiscussion = async () => {
     const coursesString = sessionStorage.getItem('subDiscussion');
     if (coursesString) {
       subDiscussionData.value = JSON.parse(coursesString)
+      subDiscussionData.value.forEach((item: any) => {
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+      });
     }
 
   } catch (error) {
@@ -321,7 +329,7 @@ const discussionForm = reactive({
   post_text: '',
   commentator: teacher.value.teacher_id,
   commentator_type: 'teacher',
-  post_time: new Date()
+  post_: new Date()
 })
 const subDiscussionForm = reactive({
   parent_post_id: 0,
@@ -402,7 +410,7 @@ h6 {
 
 .goOnLearning {
   position: absolute;
-  right: 150px;
+  right: 160px;
 }
 
 .notice {
