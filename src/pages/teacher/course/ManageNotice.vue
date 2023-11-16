@@ -57,7 +57,8 @@ const form = reactive({
     notice_title: '',
     notice_text: '',
     course_id: route.params.courseId,
-    announcer: teacher.value.teacher_name,
+    announcer: teacher.value.teacher_id,
+    notice_time: new Date()
 })
 const handleCancel = () => {
     dialogFormVisible.value = false

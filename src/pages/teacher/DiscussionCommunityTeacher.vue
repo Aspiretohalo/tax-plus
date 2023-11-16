@@ -321,14 +321,14 @@ const discussionForm = reactive({
   post_text: '',
   commentator: teacher.value.teacher_id,
   commentator_type: 'teacher',
-  // post_time: new Date()
+  post_time: new Date()
 })
 const subDiscussionForm = reactive({
   parent_post_id: 0,
   post_text: '',
   commentator: teacher.value.teacher_id,
   commentator_type: 'teacher',
-  // post_time: new Date()
+  post_time: new Date()
 })
 const handleReply = (parent_post_id: number) => {
   dialogFormVisible2.value = true

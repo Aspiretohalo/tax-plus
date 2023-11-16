@@ -120,7 +120,8 @@ const form = reactive({
   evaluation_stars: Number,
   evaluation_text: '',
   course_id: route.params.courseId,
-  evaluator: student.value.student_name,
+  evaluator: student.value.student_id,
+  evaluation_time: new Date()
 })
 import type { FormInstance } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()

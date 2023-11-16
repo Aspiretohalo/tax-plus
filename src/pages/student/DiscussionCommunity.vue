@@ -320,14 +320,14 @@ const discussionForm = reactive({
   post_text: '',
   commentator: student.value.student_id,
   commentator_type: 'student',
-  // post_time: new Date()
+  post_time: new Date()
 })
 const subDiscussionForm = reactive({
   parent_post_id: 0,
   post_text: '',
   commentator: student.value.student_id,
   commentator_type: 'student',
-  // post_time: new Date()
+  post_time: new Date()
 })
 const handleReply = (parent_post_id: number) => {
   dialogFormVisible2.value = true

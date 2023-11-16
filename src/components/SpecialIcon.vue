@@ -70,7 +70,7 @@ import Schedule from './Schedule.vue'
 import { ref, reactive } from 'vue'
 import { ElDrawer } from 'element-plus'
 import myAxios from '../plugins/myAxios';
-
+import { ElMessage } from 'element-plus'
 const icons = [
     { index: 1, icon_class: 'fa fa-instagram' },
     { index: 2, icon_class: 'fa fa-instagram' },
@@ -108,6 +108,7 @@ const form = reactive({
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
 const handleClassify = async () => {
+
     const checkedItems1 = availableTime.filter(item => (document.getElementById(item)! as HTMLInputElement).checked);
     const checkedItems = taxClassification.filter(item => (document.getElementById(item)! as HTMLInputElement).checked);
     try {
@@ -123,6 +124,10 @@ const handleClassify = async () => {
                 'Content-Type': 'application/json'
             }
         });
+        ElMessage({
+            message: '保存成功',
+            type: 'success',
+        })
         console.log(response);
     } catch (error) {
         console.error('新建课程失败', error);

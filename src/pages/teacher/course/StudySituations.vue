@@ -194,7 +194,7 @@ const getAllCourseLearningProgress = async () => {
 		}
 		// 统计学习进度
 		AllCourseLearningProgress.value.forEach((student: Student) => {
-			const progress = student.course_learning_progress;
+			const progress = student.course_learning_progress / 3600;
 			if (progress < 10) {
 				rangeCounts["<10"] += 1;
 			} else if (progress >= 10 && progress < 20) {
