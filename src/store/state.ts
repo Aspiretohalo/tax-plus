@@ -23,4 +23,5 @@ export default {
     AllCourseLearningProgress: [],
     CourseByStudentId: [],
     RecommendedCourse: [],
+    userMsg: [],
 }

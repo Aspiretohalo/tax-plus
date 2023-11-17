@@ -107,7 +107,7 @@ body {
   padding: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  z-index: 1000;
+  z-index: 10;
   color: #333;
 
   .pagination {

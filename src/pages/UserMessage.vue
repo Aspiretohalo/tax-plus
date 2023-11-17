@@ -13,38 +13,52 @@
                         <div class="bgavatar">
                             <div class="imgbox">
                                 <img class="imgtip"
-                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+                                    :src="user.commentator_type == 'student'
+                                        ? (userMsg[0] ? userMsg[0].avatar : '') : (userMsg[0] ? userMsg[0].avatar : '')" />
                             </div>
                         </div>
                         <div>
-                            <span class="bgname" style="margin-left: 55px">小黑</span>
+                            <span class="bgname" style="margin-left: 55px">{{ user.commentator_type == 'student'
+                                ? (userMsg[0] ? userMsg[0].student_name : '加载中') : (userMsg[0] ? userMsg[0].teacher_name :
+                                    '加载中')
+                            }}</span>
                         </div>
                         <el-col :span="12" style="padding-left: 250px;">
                             <el-row :gutter="12" style="margin-top: 30px">
                                 <el-col :span="4">
                                     <div style="text-align: right; color: gray"><span>手机号：</span></div>
                                 </el-col>
-                                <el-col :span="16">{{ 13568586464 }}</el-col>
+                                <el-col :span="16">{{ user.commentator_type == 'student'
+                                    ? (userMsg[0] ? userMsg[0].phone_number : '加载中') : (userMsg[0] ? userMsg[0].phone_number
+                                        :
+                                        '加载中')
+                                }}</el-col>
                             </el-row>
                             <el-row :gutter="12" style="margin-top: 30px">
                                 <el-col :span="4">
                                     <div style="text-align: right; color: gray"><span>email：</span></div>
                                 </el-col>
-                                <el-col :span="16">{{ student.email }}</el-col>
+                                <el-col :span="16">{{ user.commentator_type == 'student'
+                                    ? (userMsg[0] ? userMsg[0].email : '加载中') : (userMsg[0] ? userMsg[0].email
+                                        :
+                                        '加载中')
+                                }}</el-col>
                             </el-row>
                             <el-row :gutter="12" style="margin-top: 30px">
                                 <el-col :span="4">
                                     <div style="text-align: right; color: gray"><span>身份：</span></div>
                                 </el-col>
                                 <el-col :span="16">
-                                    <el-tag class="role" size="large">学员</el-tag>
+                                    <el-tag class="role" size="large">{{ user.commentator_type == 'student'
+                                        ? '学员' : '老师'
+                                    }}</el-tag>
                                 </el-col>
                             </el-row>
                         </el-col>
                         <div style="height: 200px;width: 100%;"></div>
 
                     </div>
-                    <div class="badge-wall">
+                    <div class="badge-wall" v-if="user.commentator_type == 'student'">
                         <h2 class="badge-wall-title">勋章墙</h2>
                         <!-- Your badge wall content goes here -->
                         <div class="badge-slot" v-for="item in badge">
@@ -60,9 +74,63 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import TopNav from "../components/TopNav.vue";
+import { useRoute } from 'vue-router'
+import myAxios from "../plugins/myAxios";
+import state from '../store/state'
 
+const route = useRoute()
+const user = reactive({
+    commentator: route.query.commentator,
+    commentator_type: route.query.commentator_type
+})
+onMounted(() => {
+    console.log(route.query)
+    getUser(user)
+})
+const getUser = async (user: any) => {
+    try {
+        if (user.commentator_type == 'student') {
+            const response = await myAxios.get('/getStudentMsgById', {
+                params: {
+                    student_id: user.commentator
+                },
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                }
+            });
+            // 处理响应数据
+            state.userMsg = response.data
+            sessionStorage.setItem('userMsg', JSON.stringify(state.userMsg))
+            const coursesString = sessionStorage.getItem('userMsg');
+            if (coursesString) {
+                userMsg.value = JSON.parse(coursesString)
+            }
+        } else if (user.commentator_type == 'teacher') {
+            const response = await myAxios.get('/getTeacherMsgById', {
+                params: {
+                    teacher_id: user.commentator
+                },
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                }
+            });
+            // 处理响应数据
+            state.userMsg = response.data
+            sessionStorage.setItem('userMsg', JSON.stringify(state.userMsg))
+            const coursesString = sessionStorage.getItem('userMsg');
+            if (coursesString) {
+                userMsg.value = JSON.parse(coursesString)
+            }
+        }
+
+    } catch (error) {
+        console.error('获取信息失败', error);
+    }
+};
+const userMsg: any = ref([])
+// const
 const badge = [
     {
         badge_url: 'src/assets/icon/1.svg'
@@ -82,7 +150,7 @@ const badge = [
         badge_url: 'src/assets/icon/5.svg'
     }
 ]
-const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
+
 </script>
 
 <style lang="scss" scoped>
@@ -101,7 +169,7 @@ body {
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    z-index: 1000;
+    z-index: 10;
     color: #333;
 
     .pagination {

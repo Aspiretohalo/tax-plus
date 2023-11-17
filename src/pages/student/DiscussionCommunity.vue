@@ -41,9 +41,10 @@
           <el-card class="box-card notice" shadow="never">
             <div v-for="item in mergedData" :key="item.post_id" class="author-title reply-father">
               <el-avatar class="header-img" :size="50" :src="item.avatar" style="cursor: pointer;"
-                @click="goToANewPage()"></el-avatar>
+                @click="goToANewPage(item.commentator, item.commentator_type)"></el-avatar>
               <div class="author-info">
-                <span class="author-name" @click="goToANewPage()">{{ item.name }}</span>
+                <span class="author-name" @click="goToANewPage(item.commentator, item.commentator_type)">{{ item.name
+                }}</span>
                 <el-tag class="author-tag">{{ item.commentator_type === 'student' ? commentator_type[0] :
                   commentator_type[1] }}</el-tag>
               </div>
@@ -58,9 +59,10 @@
               <div class="reply-box">
                 <div v-for="subItem in item.replies" :key="subItem.post_id" class="author-title">
                   <el-avatar class="header-img" :size="30" :src="subItem.avatar" style="cursor: pointer;"
-                    @click="goToANewPage()"></el-avatar>
+                    @click="goToANewPage(subItem.commentator, subItem.commentator_type)"></el-avatar>
                   <div class="author-info">
-                    <span class="author-name" @click="goToANewPage()">{{ subItem.name }}</span>
+                    <span class="author-name" @click="goToANewPage(subItem.commentator, subItem.commentator_type)">{{
+                      subItem.name }}</span>
                     <el-tag class="author-tag">{{ subItem.commentator_type === 'student' ? commentator_type[0] :
                       commentator_type[1] }}</el-tag>
                   </div>
@@ -330,8 +332,9 @@ const handleReply = (parent_post_id: number) => {
   subDiscussionForm.parent_post_id = parent_post_id
 }
 
-const goToANewPage = () => {
-  window.open('http://localhost:5173/#/userMessage', '_blank');
+const goToANewPage = (value1: number, value2: string) => {
+
+  window.open(`http://localhost:5173/#/userMessage?commentator=${value1}&commentator_type=${value2}`, '_blank');
 }
 </script>
   
