@@ -104,7 +104,7 @@ const updateECharts = () => {
 		},
 		series: [
 			{
-				name: "Access From",
+				name: "人数",
 				type: "pie",
 				radius: "50%",
 				data: [

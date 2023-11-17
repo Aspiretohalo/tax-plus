@@ -24,9 +24,6 @@
                                     </el-text>
                                 </div>
                                 <div>
-                                    <!-- <el-button type="primary" round>
-                                        进入课表
-                                    </el-button> -->
                                     <el-button type="primary" round @click="goToMyLearning()">
                                         立即学习
                                     </el-button>
@@ -49,14 +46,13 @@
                             </h3>
                             <div style="display: inline-block;" v-for="item in RecommendedCourse" :key="item.course_id">
                                 <el-card class="box-card recommendCard" shadow="never">
-                                    <img :src="item.course_url" alt="" style="width: 220px;height: 150px; cursor: pointer;">
+                                    <img :src="item.course_url" alt="" @click="goToTheCourse(item.course_id)"
+                                        style="width: 220px;height: 150px; cursor: pointer;">
                                 </el-card>
                                 <div class="courseMsg">
-                                    <span style="font-size: large;">{{ item.course_name }}</span>
-                                    <span>
-                                    </span>
+                                    <el-text style="font-size: large;" truncated>{{ item.course_name }}</el-text>
+
                                     <div style="margin-top: 10px; color: #73767a;font-size: 14px;"> {{ item.teacher_name }}
-                                        <!-- <span class="time" style="font-size: small; float: right;"> 2023/11/8 </span> -->
                                     </div>
                                 </div>
 
@@ -72,13 +68,18 @@
                                 <div class="livingcard">
                                     <div class="livingsize">
                                         <ul class="livingul" style=" height: 260px;">
-                                            <a class="livinga" role="none" v-for="o in 4 " :key="o">
+                                            <a class="livinga" @click="goToTheLivingCourse(item.course_id)" role="none"
+                                                v-for="item in allLivingCourses" :key="item.living_course_id">
                                                 <p class="livingp">未开始</p>
                                                 <div>
-                                                    <img class="livingimg"
-                                                        src="https://mooc-image.nosdn.127.net/d47a3dcdc08245e387d1d416fd6ececa.jpg?imageView&quality=100&thumbnail=227y227">
-                                                    <p class="livingp2">科目1</p>
-                                                    <p class="livingp3">曹师傅 <span class="livingspan">今天8：00</span></p>
+                                                    <img class="livingimg" :src="item.avatar">
+                                                    <el-text class="livingp2" style="font-size: 17px;" truncated>{{
+                                                        item.living_course_name
+                                                    }}</el-text>
+                                                    <p class="livingp3" style="font-size: 13px;">{{ item.teacher_name }}
+                                                        <span class="livingspan">
+                                                            {{ item.start_time }}</span>
+                                                    </p>
                                                 </div>
                                             </a>
 
@@ -102,6 +103,7 @@ import SpecialIcon from '../components/SpecialIcon.vue';
 import TopNav from '../components/TopNav.vue'
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'
+import moment from 'moment'
 import state from '../store/state'
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -118,9 +120,57 @@ onMounted(async () => {
     console.log(student.value);
 
     await getRecommendedCourse(student.value.student_id)
+    await getAllLivingCourses()
 })
+const getAllLivingCourses = async () => {
+    try {
+        const response = await myAxios.get('/getAllLivingCourses', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        // 处理响应数据
+        state.allLivingCourses = response.data
+        sessionStorage.setItem('allLivingCourses', JSON.stringify(state.allLivingCourses))
+        const coursesString = sessionStorage.getItem('allLivingCourses');
+        if (coursesString) {
+            allLivingCourses.value = JSON.parse(coursesString)
+            allLivingCourses.value.forEach((item: any) => {
+                item.start_time = moment(item.start_time).format('YYYY/MM/DD HH:mm')
+            });
+        }
+    } catch (error) {
+        console.error('获取公告信息失败', error);
+    }
+};
+const allLivingCourses: any = ref()
 const goToMyLearning = () => {
     router.push('/myLearning')
+}
+const getCourseByCourseId = async (value: any) => {
+    try {
+        const response = await myAxios.get('/getCourseByCourseId', {
+            params: {
+                course_id: value
+            },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        // 处理响应数据
+        state.singleCourse = response.data
+        sessionStorage.setItem('singleCourse', JSON.stringify(state.singleCourse))
+    } catch (error) {
+        console.error('获取信息失败', error);
+    }
+};
+const goToTheLivingCourse = async (courseId: number) => {
+    await getCourseByCourseId(courseId)
+    router.push(`/courseId/${courseId}/livingroom`)
+}
+const goToTheCourse = async (courseId: number) => {
+    await getCourseByCourseId(courseId)
+    router.push(`/courseId/${courseId}/notice`)
 }
 const RecommendedCourse: any = ref()
 
@@ -221,7 +271,7 @@ h6 {
 .livinga {
     width: 270px;
     height: 106px;
-    background: rgb(202, 207, 191);
+    background: rgb(221, 219, 219);
     border-radius: 8px;
     position: relative;
     padding: 26px 16px 0 16px;

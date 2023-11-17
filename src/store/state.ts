@@ -24,4 +24,5 @@ export default {
     CourseByStudentId: [],
     RecommendedCourse: [],
     userMsg: [],
+    singleLivingCourse: [],
 }

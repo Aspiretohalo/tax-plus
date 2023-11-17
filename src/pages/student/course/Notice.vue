@@ -57,7 +57,7 @@ const getNotice = async (value: any) => {
     if (coursesString) {
       noticeData.value = JSON.parse(coursesString)
       noticeData.value.forEach((item: any) => {
-        item.notice_time = moment(item.notice_time).format('YYYY/MM/DD HH:mm:ss')
+        item.notice_time = moment(item.notice_time).format('YYYY/MM/DD HH:mm')
       });
     }
 

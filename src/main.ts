@@ -23,7 +23,6 @@ app.config.globalProperties.$echarts = echarts;
 app.component('SvgIcon', SvgIcon);
 app.use(router)
 app.use(store)
-app.use(ElementPlus)
 app.use(ElementPlus, {
     locale: zhCn,
 })

@@ -17,15 +17,6 @@
               <el-form-item label="讨论内容" prop="post_text">
                 <el-input v-model="discussionForm.post_text" type="textarea" style="width: 780px;" />
               </el-form-item>
-              <el-form-item label="上传图片">
-                <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                  :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                  <el-icon v-else class="avatar-uploader-icon">
-                    <Plus />
-                  </el-icon>
-                </el-upload>
-              </el-form-item>
             </el-form>
             <template #footer>
               <span class="dialog-footer">
@@ -81,15 +72,6 @@
               <el-form-item label="回复内容" prop="post_text">
                 <el-input v-model="subDiscussionForm.post_text" type="textarea" style="width: 780px;" />
               </el-form-item>
-              <el-form-item label="上传图片">
-                <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                  :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                  <el-icon v-else class="avatar-uploader-icon">
-                    <Plus />
-                  </el-icon>
-                </el-upload>
-              </el-form-item>
             </el-form>
             <template #footer>
               <span class="dialog-footer">
@@ -111,9 +93,7 @@ import TopNav from '../../components/TopNav.vue'
 import LeftMenuTeacher from '../../components/LeftMenuTeacher.vue'
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import type { UploadProps } from 'element-plus'
 import { onUnmounted, onMounted } from 'vue';
-import { Plus } from '@element-plus/icons-vue'
 import moment from 'moment'
 import myAxios from '../../plugins/myAxios'
 import state from '../../store/state'
@@ -166,7 +146,7 @@ const getDiscussion = async () => {
     if (coursesString) {
       discussionData.value = JSON.parse(coursesString)
       discussionData.value.forEach((item: any) => {
-        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm')
       });
     }
 
@@ -189,7 +169,7 @@ const getSubDiscussion = async () => {
     if (coursesString) {
       subDiscussionData.value = JSON.parse(coursesString)
       subDiscussionData.value.forEach((item: any) => {
-        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm:ss')
+        item.post_time = moment(item.post_time).format('YYYY/MM/DD HH:mm')
       });
     }
 
@@ -219,24 +199,6 @@ interface SubDiscussionType {
   post_text: string;
   post_time: Date;
   image_url: string;
-}
-const imageUrl = ref('')
-
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-}
-
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
 }
 
 const ruleFormRef = ref<FormInstance>()

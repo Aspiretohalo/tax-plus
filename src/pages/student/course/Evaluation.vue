@@ -79,7 +79,7 @@ const getEvaluation = async (value: any) => {
     if (coursesString) {
       evaluationData.value = JSON.parse(coursesString)
       evaluationData.value.forEach((item: any) => {
-        item.evaluation_time = moment(item.evaluation_time).format('YYYY/MM/DD HH:mm:ss')
+        item.evaluation_time = moment(item.evaluation_time).format('YYYY/MM/DD HH:mm')
       });
     }
 

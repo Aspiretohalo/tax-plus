@@ -9,7 +9,11 @@
                 <el-dialog v-model="dialogVisible" title="直播课程内容" width="30%">
                     <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
                         <el-form-item label="直播课标题" prop="living_course_name">
-                            <el-input v-model="form.living_course_name" style="width: 780px;" />
+                            <el-input v-model="form.living_course_name" style="width: 780px;" placeholder="请输入直播课标题" />
+                        </el-form-item>
+                        <el-form-item label="直播课时间" prop="start_time">
+                            <el-date-picker v-model="form.start_time" type="datetime" placeholder="请选择时间"
+                                format="YYYY/MM/DD HH:mm" />
                         </el-form-item>
                     </el-form>
                     <template #footer>
@@ -25,7 +29,7 @@
             <div class="text item" v-for="item in  LivingNotices ">
                 <el-card class="Preview" shadow="none">
                     <!-- <div class="preview_name">{{ item.living_course_name }}</div> -->
-                    <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
+                    <el-text class="releaseTime mx-1">{{ item.start_time }}</el-text>
                     <el-button v-if="item.living_course_description === undefined" type="warning"
                         @click="goToLivingModel(item.living_course_id, item.living_course_name)"
                         style="margin-left: 60px;">开始直播</el-button>
@@ -53,6 +57,7 @@
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import { onMounted, ref, reactive } from 'vue'
+import moment from 'moment'
 import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
@@ -72,6 +77,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                     course_id: courseId.value,
                     living_course_name: form.living_course_name,
                     course_teacher: teacher.value.teacher_id,
+                    start_time: form.start_time,
                 }
                 console.log(obj);
                 const response = await myAxios.post('http://localhost:8085/createNewLiving', JSON.stringify(obj), {
@@ -108,7 +114,7 @@ const rules = reactive({
     ],
 })
 const form = reactive({
-
+    start_time: Date,
     living_course_name: ''
 })
 const getLivingNotice = async (value: any) => {
@@ -127,6 +133,9 @@ const getLivingNotice = async (value: any) => {
         const coursesString = sessionStorage.getItem('LivingNotices');
         if (coursesString) {
             LivingNotices.value = JSON.parse(coursesString)
+            LivingNotices.value.forEach((item: any) => {
+                item.start_time = moment(item.start_time).format('YYYY/MM/DD HH:mm')
+            });
         }
     } catch (error) {
         console.error('获取公告信息失败', error);

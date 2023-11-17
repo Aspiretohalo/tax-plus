@@ -10,7 +10,7 @@
             <p class="course_name">{{ item.living_course_name }}</p>
             <div style="font-size: small; margin-top: 5px;">
               教师：<span style="color: #73767a;">{{ item.teacher_name }}</span>
-              <span class="time" style="float: right;">{{ livingTime }}</span>
+              <span class="time" style="float: right;">{{ item.start_time }}</span>
             </div>
             <div class="bottom">
               <span style="font-size: small;">归属课程：<span
@@ -28,11 +28,11 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import myAxios from '../plugins/myAxios'
+import moment from 'moment'
 import state from '../store/state'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const livingTime = ref("11-8 12:30")
 
 onMounted(async () => {
   await getAllLivingCourses()
@@ -51,6 +51,9 @@ const getAllLivingCourses = async () => {
     const coursesString = sessionStorage.getItem('allLivingCourses');
     if (coursesString) {
       allLivingCourses.value = JSON.parse(coursesString)
+      allLivingCourses.value.forEach((item: any) => {
+        item.start_time = moment(item.start_time).format('YYYY/MM/DD HH:mm')
+      });
     }
   } catch (error) {
     console.error('获取公告信息失败', error);
