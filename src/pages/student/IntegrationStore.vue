@@ -44,39 +44,40 @@ const rewards = ref([
         reward_id: 1,
         reward_name: '拍立得',
         reward_price: 5000,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E6%8B%8D%E7%AB%8B%E5%BE%97.jpg'
     }, {
         reward_id: 2,
         reward_name: '电风扇',
         reward_price: 1000,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E9%A3%8E%E6%89%87.jpg'
     }, {
         reward_id: 3,
         reward_name: '相册',
         reward_price: 300,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E7%9B%B8%E5%86%8C.jpg'
     }, {
         reward_id: 4,
         reward_name: '蓝牙耳机',
         reward_price: 1000,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E8%80%B3%E6%9C%BA.jpg'
     }, {
         reward_id: 5,
         reward_name: '围巾',
         reward_price: 300,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E5%9B%B4%E5%B7%BE.jpg'
     }, {
         reward_id: 6,
         reward_name: '纪念徽章',
         reward_price: 500,
-        reward_url: ''
+        reward_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/%E5%BE%BD%E7%AB%A0.jpg?'
     },
 ])
 </script>
 
 <style lang="scss" scoped>
 /* 积分商城样式 */
-h3 {
+h3,
+h2 {
     margin: 0;
 }
 

@@ -39,7 +39,7 @@
         </el-drawer>
 
         <el-drawer v-model="drawer2" title="今日任务" direction="rtl" size="30%">
-            <div class="amount">总积分: <span style="color:#E6A23C;">100</span></div>
+            <div class="amount">我的总积分: <span style="color:#E6A23C;">210</span></div>
             <el-card class="box-card" v-for="item in tasks" :key="item.task_id" shadow="never">
                 <div id="checklist">
                     <input :id="item.task_id.toString()" type="checkbox" name="r" value="1" :checked="item.hasReceived"
@@ -78,25 +78,25 @@ const isHover = ref(false)
 const icons = [
     {
         index: 1,
-        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%A1%A8%E5%8D%95%E7%94%B3%E8%AF%B7%E7%99%BD%E8%89%B2.png?q-sign-algorithm=sha1&q-ak=AKIDTQQ_7JBp0eBxQTdJ1dIgWmh7wA3LwlQi2X7bbrQ6CL0GcCabxI-2b_k5oG0JQLjJ&q-sign-time=1700239042;1700242642&q-key-time=1700239042;1700242642&q-header-list=host&q-url-param-list=ci-process&q-signature=5c00284928aee8dca476f3ac20d0abd18fc2c2b3&x-cos-security-token=2taubw7cEFtu0xeDGEcwgm713XW3jRpa680e573264bc3a84a72e4db566a202059VS3zGOI4NGZBFXtMqwt1IkNtGMUCeTnQ6WkPaooxjlcCpdetDdj3nwcMcMlgjHTlMNWcuoF6pE0WjdkJ_xPYTBlhC6fUbL9S4x2HOlrBftuNHpm5CR9SfYJm6zH8hWYmZHgoHfIiIa6LjSPGGDQzj5ky2W4CcsIqodY_CFvOMVmAOJ8rkiV4iR0I2zDM5LpHlszgExM1qwu07GF1qJP0w&ci-process=originImage',
+        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%A1%A8%E5%8D%95%E7%94%B3%E8%AF%B7%E7%99%BD%E8%89%B2.png',
         icon_hover: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%A1%A8%E5%8D%95%E7%94%B3%E8%AF%B7.svg'
     },
     {
         index: 2,
-        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E4%BB%BB%E5%8A%A1%E7%99%BD%E8%89%B2.png?q-sign-algorithm=sha1&q-ak=AKIDUaVTLEcQSRRaXR2ubGXSaSOAB3MMvqVZaTmNHTenMFBtVBvBXaLZSVxvQ53QDcIn&q-sign-time=1700238996;1700242596&q-key-time=1700238996;1700242596&q-header-list=host&q-url-param-list=ci-process&q-signature=00bc778265356d7d245cbb6e65ca310c2da6c071&x-cos-security-token=2taubw7cEFtu0xeDGEcwgm713XW3jRpa3f91d6086c63d2f6f3db40e617c092689VS3zGOI4NGZBFXtMqwt1EbBhP8cFSKam7mlHmCXnAfyMFnrjdSJ1nwjP6GnE3umJ-g1d74bUgDhS4vwgYRrw2Vn1Kbqv3_pdSMZGcJVST1UpgH0zoRoq3AIzFEX6Wx8Wor0wk_yvFakeE5UnT5_ajCq_hR2pWleUu9ekZCnMJZ72PqgmxmZNYCoJc9nmGe5el-Qv52XjjkBy7DR7n1lXQ&ci-process=originImage',
+        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E4%BB%BB%E5%8A%A1%E7%99%BD%E8%89%B2.png',
         icon_hover: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E4%BB%BB%E5%8A%A1.svg'
 
     },
     {
         index: 3,
-        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E8%A1%A8%E7%99%BD%E8%89%B2.png?q-sign-algorithm=sha1&q-ak=AKIDt__vw4WE7VodK0ahYdHqjmxZsSNcT1qmhNpj1Gm-BMuJkMEMrL5gkDc431WB06O5&q-sign-time=1700239074;1700242674&q-key-time=1700239074;1700242674&q-header-list=host&q-url-param-list=ci-process&q-signature=6ce3f08c795a48f11e515d7d9b0e67b905cca2d6&x-cos-security-token=2taubw7cEFtu0xeDGEcwgm713XW3jRpa224b6cdb87b8cac92df1d4e637a85c319VS3zGOI4NGZBFXtMqwt1MlckXAzFr8FEGFkAiK88QaNCgr0v-01I7YufOcDXjNg0Aqr1Tsuc7iZZPpc32oBP01zFn6nHjemf7YRQRPX-SbMwaWFv0cmH91boa8LRFSsSLqUxUiMTWexcAIc5UEa1W9gN3EJ1MXfEEUhD_AX0uNiSC8-8f8ifMYrC__AI3AqKhkQIkmmpeeLbTWn8DpjmQ&ci-process=originImage',
+        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E8%A1%A8%E7%99%BD%E8%89%B2.png',
         icon_hover: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E8%A1%A8.svg'
 
     },
     {
         index: 4,
-        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%B3%BB%E7%BB%9F%E5%8A%A9%E6%89%8B%E7%99%BD%E8%89%B2.png?q-sign-algorithm=sha1&q-ak=AKIDbLGnAW987sVggy5yj5tIxlSSWmKYML-6OIMf3VB5J1j_ec2t7bCuNCYmY-g1zZva&q-sign-time=1700239092;1700242692&q-key-time=1700239092;1700242692&q-header-list=host&q-url-param-list=ci-process&q-signature=7b98806e5a1bdfa578161e0cb19cfb32e9490570&x-cos-security-token=2taubw7cEFtu0xeDGEcwgm713XW3jRpa4e26d56539ba235ebde4312980b01ad99VS3zGOI4NGZBFXtMqwt1IgncZauMYABLGB4E6qcP4d18LCNDfsWwbY2KTJxSCSIM0fC4bOobf3ns-MYLzfU76PVyv6tKTK8QKATUJrCkG8vwmybHLw1Fk49yyhFvpxJk2JXd-vVjM4f7KixA2V1KY-d9gmBP415kCOQ7rPXLfAtyE53Ba8ZnkERLxWyJ0FGoB4qs9BxRLOw-go1iHuJqA&ci-process=originImage',
-        icon_hover: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%B3%BB%E7%BB%9F%E5%8A%A9%E6%89%8B.png?q-sign-algorithm=sha1&q-ak=AKIDHURYi4sS13WGGlVFadCT-LNaow06METYAPzcZgK673lw5FyrKv2zJrT8YUdKVsaG&q-sign-time=1700239112;1700242712&q-key-time=1700239112;1700242712&q-header-list=host&q-url-param-list=ci-process&q-signature=5d779b0ca8cb3692816730ffb3da3538c12e1fce&x-cos-security-token=2taubw7cEFtu0xeDGEcwgm713XW3jRpa2c25ef666942abb2f7b9f83bf75f8cb59VS3zGOI4NGZBFXtMqwt1KBqFptwIxOE7p5qi_CD7ICofcPWkUIJXw1vA6HCzZMsm_QEV1v98ZHsrRLD4pGun71Jl0RTDIk6DAYfV8qrpCX64rzPkv94ElurC5vbZJN0APD5V1yXigOPWvi3mFIMqFxpxj6Zp4cfWG10hWXYurOJeCiDUpoULc6h-AgkrHNTECPd8fD7_WcUYVdIt3UR3A&ci-process=originImage'
+        icon_url: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%B3%BB%E7%BB%9F%E5%8A%A9%E6%89%8B%E7%99%BD%E8%89%B2.png',
+        icon_hover: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E7%B3%BB%E7%BB%9F%E5%8A%A9%E6%89%8B.png'
 
     },
 ]
@@ -115,7 +115,7 @@ const tasks = [
     },
     {
         task_id: 3,
-        task_content: '完成每日财税知识小问答',
+        task_content: '有效观看课程时长达到1h',
         hasDone: false,
         hasReceived: false,
     }

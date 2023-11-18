@@ -126,7 +126,7 @@ const rules = reactive({
 .box-card {
   width: 450px;
   height: 530px;
-  margin-left: 1000px;
+  margin-left: 900px;
 
   border-radius: 30px;
 

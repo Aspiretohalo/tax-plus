@@ -1,7 +1,7 @@
 <template>
     <div class="topNav">
         <div class="logo">
-            <img src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/logo/%E6%96%B9%E6%A1%882.png?q-sign-algorithm=sha1&q-ak=AKIDs4X1G8QDWIZA5xRfCyLWK3vMpaf2oKHXScYfYvohUs1DoporMKeFKHhnVyQqvQ6g&q-sign-time=1700241059;1700244659&q-key-time=1700241059;1700244659&q-header-list=host&q-url-param-list=ci-process&q-signature=97b42bae76901329e1e4b891ad00e51171c9ffbf&x-cos-security-token=1EmEDWDqHQuTcJJecgGyL42qt4Uxfa6a75918c6156e64ca3756d24d2fbd51f6e_1sxOJh_waolq3xnsNBfzijZaNT6byzijS0Df1GXlRx-hy2EhtJFs-xf0OLmFRFTlzld8iPKy8UGAzKw2xSdvpUf5dm87kcu_jvIDPzbpq2IY1HIxP7tR6xeW9oXOgPHd2v7DDnMiTN9h9gVVqFNMPbBbtLKggMY5jx1m0KC4iKmlopdHdNndGpYkVuzZ4pLCtdiQoUlB0479fV-ngIZHg&ci-process=originImage"
+            <img src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/logo/%E6%96%B9%E6%A1%882.png"
                 @click="role == 'student' ? $router.push('/') : null"
                 style="height: 60px; margin-top: 12px; cursor: pointer;">
         </div>

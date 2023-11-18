@@ -9,7 +9,7 @@
       <div class="annular">
         <el-row class="row-bg" justify="space-evenly">
           <div class="progressAnnular">
-            <div id="echarts-chart" style="width: 599px; height: 400px"></div>
+            <div id="echarts-chart" style="width: 700px; height: 500px"></div>
           </div>
           <!-- <div class="progressAnnular">
             <div id="echarts-chart2" style="width: 599px; height: 400px"></div>
@@ -22,7 +22,7 @@
           <div class="statistics-item el-col el-col-12">
             <div class="el-row">
               <div class="el-col el-col-8">已观看视频：</div>
-              <div class="spaceil el-col el-col-16">{{ CourseLearningProgress }}分钟</div>
+              <div class="spaceil el-col el-col-16">{{ (CourseLearningProgress / 60).toFixed(2) }}小时</div>
             </div>
             <div class="el-row">
               <div class="el-col el-col-8">已发表讨论：</div>
@@ -41,8 +41,8 @@
               </div>
               <div class="el-row">
                 <div class="el-col el-col-8">课程成绩：</div>
-                <div class="spaceil el-col el-col-16">{{ (CourseLearningProgress) * 0.60 + ((DiscussionNumber
-                  + SubDiscussionNumber)) * 0.20 + Math.ceil((EvaluationNumber)) * 0.20 }}分</div>
+                <div class="spaceil el-col el-col-16">{{ ((CourseLearningProgress) * 0.60 + ((DiscussionNumber
+                  + SubDiscussionNumber)) * 0.20 + Math.ceil((EvaluationNumber)) * 0.20).toFixed(1) }}分</div>
               </div>
               <div>
               </div>
@@ -139,12 +139,6 @@ const DiscussionNumber: any = ref()
 const SubDiscussionNumber: any = ref()
 const confirmationTime: any = ref()
 const updateECharts = () => {
-  // console.log(CourseLearningProgress.value);
-  // console.log(EvaluationNumber.value);
-  // console.log(DiscussionNumber.value);
-  // console.log(SubDiscussionNumber.value);
-  // console.log(66);
-
   const option = {
     title: {
       text: "课程分数占比",
@@ -166,15 +160,15 @@ const updateECharts = () => {
         data: [
           {
             // 假定课程总时长为100
-            value: (CourseLearningProgress.value) * 0.60, name: "已观看视频"
+            value: ((CourseLearningProgress.value) * 0.60).toFixed(1), name: "已观看视频"
           },
           {
-            // 假定讨论20条为满分
-            value: ((DiscussionNumber.value + SubDiscussionNumber.value)) * 0.20, name: "已发表讨论"
+            // 假定讨论20条为满分///////////////////////////////////////////修改数据
+            value: (((DiscussionNumber.value + SubDiscussionNumber.value)) * 5).toFixed(1), name: "已发表讨论"
           },
           {
-            // 假定评论20条记为满分
-            value: Math.ceil((EvaluationNumber.value)) * 0.20, name: "已发表评价"
+            // 假定评论20条记为满分////////////////////////修改数据
+            value: (Math.ceil((EvaluationNumber.value)) * 10).toFixed(1), name: "已发表评价"
           },
         ],
         emphasis: {
