@@ -25,6 +25,9 @@
             </el-table-column>
             <el-table-column prop="course_name" label="course_name" width="300" />
             <el-table-column prop="teacher_name" label="teacher_name" />
+            <el-table-column prop="student_amount" label="student_amount">
+              选课人数：{{ }}
+            </el-table-column>
             <!-- <el-table-column prop="status" label="status">
               <template #default="scope">
                 <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>

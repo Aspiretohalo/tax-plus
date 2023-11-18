@@ -39,16 +39,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const courseId = ref(route.params.courseId)
 
-const fileList = ref<UploadUserFile[]>([
-  // {
-  //   name: 'element-plus-logo.svg',
-  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
-  // },
-  // {
-  //   name: 'element-plus-logo2.svg',
-  //   url: 'https://element-plus.org/images/element-plus-logo.svg',
-  // },
-])
+const fileList = ref<UploadUserFile[]>([])
 
 onMounted(async () => {
   await getFileData(courseId.value)
@@ -106,13 +97,6 @@ const handleDownload = async (file_url: string) => {
 
 }
 let tableData = [
-  // {
-  //   course_id: route.params.courseId,
-  //   file_name: ' ',
-  //   file_type: ' ',
-  //   file_size: ' ',
-  //   file_url: '',
-  // },
   {
     // course_id: route.params.courseId,
     file_name: 'Q.docx',
@@ -139,6 +123,7 @@ const getFileData = async (value: any) => {
     const coursesString = sessionStorage.getItem('FileData');
     if (coursesString) {
       tableData = response.data
+      console.log(tableData);
 
       // tableData[0].file_type = JSON.parse(coursesString).file_type
       // tableData[0].file_size = JSON.parse(coursesString).file_size

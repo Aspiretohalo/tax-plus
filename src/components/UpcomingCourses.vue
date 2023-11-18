@@ -1,7 +1,7 @@
 <template>
   <div class="upcoming">
     <h2 class="pl">直播课即将开始</h2>
-    <el-row v-for="item in allLivingCourses" :key="item.living_course_id" :span="8">
+    <el-row v-for="item in coursesWithoutMeetingId" :key="item.living_course_id" :span="8">
       <el-col style="margin-top: 5px;">
         <el-card :body-style="{ padding: '0px' }" class="card-circle">
           <div style="padding: 14px">
@@ -54,13 +54,18 @@ const getAllLivingCourses = async () => {
       allLivingCourses.value.forEach((item: any) => {
         item.start_time = moment(item.start_time).format('YYYY/MM/DD HH:mm')
       });
+      coursesWithoutMeetingId.value = allLivingCourses.value.filter((item: any) => !item.meeting_id);
+      console.log(coursesWithoutMeetingId.value);
+
+      // coursesWithoutMeetingId 将包含所有没有 meeting_id 值的课程对象
+
     }
   } catch (error) {
     console.error('获取公告信息失败', error);
   }
 };
 const allLivingCourses: any = ref()
-
+const coursesWithoutMeetingId: any = ref()
 const getCourseByCourseId = async (value: any) => {
   try {
     const response = await myAxios.get('/getCourseByCourseId', {

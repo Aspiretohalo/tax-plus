@@ -35,8 +35,8 @@ const courseMenuData = reactive([
   { name: '直播间', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B.svg', router: `/courseId/${courseId.value}/livingroom` },
   { name: '学习进度', index: 3, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6.svg', router: `/courseId/${courseId.value}/progress` },
   { name: '课程视频', index: 4, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%A7%86%E9%A2%91.svg', router: `/courseId/${courseId.value}/courseVideo` },
-  { name: '课程资料', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99.svg', router: `/courseId/${courseId.value}/data` },
-  { name: '课程评价', index: 6, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg', router: `/courseId/${courseId.value}/evaluation` },
+  // { name: '课程资料', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99.svg', router: `/courseId/${courseId.value}/data` },
+  { name: '课程评价', index: 5, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BB%B7.svg', router: `/courseId/${courseId.value}/evaluation` },
 ])
 
 const singleCourse: any = ref(JSON.parse(sessionStorage.getItem('singleCourse') || 'null') || '')

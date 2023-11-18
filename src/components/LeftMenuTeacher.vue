@@ -15,8 +15,8 @@
     </el-menu>
     <el-button type="primary" class="generate" @click="generateReport()">生成分析报告</el-button>
   </div>
-  <el-dialog v-model="dialogVisible" title="智能分析报告" style="width: 30%;padding: 20px;">
-    <div class="course_intendencies">
+  <el-dialog @open="simulateLoading()" v-model="dialogVisible" title="智能分析报告" style="width: 30%;padding: 20px;">
+    <div class="course_intendencies" v-if="!loading">
       <span style="font-size: large;">学员密切关注的主题:</span>
       <div class="theme" style="margin-left: 40px;margin-top: 20px;">
         <el-text type="primary" style="display: block; font-size: large;margin-right: 20px;">税收</el-text>
@@ -26,13 +26,13 @@
         <el-text type="primary" style="display: block; font-size: large;margin-right: 20px;">增值税</el-text>
       </div>
     </div>
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 20px;" v-if="!loading">
       <span style="font-size: large;">课程平均评分:</span>
       <div class="theme" style="margin-left: 40px;margin-top: 20px;">
         <el-text type="primary" style=" font-size: large;margin-right: 20px;">4</el-text>
       </div>
     </div>
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 20px;" v-if="!loading">
       <span style="font-size: large;">评分最高的课程:</span>
       <div class="theme" style="margin-left: 40px;margin-top: 20px;">
         <el-text type="primary" style=" font-size: large;margin-right: 20px;">个人所得税智慧导航</el-text>
@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElLoading } from 'element-plus'
 
 const dialogVisible = ref(false)
 const router = useRouter()
@@ -56,6 +57,19 @@ const menuDemo2 = reactive([
 const menuDemo3 = reactive([
   { name: '课程发布', index: 2, icon: 'https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/icon/%E8%AF%BE%E7%A8%8B%E5%8F%91%E5%B8%83.svg', router: '/courseRelease' },
 ])
+
+const loading = ref(false)
+const simulateLoading = () => {
+  loading.value = true
+  // 用服务生成一个el-loading实例，包括了自定义svg的指令如何在服务中使用
+  let demo = ElLoading.service({ target: '.demo', text: '生成中...' })
+  setTimeout(() => {
+    // 延时执行关闭，对应dom清除，如要再使用loading，需重新生成新实例
+    demo.close()
+    loading.value = false
+  }, 3000)
+
+};
 const generateReport = () => {
   dialogVisible.value = true
 }

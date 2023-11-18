@@ -10,11 +10,14 @@
           <h3>直播公告</h3>
         </div>
       </template>
-      <div class="text item" v-for="item in LivingNotices" style="position: relative;">
+      <div class="text item" v-for="item in LivingNotices" style="position: relative;padding-bottom: 20px;">
 
         <h4>{{ item.living_course_name }}</h4>
+        <el-text class="releaseTime mx-1" style="position: absolute;left: 500px;top: -10px;">直播时间：{{ item.start_time
+        }}</el-text>
         <div class="link">
-          前往直播间：<el-link type="warning" @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
+          {{ item.meeting_id !== undefined ? '前往直播间：' : '直播尚未开始' }}<el-link type="warning"
+            @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
           <el-button v-if="item.meeting_id !== undefined" type="warning" style="position: absolute;right: 50px;top: 0px;"
             @click="goToWatchReplay(item.meeting_id)">回放</el-button>
         </div>
@@ -22,7 +25,6 @@
           {{ item.living_course_description }}
         </el-text>
 
-        <el-text class="releaseTime mx-1">2023/10/13 19:19:19</el-text>
       </div>
 
     </el-card>
@@ -34,6 +36,7 @@
 import SpecialIcon from '../../../components/SpecialIcon.vue';
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
+import moment from 'moment'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -62,6 +65,9 @@ const getLivingNotice = async (value: any) => {
     const coursesString = sessionStorage.getItem('LivingNotices');
     if (coursesString) {
       LivingNotices.value = JSON.parse(coursesString)
+      LivingNotices.value.forEach((item: any) => {
+        item.start_time = moment(item.start_time).format('YYYY/MM/DD HH:mm')
+      });
     }
   } catch (error) {
     console.error('获取公告信息失败', error);

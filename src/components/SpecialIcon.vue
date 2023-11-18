@@ -7,6 +7,10 @@
                     <img v-if="isHover == false" :src="item.icon_url" style="width: 24px;">
                     <img v-else :src="item.icon_hover" style="width: 24px;">
                 </span>
+                <!-- <span @click="showDrawer(item.index)" style="cursor: pointer;">
+                    <img :src="item.icon_url" style="width: 24px;">
+                    <img :src="item.icon_hover" style="width: 24px;">
+                </span> -->
             </li>
         </ul>
 
@@ -116,6 +120,12 @@ const tasks = [
     {
         task_id: 3,
         task_content: '有效观看课程时长达到1h',
+        hasDone: false,
+        hasReceived: false,
+    },
+    {
+        task_id: 3,
+        task_content: '有效观看课程时长达到2h',
         hasDone: false,
         hasReceived: false,
     }

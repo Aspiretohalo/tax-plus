@@ -8,7 +8,12 @@
         <el-upload v-model:file-list="fileList" class="upload-demo" :auto-upload="true"
           action="http://localhost:8085/vod/upload" :on-preview="handlePreview" :on-remove="handleRemove"
           :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed" :on-success="handleResponse">
-          <el-button type="primary">选择视频</el-button>
+          <el-button type="primary" plain>选择视频</el-button>
+        </el-upload>
+        <el-upload v-model:file-list="fileList2" class="upload-demo" :auto-upload="true"
+          action="http://localhost:8085/course/data/upload" :on-preview="handlePreview" :on-remove="handleRemove"
+          :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed" :on-success="handleResponse2">
+          <el-button type="primary" plain>选择课件</el-button>
         </el-upload>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
@@ -64,6 +69,7 @@ import myAxios from '../../../plugins/myAxios'
 const route = useRoute()
 
 const fileList = ref<UploadUserFile[]>([])
+const fileList2 = ref<UploadUserFile[]>([])
 
 const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
   console.log(file, uploadFiles)
@@ -106,6 +112,7 @@ const form = reactive({
   file_id: '',
   psign: '',
   course_id: route.params.courseId,
+  courseware_url: ''
 })
 
 
@@ -115,17 +122,16 @@ const handleResponse: UploadProps['onSuccess'] = (response: any) => {
   form.psign = response.data[1]
 }
 
+const handleResponse2: UploadProps['onSuccess'] = (response: any) => {
+  // 将响应回来的课程封面地址赋值给course
+  form.courseware_url = response.data
+  console.log(form);
+
+}
 //目前的情况是，视频上传需要时间，上传完了才会获得到两个数据
 const handleRelease = async () => {
   try {
-    // 创建章节，即将章节信息传给后端，存入数据库
-    let obj = {
-      video_title: form.video_title,
-      file_id: form.file_id,
-      psign: form.psign,
-      course_id: form.course_id,
-    }
-    const response = await myAxios.post('/teacher/setChapter', JSON.stringify(obj), {
+    const response = await myAxios.post('/teacher/setChapter', JSON.stringify(form), {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -140,6 +146,7 @@ const handleRelease = async () => {
   })
   dialogVisible.value = false
   getChapter(route.params.courseId)
+
 }
 const onSubmit = async () => {
   dialogVisible.value = true
@@ -246,6 +253,7 @@ const chapterData: any = ref()
   }
 
   .upload-demo {
+    // display: inline-block;
     margin-left: 120px;
   }
 }

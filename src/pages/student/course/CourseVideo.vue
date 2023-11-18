@@ -17,7 +17,8 @@
               </router-link>
             </div>
             <div>
-              <el-link :underline="false"> <el-tag class="ml-2" type="info">课件</el-tag>{{ }}课件</el-link>
+              <el-link :underline="false" @click="handleDownload(item.courseware_url)"> <el-tag class="ml-2"
+                  type="info">课件</el-tag>{{ }}课件</el-link>
             </div>
           </el-collapse-item>
         </el-collapse>
@@ -37,7 +38,9 @@ import SpecialIcon from '../../../components/SpecialIcon.vue';
 const route = useRoute()
 const courseId = ref(route.params.courseId)
 // const chapter_index = ref()
-
+const handleDownload = async (file_url: string) => {
+  window.open(file_url)
+}
 const activeNames = ref()
 const chapter_index = ref()
 const handleChange = () => {

@@ -14,11 +14,11 @@
     </div> -->
     <div class="timetable-b w100">
       <table class="timetable-content w100">
-        <thead style="height: 50px;">
+        <thead style="height: 50px">
           <tr>
             <th></th>
             <th v-for="(item1, index1) in weeks" :key="index1">
-              {{ numberToChinease(item1 + 1, 'week') }}
+              {{ numberToChinease(item1 + 1, "week") }}
             </th>
           </tr>
         </thead>
@@ -29,14 +29,19 @@
               <p>{{ timeList[item2 - 1].time }}</p>
             </td>
             <template v-for="(item3, index3) in weeks" :key="index3">
-              <td @click="handleChooseCourse()" class="course"
-                :rowspan="showData(index3, index2 + 1).subject && showData(index3, index2).subject === showData(index3, index2 + 1).subject ? 2 : ''"
-                :style="[
-                  {
-                    display:
-                      showData(index3, index2 - 1).subject && showData(index3, index2 - 1).subject === showData(index3, index2).subject ? 'none' : '',
-                  },
-                ]">
+              <td @click="handleChooseCourse(index3, index2)" class="course" :rowspan="showData(index3, index2 + 1).subject &&
+                showData(index3, index2).subject === showData(index3, index2 + 1).subject
+                ? 2
+                : ''
+                " :style="[
+    {
+      display:
+        showData(index3, index2 - 1).subject &&
+          showData(index3, index2 - 1).subject === showData(index3, index2).subject
+          ? 'none'
+          : '',
+    },
+  ]">
                 <div class="dmsjandjs-b" :style="[
                   {
                     background: showData(index3, index2).index ? getRandomColor() : '#FFFFFF',
@@ -58,15 +63,15 @@
             <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in CourseByStudentId"
               shadow="never">
               <el-radio :label="item.course_id" size="large">
-
                 <div style="padding: 14px">
-                  <div style=" margin-top: 5px;text-align: left;">
-                    <span style="color: #73767a;">课程：</span>
-                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.course_name
+                  <div style="margin-top: 5px; text-align: left">
+                    <span style="color: #73767a">课程：</span>
+                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{
+                      item.course_name
                     }}</span>
                   </div>
-                  <div class="bottom" style="text-align: left;">
-                    <span style="color: #73767a;">教师：</span>{{ item.teacher_name }}
+                  <div class="bottom" style="text-align: left">
+                    <span style="color: #73767a">教师：</span>{{ item.teacher_name }}
                   </div>
                 </div>
               </el-radio>
@@ -75,9 +80,7 @@
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">
-                确定
-              </el-button>
+              <el-button type="primary" @click="updateWeekCourse"> 确定 </el-button>
             </span>
           </template>
         </el-dialog>
@@ -85,141 +88,358 @@
     </div>
   </div>
 </template>
- 
+
 <script>
-import moment from 'moment'
-import { weekCourse, colorList } from '../config/Timetable'
-import { reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import myAxios from '../plugins/myAxios';
-import state from '../store/state'
+import moment from "moment";
+import { reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import myAxios from "../plugins/myAxios";
+import state from "../store/state";
 
 export default {
   setup() {
-    const radio1 = ref('1')
-    const route = useRoute()
-    const router = useRouter()
+    const radio1 = ref("1");
+    const route = useRoute();
+    const router = useRouter();
     const goBack = () => {
-      router.push('/')
-    }
-    const timeList = reactive([{ time: '9:00-11:00' }, { time: '13:00-15:00' }, { time: '17:30-19:30' }, { time: '20:30-22:30' }])
+      router.push("/");
+    };
+    const timeList = reactive([
+      { time: "9:00-11:00" },
+      { time: "13:00-15:00" },
+      { time: "17:30-19:30" },
+      { time: "20:30-22:30" },
+    ]);
 
-    const dialogVisible = ref(false)
-    const handleChooseCourse = () => {
-      dialogVisible.value = true
-    }
+    const dialogVisible = ref(false);
+
+    const selectedCell = ref({ week: null, index: null });
+
+    const handleChooseCourse = (week, index) => {
+      console.log(123);
+      console.log(week, index);
+      console.log(123);
+      selectedCell.value = { week, index };
+      dialogVisible.value = true;
+    };
+    const updateWeekCourse = () => {
+      console.log(123);
+      console.log(selectedCourse.value);
+      console.log(123);
+
+      if (selectedCourse.value) {
+        const weekIndex = selectedCell.week;
+        const courseIndex = selectedCell.index;
+
+        if (courseIndex !== -1) {
+          // Update the subject field with the selected course name
+          this.$set(
+            weekCourse[weekIndex].courses[courseIndex],
+            "subject",
+            selectedCourse.value.course_name,
+          );
+          dialogVisible.value = false;
+        } else {
+          console.error("No empty cell available in the selected week.");
+        }
+      } else {
+        console.error("No course selected!");
+      }
+    };
 
     const selectedCourses = [
       {
-        course_name: '爱神的箭阿萨德就',
-        teacher_name: '小黄'
-      }
-    ]
-    const student = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
-    const CourseByStudentId = ref([
-      {
-        course_id: 1,
-        course_name: 'asdjkas',
-        teacher_name: '小黑子'
-      }, {
-        course_id: 2,
-        course_name: 'asdjkas',
-        teacher_name: '小黑子'
-      }, {
-        course_id: 3,
-        course_name: 'asdjkas',
-        teacher_name: '小黑子'
+        course_name: "爱神的箭阿萨德就",
+        teacher_name: "小黄",
       },
-    ])
+    ];
+    const student = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
+    const CourseByStudentId = ref([]);
+    const selectedCourse = ref(null);
 
     const getCourseByStudentId = async () => {
       console.log(student.value);
       try {
-        const response = await myAxios.get('/getCourseByStudentId', {
+        const response = await myAxios.get("/getCourseByStudentId", {
           params: {
             student_id: student.value.student_id,
           },
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         });
         // 处理响应数据
-        state.CourseByStudentId = response.data
-        sessionStorage.setItem('CourseByStudentId', JSON.stringify(state.CourseByStudentId))
-        const coursesString = sessionStorage.getItem('CourseByStudentId');
+        state.CourseByStudentId = response.data;
+        sessionStorage.setItem("CourseByStudentId", JSON.stringify(state.CourseByStudentId));
+        const coursesString = sessionStorage.getItem("CourseByStudentId");
         if (coursesString) {
-          CourseByStudentId.value = JSON.parse(coursesString)
+          CourseByStudentId.value = JSON.parse(coursesString);
           console.log(CourseByStudentId.value);
         }
       } catch (error) {
-        console.error('获取信息失败', error);
+        console.error("获取信息失败", error);
       }
     };
     return {
+      updateWeekCourse,
       timeList,
       goBack,
+      radio1,
       dialogVisible,
       handleChooseCourse,
       selectedCourses,
       getCourseByStudentId,
       student,
       CourseByStudentId,
-      radio1,
-    }
+    };
   },
   data() {
     return {
-      startTime: '2022.10.17',
-      endTime: '2022.10.23',
-      colorList: [], //随机颜色
-      weekCourse: [], // 课程详细课程、数量
+      startTime: "2022.10.17",
+      endTime: "2022.10.23",
+      colorList: [
+        "#F56C6C",
+        "#fab6b6",
+        "#409EFF",
+        "#67C23A",
+        "#E6A23C",
+        "#a18496",
+        "#9dc6b6",
+        "#b0ced6",
+        "#d2b9b2",
+      ], //随机颜色
+
+      weekCourse: [
+        {
+          week: 0,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "语文", //学科
+            },
+            {
+              index: 2,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 1,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "语文", //学科
+            },
+            {
+              index: 2,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 2,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "语文", //学科
+            },
+            {
+              index: 2,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 3,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "语文", //学科
+            },
+            {
+              index: 2,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 4,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "语文", //学科
+            },
+            {
+              index: 2,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 5,
+          courses: [
+            {
+              index: 1,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+              subject: "", //学科
+            },
+            {
+              index: 3,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 2,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+        {
+          week: 6,
+          courses: [
+            {
+              index: 2,
+              startTime: "09:00", //开始时间
+              endTime: "11:30", //结束时间
+            },
+            {
+              index: 3,
+              startTime: "13:00", //开始时间
+              endTime: "15:30", //结束时间
+            },
+            {
+              index: 4,
+              startTime: "17:30", //开始时间
+              endTime: "19:30", //结束时间
+            },
+            {
+              index: 1,
+              startTime: "20:30", //开始时间
+              endTime: "22:30", //结束时间
+            },
+          ],
+        },
+      ], // 课程详细课程、数量
       weeks: [], //头部周期
       maxCourseLength: 0, //最大课节数,
       count: 0, //上周、下周、本周选择器flag
-    }
+    };
   },
 
   created() {
-    this.weekCourse = weekCourse
-    this.colorList = colorList
-    this.sortData()
-    this.init()
-    this.getWeek(0)
+    this.sortData();
+    this.init();
+    this.getWeek(0);
   },
   methods: {
     //改变选择器次数
     changeCount(i) {
-      this.count += i
-      return this.count
+      this.count += i;
+      return this.count;
     },
     // 排序周期和课数
     sortData() {
       //周期
       this.weekCourse.sort((a, b) => {
-        return a.week - b.week
-      })
+        return a.week - b.week;
+      });
       this.weekCourse.forEach((item) => {
         for (const key in item) {
-          if (key === 'courses') {
+          if (key === "courses") {
             item[key].sort((a, b) => {
-              return a.index - b.index
-            })
+              return a.index - b.index;
+            });
           }
         }
-      })
+      });
     },
     // 初始化课数(courses)与天数(week)
     init() {
-      this.weeks = [] //周集合
-      this.maxCourseLength = 0
+      this.weeks = []; //周集合
+      this.maxCourseLength = 0;
+      console.log(123);
+      console.log(this.timeList);
+      console.log(123);
       this.weeks = this.weekCourse.map((item, index) => {
         for (const key in item) {
-          if (key === 'courses') {
-            let max = 0 //
+          if (key === "courses") {
+            let max = 0; //
             //取出一周中最大的课节数及当天的最大课节数
             for (let j of item[key]) {
-              j.index > this.maxCourseLength && (this.maxCourseLength = j.index) //取所有一周里最大课节值
-              j.index > max && (max = j.index) //取当天最大课节值
+              j.index > this.maxCourseLength && (this.maxCourseLength = j.index); //取所有一周里最大课节值
+              j.index > max && (max = j.index); //取当天最大课节值
             }
             // console.log("max:", max);
 
@@ -229,14 +449,14 @@ export default {
               for (let i = 0; i < max; i++) {
                 //如果下标课节不存在或着与循环的下标不匹配
                 if (!item[key][i] || item[key][i].index != i + 1) {
-                  item[key].splice(i, 0, ' ') //填充空课节
+                  item[key].splice(i, 0, " "); //填充空课节
                 }
               }
             }
           }
         }
-        return item.week
-      })
+        return item.week;
+      });
     },
 
     /**
@@ -252,9 +472,9 @@ export default {
         this.weekCourse[weekIndex].courses[courseNum].index === courseNum + 1
       ) {
         // this.getRandomColor();
-        return this.weekCourse[weekIndex].courses[courseNum]
+        return this.weekCourse[weekIndex].courses[courseNum];
       }
-      return false
+      return false;
     },
 
     /**
@@ -264,39 +484,39 @@ export default {
      * @returns { String }  identifier  转换后的中文
      */
     numberToChinease(n, identifier) {
-      const chnArr = ['零', '一', '二', '三', '四', '五', '六']
-      return identifier === 'week' && (n === 0 || n === 7) ? '日' : chnArr[n]
+      const chnArr = ["零", "一", "二", "三", "四", "五", "六"];
+      return identifier === "week" && (n === 0 || n === 7) ? "日" : chnArr[n];
     },
 
     //随机获取颜色
     getRandomColor() {
-      let colorList = this.colorList
-      let colorRandom = Math.floor(Math.random() * colorList.length + 1) - 1
-      let color
+      let colorList = this.colorList;
+      let colorRandom = Math.floor(Math.random() * colorList.length + 1) - 1;
+      let color;
       for (let i = 0; colorList.length > i; i++) {
         if (i == colorRandom) {
-          color = colorList[i]
+          color = colorList[i];
         }
       }
-      return color
+      return color;
     },
 
     //随机上、本、下周 日期
     getWeek(i) {
-      let weekOfDay = parseInt(moment().format('E')) //计算今天是这周第几天
+      let weekOfDay = parseInt(moment().format("E")); //计算今天是这周第几天
       let last_monday = moment()
-        .subtract(weekOfDay + 7 * i - 1, 'days')
-        .format('YYYY-MM-DD') //周一日期
+        .subtract(weekOfDay + 7 * i - 1, "days")
+        .format("YYYY-MM-DD"); //周一日期
       let last_sunday = moment()
-        .subtract(weekOfDay + 7 * (i - 1), 'days')
-        .format('YYYY-MM-DD') //周日日期
-      this.startTime = last_monday
-      this.endTime = last_sunday
+        .subtract(weekOfDay + 7 * (i - 1), "days")
+        .format("YYYY-MM-DD"); //周日日期
+      this.startTime = last_monday;
+      this.endTime = last_sunday;
     },
   },
-}
+};
 </script>
- 
+
 <style scoped lang="scss">
 .timetable {
   background-color: #f1f7ff;
@@ -306,7 +526,6 @@ export default {
   }
 
   .time-b {
-
     .returnBtn {
       margin-left: 20px;
     }
@@ -321,7 +540,7 @@ export default {
       color: #333333;
       font-weight: 700;
       font-size: 20px;
-      font-family: 'Microsoft YaHei';
+      font-family: "Microsoft YaHei";
     }
   }
 
@@ -341,7 +560,6 @@ export default {
       font-size: 18px;
 
       thead {
-
         height: 100px;
 
         th {
