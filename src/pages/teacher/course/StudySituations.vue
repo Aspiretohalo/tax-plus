@@ -204,8 +204,8 @@ const getAllCourseLearningProgress = async () => {
 				rangeCounts["20~30"] += 1;
 			} else if (progress >= 30 && progress < 40) {
 				rangeCounts["30~40"] += 1;
-			} else if (progress >= 40 && progress < 50) {
-				rangeCounts["40~50"] += 1;
+			} else if (progress >= 40) {
+				rangeCounts[">40"] += 1;
 			}
 		});
 		// 统计确认时间
