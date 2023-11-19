@@ -11,28 +11,42 @@
         <el-main class="main">
           <div style="width: 100%">
             <div class="Msgbackground">
-              <img src="src\assets\imgs\Msgbackground.png" alt="cover" />
+              <img src="src\assets\imgs\渐变3.jpg" alt="cover" />
             </div>
             <div class="bgavatar">
-              <div class="imgbox">
-                <img class="imgtip" :src="student.avatar" />
+              <div class="imgbox" style="margin-left: 330px">
+                <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/avatar/upload"
+                  :on-success="handleResponse" :limit="1" :show-file-list="false">
+                  <el-avatar class="imgtip" :size="120" :src="form.avatar" />
+                </el-upload>
               </div>
             </div>
             <div>
-              <span class="bgname" style="margin-left: 55px">{{ student.student_name }}</span>
+              <span class="bgname" style="margin-left: 350px ">{{ form.student_name }}</span>
+              <el-button type="primary" plain @click="dialogFormVisible = true" style="margin-left: 30px;">
+                修改信息
+              </el-button>
             </div>
-            <el-col :span="6">
+            <el-col :span="6" style="margin-left: 350px">
               <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
                   <div style="text-align: right; color: gray"><span>手机号：</span></div>
                 </el-col>
-                <el-col :span="16">{{ student.phone_number }}</el-col>
+                <el-col :span="16">{{ form.phone_number }}</el-col>
               </el-row>
               <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
                   <div style="text-align: right; color: gray"><span>email：</span></div>
                 </el-col>
-                <el-col :span="16">{{ student.email }}</el-col>
+                <el-col :span="16">{{ form.email }}</el-col>
+              </el-row>
+              <el-row :gutter="12" style="margin-top: 30px">
+                <el-col :span="8">
+                  <div style="text-align: right; color: gray"><span>性别：</span></div>
+                </el-col>
+                <el-col :span="16">
+                  <span class="role" size="large">{{ form.gender == '1' ? '男' : '女' }}</span>
+                </el-col>
               </el-row>
               <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
@@ -43,18 +57,37 @@
                 </el-col>
               </el-row>
             </el-col>
-            <div style="height: 200px;width: 100%;"></div>
-
-          </div>
-          <div class="badge-wall">
-            <h2 class="badge-wall-title">勋章墙</h2>
-            <!-- Your badge wall content goes here -->
-            <div class="badge-slot" v-for="item in badge">
-              <img :src="item.badge_url" alt="Badge 1" class="badge-image" />
-            </div>
-            <el-pagination class="pagination" layout="prev, pager, next" :total="50" />
+            <div style="height: 100px;width: 100%;"></div>
           </div>
 
+
+          <el-dialog v-model="dialogFormVisible" title="修改信息" style="padding: 30px;width: 30%;">
+            <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+              <el-form-item label="姓名" :label-width="formLabelWidth" prop="student_name">
+                <el-input v-model="form.student_name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-input v-model="form.phone_number" disabled autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="email" :label-width="formLabelWidth" prop="email">
+                <el-input v-model="form.email" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="性别" :label-width="formLabelWidth">
+                <el-select v-model="form.gender">
+                  <el-option label="男" value="1" />
+                  <el-option label="女" value="0" />
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="setStudentMsg()">
+                  确认
+                </el-button>
+              </span>
+            </template>
+          </el-dialog>
         </el-main>
       </el-container>
 
@@ -65,80 +98,90 @@
 
 <script lang="ts" setup>
 import LeftMenuStudentMsg from "../../components/LeftMenuStudentMsg.vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import TopNav from "../../components/TopNav.vue";
 import SpecialIcon from "../../components/SpecialIcon.vue";
+import myAxios from "../../plugins/myAxios";
+import state from '../../store/state'
+import { ElMessage } from 'element-plus'
 
-const badge = [
-  {
-    badge_url: 'src/assets/icon/1.svg'
-  }, {
-    badge_url: 'src/assets/icon/2.svg'
-  }, {
-    badge_url: 'src/assets/icon/3.svg'
-  }, {
-    badge_url: 'src/assets/icon/5.svg'
-  }, {
-    badge_url: 'src/assets/icon/1.svg'
-  }, {
-    badge_url: 'src/assets/icon/2.svg'
-  }, {
-    badge_url: 'src/assets/icon/3.svg'
-  }, {
-    badge_url: 'src/assets/icon/5.svg'
+const dialogFormVisible = ref(false)
+const formLabelWidth = '80px'
+
+const form = reactive(JSON.parse(sessionStorage.getItem("students") || "null") || "")
+
+import type { UploadUserFile, UploadProps } from 'element-plus'
+
+const fileList = ref<UploadUserFile[]>([])
+
+const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
+  form.avatar = response.data
+  console.log(form);
+
+  try {
+    const response = await myAxios.put('http://localhost:8085/setStudentAvatar', JSON.stringify(form), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    await getUserMsg()
+    console.log(response.data);
+
+  } catch (error) {
+    console.error('传参失败', error);
   }
-]
-const student: any = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
+}
+const setStudentMsg = async () => {
+  console.log(form);
+  try {
+    const response = await myAxios.put('http://localhost:8085/setStudentMsg', JSON.stringify(form), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    await getUserMsg()
+    console.log(response.data);
+    ElMessage({
+      message: '修改成功',
+      type: 'success',
+    })
+  } catch (error) {
+    console.error('传参失败', error);
+  }
+  dialogFormVisible.value = false
+}
+import type { FormInstance } from 'element-plus'
+
+const ruleFormRef = ref<FormInstance>()
+
+const rules = reactive({
+  student_name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+  ],
+  email: [
+    { required: true, message: '请输入email', trigger: 'blur' },
+  ],
+})
+const getUserMsg = async () => {
+  try {
+    const response = await myAxios.get('/getStudentMsg', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.students = response.data
+    sessionStorage.setItem('students', JSON.stringify(state.students))
+  } catch (error) {
+    console.error('获取学生信息失败', error);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 body {
   background-color: #fff;
 
-}
-
-.badge-wall {
-  position: absolute;
-  top: 400px;
-  right: 100px;
-  width: 600px;
-  // height: 300px;
-  background: linear-gradient(45deg, #e6e6fa, #977AFF);
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
-  z-index: 10;
-  color: #333;
-
-  .pagination {
-    margin: 0 auto;
-    width: 224px;
-    margin-top: 30px;
-    --el-pagination-bg-color: transparent;
-    --el-pagination-button-disabled-bg-color: transparent;
-  }
-
-  .badge-wall-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-
-  .badge-slot {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    margin-left: 40px;
-    margin-top: 30px;
-    border-radius: 8px;
-    overflow: hidden;
-
-    .badge-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
 }
 
 .el-descriptions {
@@ -158,7 +201,7 @@ body {
   position: relative;
 
   width: 100%;
-  max-height: 320px;
+  max-height: 240px;
   object-fit: cover;
   display: flex;
   -webkit-box-pack: center;
@@ -198,11 +241,9 @@ body {
 }
 
 .imgtip {
-
   transform: translateY(-50%);
   border-radius: 50%;
-  height: 100%;
-  width: 100%;
-
+  // height: 100%;
+  // width: 100%;
 }
 </style>

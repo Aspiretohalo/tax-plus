@@ -1,9 +1,6 @@
 <template>
   <div class="home">
     <div class="search">
-      <el-select v-model="value" class="m-2" placeholder="筛选" size="large">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
       <el-input v-model="input3" placeholder="请输入课程名称、教师等" class="input-with-select">
         <template #prefix>
           <el-button :icon="Search" style="border: 0" />
@@ -91,31 +88,8 @@ const getAllCourses = async () => {
 };
 const allCourses: any = ref()
 
-const value = ref('')
 const input3 = ref('')
 
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
 </script>
 
 <style lang="scss" scoped>
@@ -126,8 +100,6 @@ const options = [
 
 .input-with-select {
   display: inline;
-  /* position: absolute; */
-  margin-left: 520px;
 }
 
 .search {

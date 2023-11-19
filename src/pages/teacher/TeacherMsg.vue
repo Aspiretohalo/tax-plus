@@ -8,47 +8,83 @@
           <LeftMenuTeacherMsg></LeftMenuTeacherMsg>
         </el-aside>
         <el-main class="main">
-          <div style="width:100%">
+          <div style="width: 100%">
             <div class="Msgbackground">
-              <img src="src\assets\imgs\Msgbackground.png" alt="cover">
+              <img src="src\assets\imgs\渐变3.jpg" alt="cover" />
             </div>
             <div class="bgavatar">
-              <div class="imgbox">
-                <img class="imgtip" :src="teacher.avatar">
+              <div class="imgbox" style="margin-left: 330px">
+                <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/avatar/upload"
+                  :on-success="handleResponse" :limit="1" :show-file-list="false">
+                  <el-avatar class="imgtip" :size="120" :src="form.avatar" />
+                </el-upload>
               </div>
             </div>
             <div>
-              <span class="bgname" style="margin-left: 55px;">{{ teacher.teacher_name }}</span>
+              <span class="bgname" style="margin-left: 350px ">{{ form.teacher_name }}</span>
+              <el-button type="primary" plain @click="dialogFormVisible = true" style="margin-left: 30px;">
+                修改信息
+              </el-button>
             </div>
-            <el-col :span="6">
-              <el-row :gutter="12" style="margin-top:30px;">
+            <el-col :span="6" style="margin-left: 350px">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>手机号：</span></div>
+                  <div style="text-align: right; color: gray"><span>手机号：</span></div>
                 </el-col>
-                <el-col :span="16">{{ teacher.phone_number }}</el-col>
+                <el-col :span="16">{{ form.phone_number }}</el-col>
               </el-row>
-              <el-row :gutter="12" style="margin-top:30px;">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>email：</span></div>
+                  <div style="text-align: right; color: gray"><span>email：</span></div>
                 </el-col>
-                <el-col :span="16">{{ teacher.email }}</el-col>
+                <el-col :span="16">{{ form.email }}</el-col>
               </el-row>
-              <el-row :gutter="12" style="margin-top:30px;">
+              <el-row :gutter="12" style="margin-top: 30px">
                 <el-col :span="8">
-                  <div style="text-align:right; color: gray;"><span>身份：</span></div>
+                  <div style="text-align: right; color: gray"><span>性别：</span></div>
                 </el-col>
                 <el-col :span="16">
-                  <el-tag class="role" size="large">老师</el-tag>
+                  <span class="role" size="large">{{ form.gender == '1' ? '男' : '女' }}</span>
                 </el-col>
               </el-row>
-              <!-- <el-row :gutter="12" style="margin-top:30px;">
-              <el-col :span="8">
-                <div style="text-align:right; color: gray;"><span>个人介绍：</span></div>
-              </el-col>
-              <el-col :span="16">对方很懒没留下什么</el-col>
-            </el-row> -->
+              <el-row :gutter="12" style="margin-top: 30px">
+                <el-col :span="8">
+                  <div style="text-align: right; color: gray"><span>身份：</span></div>
+                </el-col>
+                <el-col :span="16">
+                  <el-tag class="role" size="large">学员</el-tag>
+                </el-col>
+              </el-row>
             </el-col>
+            <div style="height: 100px;width: 100%;"></div>
           </div>
+          <el-dialog v-model="dialogFormVisible" title="修改信息" style="padding: 30px;width: 30%;">
+            <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
+              <el-form-item label="姓名" :label-width="formLabelWidth" prop="teacher_name">
+                <el-input v-model="form.teacher_name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-input v-model="form.phone_number" disabled autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="email" :label-width="formLabelWidth" prop="email">
+                <el-input v-model="form.email" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="性别" :label-width="formLabelWidth">
+                <el-select v-model="form.gender">
+                  <el-option label="男" value="1" />
+                  <el-option label="女" value="0" />
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="setTeacherMsg()">
+                  确认
+                </el-button>
+              </span>
+            </template>
+          </el-dialog>
         </el-main>
       </el-container>
     </el-container>
@@ -58,9 +94,82 @@
 <script lang="ts" setup>
 import LeftMenuTeacherMsg from '../../components/LeftMenuTeacherMsg.vue';
 import TopNav from '../../components/TopNav.vue'
-import { ref } from 'vue'
+import { ref, reactive } from "vue";
+import myAxios from "../../plugins/myAxios";
+import state from '../../store/state'
+import { ElMessage } from 'element-plus'
 
-const teacher: any = ref(JSON.parse(sessionStorage.getItem('teachers') || 'null') || '')
+const dialogFormVisible = ref(false)
+const formLabelWidth = '80px'
+
+// const teacher: any = ref(JSON.parse(sessionStorage.getItem("teachers") || "null") || "");
+const form = reactive(JSON.parse(sessionStorage.getItem("teachers") || "null") || "")
+
+import type { UploadUserFile, UploadProps } from 'element-plus'
+
+const fileList = ref<UploadUserFile[]>([])
+
+const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
+  form.avatar = response.data
+  console.log(form);
+  try {
+    const response = await myAxios.put('http://localhost:8085/setTeacherAvatar', JSON.stringify(form), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    await getUserMsg()
+    console.log(response.data);
+
+  } catch (error) {
+    console.error('传参失败', error);
+  }
+}
+const setTeacherMsg = async () => {
+  console.log(form);
+  try {
+    const response = await myAxios.put('http://localhost:8085/setTeacherMsg', JSON.stringify(form), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    await getUserMsg()
+    console.log(response.data);
+    ElMessage({
+      message: '修改成功',
+      type: 'success',
+    })
+  } catch (error) {
+    console.error('传参失败', error);
+  }
+  dialogFormVisible.value = false
+}
+import type { FormInstance } from 'element-plus'
+
+const ruleFormRef = ref<FormInstance>()
+
+const rules = reactive({
+  teacher_name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+  ],
+  email: [
+    { required: true, message: '请输入email', trigger: 'blur' },
+  ],
+})
+const getUserMsg = async () => {
+  try {
+    const response = await myAxios.get('/getTeacherMsg', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    });
+    // 处理响应数据
+    state.teachers = response.data
+    sessionStorage.setItem('teachers', JSON.stringify(state.teachers))
+  } catch (error) {
+    console.error('获取学生信息失败', error);
+  }
+};
 </script>
 
 <style lang="scss" scoped>

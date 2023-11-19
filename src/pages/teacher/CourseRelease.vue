@@ -23,9 +23,10 @@
                 <el-input v-model="teacher.teacher_name" disabled />
               </el-form-item>
               <el-form-item label="上传封面">
-                <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
-                  list-type="picture-card" :auto-upload="false" :on-remove="handleRemove"
-                  :on-preview="handlePictureCardPreview" :limit="1" :on-success="handleResponse">
+                <!-- <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload" -->
+                <el-upload ref="uploadRef" v-model:file-list="fileList" list-type="picture-card" :auto-upload="false"
+                  :on-remove="handleRemove" :on-preview="handlePictureCardPreview" :limit="1"
+                  :on-success="handleResponse">
                   <el-icon>
                     <Plus />
                   </el-icon>
@@ -186,7 +187,6 @@ const open1 = () => {
 const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
   // 将响应回来的课程封面地址赋值给course
   course.course_url = response.data
-
 }
 // 图片预览
 const dialogImageUrl = ref('')

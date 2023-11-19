@@ -24,7 +24,9 @@
                                     </el-text>
                                 </div>
                                 <div>
-                                    <el-button type="primary" round @click="goToMyLearning()">
+                                    <el-button type="primary"
+                                        style="height: 50px; width: 150px;margin-top: 30px; margin-left: 10px; border-radius: 50px;"
+                                        round @click="goToMyLearning()">
                                         立即学习
                                     </el-button>
                                 </div>
@@ -402,13 +404,6 @@ h6 {
 
 }
 
-:deep(.el-button) {
-    height: 50px;
-    width: 150px;
-    margin-top: 30px;
-    margin-left: 10px;
-    border-radius: 50px;
-}
 
 :deep(.el-carousel__container) {
     height: 350px;

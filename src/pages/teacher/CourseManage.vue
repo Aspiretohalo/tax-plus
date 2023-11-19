@@ -25,14 +25,11 @@
             </el-table-column>
             <el-table-column prop="course_name" label="course_name" width="300" />
             <el-table-column prop="teacher_name" label="teacher_name" />
-            <el-table-column prop="student_amount" label="student_amount">
-              选课人数：{{ }}
-            </el-table-column>
-            <!-- <el-table-column prop="status" label="status">
+            <el-table-column prop="student_count" label="student_count">
               <template #default="scope">
-                <el-tag :type="scope.row.tag_type" size="large" disable-transitions>{{ scope.row.status }}</el-tag>
+                选课人数：{{ scope.row.student_count }}
               </template>
-            </el-table-column> -->
+            </el-table-column>
             <el-table-column prop="course_id" label="course_id">
               <template #default="scope">
                 <el-button type="primary" @click="EnterTheCourse(scope.row.course_id)">查看详情</el-button>
@@ -105,28 +102,9 @@ const getTeacherCourses = async (value: any) => {
   }
 };
 
-// tab改变之后调用，获得相应的course
-// const changeStatus = (activeName: string) => {
-//   state.activeName = activeName
-// }
 const EnterTheCourse = (courseId: Number) => {
   router.push(`/courseId/${courseId}/manageNotice`)
 }
-
-// const courseStatus = reactive([
-//   {
-//     status: 'Ongoing',
-//     name: '进行中',
-//   },
-//   {
-//     status: 'Completed',
-//     name: '已结束',
-//   },
-//   {
-//     status: 'Coming',
-//     name: '即将开始',
-//   },
-// ])
 
 const courseData: any = ref()
 </script>

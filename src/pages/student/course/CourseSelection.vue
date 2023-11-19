@@ -11,18 +11,14 @@
                             <div><img :src="singleCourse[0]?.course_url" class="image_course"></div>
                             <div class="course_message" style="margin-left: 20px;">
                                 <h1>{{ singleCourse[0]?.course_name }}</h1>
-                                <el-tag style=" margin-right: 20px;margin-bottom: 20px;">初级课程</el-tag>
                                 <div class="detail">
-                                    <el-text class="text_course">
-                                        开课时间: 2023-10-10
-                                    </el-text>
                                     <el-row>
                                         <el-text class="text_course">
                                             开课老师：{{ singleCourse[0]?.teacher_name }}
                                         </el-text>
                                     </el-row>
                                     <el-text class="text_course" style="color: #95d475;">
-                                        现在开课至第3章节
+                                        现在开课至第{{ singleCourse[0]?.chapter_count }}章节
                                     </el-text>
                                 </div>
                                 <div>
@@ -165,8 +161,6 @@ h6 {
     }
 
     .text_course {
-        padding-top: 5px;
-        padding-bottom: 5px;
         margin: 10px;
         font-size: medium;
     }
@@ -178,7 +172,7 @@ h6 {
 
 .detail {
     width: 500px;
-    height: 100px;
+    height: 80px;
     background: #f4f4f5;
     padding-top: 20px;
     padding-left: 20px;
