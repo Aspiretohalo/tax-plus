@@ -11,7 +11,8 @@
         <el-main class="main">
           <div style="width: 100%">
             <div class="Msgbackground">
-              <img src="src\assets\imgs\渐变3.jpg" alt="cover" />
+              <img src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/file/%E6%B8%90%E5%8F%983.jpg"
+                alt="cover" />
             </div>
             <div class="bgavatar">
               <div class="imgbox" style="margin-left: 330px">

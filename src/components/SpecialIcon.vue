@@ -126,6 +126,10 @@ const tasks = [
         hasReceived: false,
     }
 ]
+const drawer1 = ref(false)
+const drawer2 = ref(false)
+const drawer3 = ref(false)
+const drawer4 = ref(false)
 const availableTime = ['9:00-11:00', '13:00-15:00', '17:30-19:30', '20:30-22:30']
 const taxClassification = ['纳税义务人', '计税方法', '免税额', '税率表', '扣缴义务人', '申报纳税', '税务减免', '个税优惠政策', '个税申报流程', '一般纳税人', '小规模纳税人', '税率', '进项税抵扣', '出口退税', '增值税发票', '跨境服务税收政策', '增值税优惠政策', '国内税收制度', '跨境税收政策', '对外税务合作', '税收征管', '地方税种类', '地方税政策', '地方税收征管'
     , '合规管理制度', '风险评估', '内部控制', '税务稽查', '违法处罚', '税务纠纷解决', '税务风险防范', '税务合规培训', '资产负债表', '利润表', '现金流量表', '财务比率分析', '财务报表解读', '财务预测', '财务报告编制', '会计准则遵循',
@@ -137,7 +141,6 @@ const form = reactive({
 const student: any = ref(JSON.parse(sessionStorage.getItem('students') || 'null') || '')
 
 const handleClassify = async () => {
-
     const checkedItems1 = availableTime.filter(item => (document.getElementById(item)! as HTMLInputElement).checked);
     const checkedItems = taxClassification.filter(item => (document.getElementById(item)! as HTMLInputElement).checked);
     try {
@@ -157,6 +160,7 @@ const handleClassify = async () => {
             message: '保存成功',
             type: 'success',
         })
+        drawer1.value = false
         console.log(response);
     } catch (error) {
         console.error('新建课程失败', error);
@@ -167,10 +171,7 @@ const handleReceived = () => {
 
 
 }
-const drawer1 = ref(false)
-const drawer2 = ref(false)
-const drawer3 = ref(false)
-const drawer4 = ref(false)
+
 
 const showDrawer = (index: number) => {
     if (index === 1) {

@@ -41,7 +41,7 @@
               </div>
               <div class="el-row">
                 <div class="el-col el-col-8">课程成绩：</div>
-                <div class="spaceil el-col el-col-16">{{ ((CourseLearningProgress) * 0.60 + ((DiscussionNumber
+                <div class="spaceil el-col el-col-16">{{ ((CourseLearningProgress) * 0.060 + ((DiscussionNumber
                   + SubDiscussionNumber)) * 0.20 + Math.ceil((EvaluationNumber)) * 0.20).toFixed(1) }}分</div>
               </div>
               <div>
@@ -160,7 +160,7 @@ const updateECharts = () => {
         data: [
           {
             // 假定课程总时长为100
-            value: ((CourseLearningProgress.value) * 0.60).toFixed(1), name: "已观看视频"
+            value: ((CourseLearningProgress.value) * 0.060).toFixed(1), name: "已观看视频"
           },
           {
             // 假定讨论20条为满分///////////////////////////////////////////修改数据

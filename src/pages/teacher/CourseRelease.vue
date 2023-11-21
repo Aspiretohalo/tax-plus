@@ -24,9 +24,9 @@
               </el-form-item>
               <el-form-item label="上传封面">
                 <!-- <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload" -->
-                <el-upload ref="uploadRef" v-model:file-list="fileList" list-type="picture-card" :auto-upload="false"
-                  :on-remove="handleRemove" :on-preview="handlePictureCardPreview" :limit="1"
-                  :on-success="handleResponse">
+                <el-upload ref="uploadRef" v-model:file-list="fileList" action="http://localhost:8085/course/cover/upload"
+                  list-type="picture-card" :auto-upload="false" :on-remove="handleRemove"
+                  :on-preview="handlePictureCardPreview" :limit="1" :on-success="handleResponse">
                   <el-icon>
                     <Plus />
                   </el-icon>

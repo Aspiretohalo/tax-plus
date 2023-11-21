@@ -81,7 +81,7 @@ h2 {
     margin: 0;
 }
 
-:deep(.el-card) {
+.courseCard {
     width: 250px;
     height: 290px;
     // margin-left: 10px;

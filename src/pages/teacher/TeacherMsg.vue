@@ -10,10 +10,11 @@
         <el-main class="main">
           <div style="width: 100%">
             <div class="Msgbackground">
-              <img src="src\assets\imgs\渐变3.jpg" alt="cover" />
+              <img src="https://tax-plus-coursecover-1317662942.cos.ap-shanghai.myqcloud.com/file/%E6%B8%90%E5%8F%983.jpg"
+                alt="cover" />
             </div>
             <div class="bgavatar">
-              <div class="imgbox" style="margin-left: 330px">
+              <div class="imgbox" style="margin-left: 330px ">
                 <el-upload v-model:file-list="fileList" class="upload-demo" action="http://localhost:8085/avatar/upload"
                   :on-success="handleResponse" :limit="1" :show-file-list="false">
                   <el-avatar class="imgtip" :size="120" :src="form.avatar" />
@@ -240,8 +241,8 @@ body {
 
   transform: translateY(-50%);
   border-radius: 50%;
-  height: 100%;
-  width: 100%;
+  height: 120px;
+  width: 120px;
 
 }
 </style>

@@ -120,10 +120,10 @@ const carouselImg = ref([
 ])
 onMounted(async () => {
     console.log(student.value);
-
     await getRecommendedCourse(student.value.student_id)
     await getAllLivingCourses()
 })
+
 const getAllLivingCourses = async () => {
     try {
         const response = await myAxios.get('/getAllLivingCourses', {
@@ -172,7 +172,7 @@ const goToTheLivingCourse = async (courseId: number) => {
 }
 const goToTheCourse = async (courseId: number) => {
     await getCourseByCourseId(courseId)
-    router.push(`/courseId/${courseId}/notice`)
+    router.push(`/courseJoin/courseId/${courseId}/courseSelection`)
 }
 const RecommendedCourse: any = ref()
 
