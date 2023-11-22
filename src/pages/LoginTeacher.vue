@@ -1,6 +1,6 @@
 <template>
   <div class="bgimg">
-    <img src="src\assets\imgs\bgimg.png" style="width: 100%">
+    <img src="../assets/imgs/bgimg.png" style="width: 100%">
     <div class="content-overlay">
       <el-card class="box-card" shadow="hover">
         <div>

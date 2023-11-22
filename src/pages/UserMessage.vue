@@ -8,7 +8,7 @@
                 <el-main class="main">
                     <div>
                         <div class="Msgbackground">
-                            <img src="src\assets\imgs\Msgbackground.png" alt="cover" />
+                            <img src="../assets/imgs/bgimg.png" alt="cover" />
                         </div>
                         <div class="bgavatar">
                             <div class="imgbox">

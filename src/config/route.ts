@@ -19,7 +19,6 @@ import CourseSelection from "../pages/student/course/CourseSelection.vue";
 import Detail from "../pages/student/course/Detail.vue";
 import Recording from "../pages/student/course/Recording.vue";
 import StudentMsg from "../pages/student/StudentMsg.vue";
-import PersonalCommunityStudent from "../pages/student/PersonalCommunityStudent.vue";
 import IntegrationStore from "../pages/student/IntegrationStore.vue"; // 导入积分商城的组件
 
 //teacher
@@ -33,7 +32,6 @@ import ManageCourseData from "../pages/teacher/course/ManageCourseData.vue";
 import TeacherMsg from "../pages/teacher/TeacherMsg.vue";
 import DiscussionCommunityTeacher from "../pages/teacher/DiscussionCommunityTeacher.vue";
 import BeginLiving from "../pages/teacher/course/BeginLiving.vue";
-import PersonalCommunityTeacher from "../pages/teacher/PersonalCommunityTeacher.vue";
 import StudySituations from "../pages/teacher/course/StudySituations.vue";
 
 const routes = [
@@ -93,7 +91,6 @@ const routes = [
             },
         ],
     },
-    { path: "/personalCommunityStudent", component: PersonalCommunityStudent },
 
     { path: "/courseRelease", component: CourseRelease },
     { path: "/courseManage", component: CourseManage },
@@ -132,7 +129,6 @@ const routes = [
     { path: "/communityTeacher", component: DiscussionCommunityTeacher },
     { path: "/studentMsg", component: StudentMsg },
     { path: "/teacherMsg", component: TeacherMsg },
-    { path: "/personalCommunityTeacher", component: PersonalCommunityTeacher },
     { path: "/integrationStore", component: IntegrationStore }, // 添加积分商城的路由配置
 ];
 

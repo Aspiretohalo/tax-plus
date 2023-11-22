@@ -10,7 +10,7 @@ const router = VueRouter.createRouter({
 const jwt = ref()
 
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
     jwt.value = localStorage.getItem('token')
     if (!jwt.value && (to.name !== 'login1' && to.name !== 'login2')) {
         ElMessage({

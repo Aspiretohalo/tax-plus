@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios";
 const isDev = process.env.NODE_ENV === 'development';
 
 const myAxios: AxiosInstance = axios.create({
-    baseURL: isDev ? 'http://localhost:8085' : '线上地址',
+    baseURL: isDev ? 'http://localhost:8085' : 'api',
 });
 
 // myAxios.defaults.withCredentials = true; // 配置为true

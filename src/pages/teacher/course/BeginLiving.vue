@@ -80,7 +80,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                     start_time: form.start_time,
                 }
                 console.log(obj);
-                const response = await myAxios.post('http://localhost:8085/createNewLiving', JSON.stringify(obj), {
+                // const response = await myAxios.post('http://localhost:8085/createNewLiving', JSON.stringify(obj), {
+                const response = await myAxios.post('/createNewLiving', JSON.stringify(obj), {
                     headers: {
                         'Content-Type': 'application/json'
                     }

@@ -1,17 +1,5 @@
 <template>
   <div class="timetable w100 h100">
-    <!-- <div class="time-b w100">
-      <el-button @click="goBack()" class="returnBtn" type="primary">返回主页</el-button>
-
-      <div class="time-detail">{{ startTime }} - {{ endTime }}</div>
-      <div class="time-controller">
-        <el-button-group>
-          <el-button type="primary" icon="el-icon-arrow-left" @click="changeCount(1), getWeek(count)"></el-button>
-          <el-button round class="date-btn">本周</el-button>
-          <el-button type="primary" icon="el-icon-arrow-right" @click="changeCount(-1), getWeek(count)"></el-button>
-        </el-button-group>
-      </div>
-    </div> -->
     <div class="timetable-b w100">
       <table class="timetable-content w100">
         <thead style="height: 50px">
@@ -48,10 +36,10 @@
                   },
                   { color: '#fff' },
                   { borderRadius: '15px' },
-                  { padding: '12px' },
+                  { padding: '8px' },
                   { height: '100px' },
                 ]">
-                  <p>{{ showData(index3, index2).subject }}</p>
+                  <p style="font-size: 16px; overflow: hidden; margin: 0 auto;">{{ showData(index3, index2).subject }}</p>
                 </div>
               </td>
             </template>
@@ -59,10 +47,10 @@
         </tbody>
         <el-dialog v-model="dialogVisible" title="选择课程" width="30%" :before-close="handleClose"
           :open="getCourseByStudentId()">
-          <el-radio-group v-model="radio1" class="ml-4">
+          <el-radio-group v-model="selectedCourse" class="ml-4">
             <el-card :body-style="{ padding: '0px' }" class="card-circle" v-for="item in CourseByStudentId"
               shadow="never">
-              <el-radio :label="item.course_id" size="large">
+              <el-radio :label="item.course_name" size="large">
                 <div style="padding: 14px">
                   <div style="margin-top: 5px; text-align: left">
                     <span style="color: #73767a">课程：</span>
@@ -77,6 +65,7 @@
               </el-radio>
             </el-card>
           </el-radio-group>
+
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
@@ -87,6 +76,9 @@
       </table>
     </div>
   </div>
+  <el-dialog v-model="popupVisible" title="课程提醒">
+    <p>课程 {{ ongoingCourse.subject }} 开始了</p>
+  </el-dialog>
 </template>
 
 <script>
@@ -95,21 +87,248 @@ import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
+import { ElDialog } from "element-plus";
 
 export default {
+  props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    innerVisible: {
+      get: function () {
+        return this.visible;
+      },
+      set: function (val) {
+        this.$emit("update:visible", val);
+      },
+    },
+  },
+
   setup() {
-    const radio1 = ref("1");
     const route = useRoute();
     const router = useRouter();
     const goBack = () => {
       router.push("/");
     };
+
+    const popupVisible = ref(false);
+    const ongoingCourse = ref(null);
+
+    const showCourseAlert = (course) => {
+      ongoingCourse.value = course;
+      popupVisible.value = true;
+    };
     const timeList = reactive([
-      { time: "9:00-11:00" },
-      { time: "13:00-15:00" },
-      { time: "17:30-19:30" },
-      { time: "20:30-22:30" },
+      { time: "9:00 11:00" },
+      { time: "13:00 15:00" },
+      { time: "17:30 19:30" },
+      { time: "20:30 22:30" },
     ]);
+    const colorList = reactive([
+      "#F56C6C",
+      "#fab6b6",
+      "#409EFF",
+      "#67C23A",
+      "#E6A23C",
+      "#a18496",
+      "#9dc6b6",
+      "#b0ced6",
+      "#d2b9b2",
+    ]);
+    const weekCourse = reactive([
+      // ... your existing weekCourse array
+      {
+        week: 0,
+        courses: [
+          {
+            index: 1,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 2,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 1,
+        courses: [
+          {
+            index: 1,
+            startTime: "15:00", //开始时间
+            endTime: "16:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 2,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 2,
+        courses: [
+          {
+            index: 1,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 2,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 3,
+        courses: [
+          {
+            index: 1,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 2,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 4,
+        courses: [
+          {
+            index: 1,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 2,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 5,
+        courses: [
+          {
+            index: 1,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+            subject: "", //学科
+          },
+          {
+            index: 3,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 2,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+      {
+        week: 6,
+        courses: [
+          {
+            index: 2,
+            startTime: "09:00", //开始时间
+            endTime: "11:30", //结束时间
+          },
+          {
+            index: 3,
+            startTime: "13:00", //开始时间
+            endTime: "15:30", //结束时间
+          },
+          {
+            index: 4,
+            startTime: "17:30", //开始时间
+            endTime: "19:30", //结束时间
+          },
+          {
+            index: 1,
+            startTime: "20:30", //开始时间
+            endTime: "22:30", //结束时间
+          },
+        ],
+      },
+    ]);
+
+    const startTime = ref("2022.10.17");
+    const endTime = ref("2022.10.23");
+
+    const weeks = ref([]);
+    const maxCourseLength = ref(0);
+    const count = ref(0);
 
     const dialogVisible = ref(false);
 
@@ -124,20 +343,17 @@ export default {
     };
     const updateWeekCourse = () => {
       console.log(123);
-      console.log(selectedCourse.value);
+      console.log(weekCourse[1]);
       console.log(123);
 
       if (selectedCourse.value) {
-        const weekIndex = selectedCell.week;
-        const courseIndex = selectedCell.index;
+        const weekIndex = selectedCell.value.week;
+        const courseIndex = selectedCell.value.index;
 
         if (courseIndex !== -1) {
           // Update the subject field with the selected course name
-          this.$set(
-            weekCourse[weekIndex].courses[courseIndex],
-            "subject",
-            selectedCourse.value.course_name,
-          );
+          weekCourse[weekIndex].courses[courseIndex].subject = selectedCourse.value;
+
           dialogVisible.value = false;
         } else {
           console.error("No empty cell available in the selected week.");
@@ -147,6 +363,52 @@ export default {
       }
     };
 
+    // Get the current system time
+    const currentTime = new Date();
+
+    let popupLocked = false; // Boolean variable to control the display of the popup
+
+    // Iterate through each week
+    for (const week of weekCourse) {
+      // Iterate through each course in the week
+      for (const course of week.courses) {
+        // Combine the date of the course with the start time
+        const courseStartTime = new Date(`${currentTime.toDateString()} ${course.startTime}`);
+        const courseEndTime = new Date(`${currentTime.toDateString()} ${course.endTime}`);
+
+        // Check if the current time is after the course start time, before the course end time, and on the correct day
+        if (
+          currentTime >= courseStartTime &&
+          currentTime <= courseEndTime &&
+          currentTime.getDay() === (week.week + 1) % 7 && // Adjusting for your week representation // Adjusting for your week representation
+          course.subject !== undefined &&
+          course.subject !== null &&
+          course.subject !== ""
+        ) {
+          // Check if the subject field is not empty
+          if (course.subject !== "") {
+            console.log(1234);
+            console.log(course.subject);
+            console.log(1234);
+            // Check if the popup is not locked
+            if (!popupLocked) {
+              // Show a popup or perform any other action to alert the user
+              showCourseAlert(course); // Call the custom method to show the alert
+
+              // Lock the popup
+              popupLocked = true;
+
+              // Set a timer to unlock the popup after the course ends
+              const timeUntilEnd = courseEndTime - currentTime;
+              setTimeout(() => {
+                popupLocked = false;
+              }, timeUntilEnd);
+            }
+          }
+        }
+      }
+    }
+
     const selectedCourses = [
       {
         course_name: "爱神的箭阿萨德就",
@@ -155,7 +417,7 @@ export default {
     ];
     const student = ref(JSON.parse(sessionStorage.getItem("students") || "null") || "");
     const CourseByStudentId = ref([]);
-    const selectedCourse = ref(null);
+    const selectedCourse = ref("1");
 
     const getCourseByStudentId = async () => {
       console.log(student.value);
@@ -181,220 +443,26 @@ export default {
       }
     };
     return {
+      popupVisible,
+      ongoingCourse,
+      showCourseAlert,
+      startTime,
+      endTime,
+      colorList,
+      weekCourse,
+      weeks,
+      maxCourseLength,
+      count,
       updateWeekCourse,
       timeList,
       goBack,
-      radio1,
       dialogVisible,
       handleChooseCourse,
       selectedCourses,
+      selectedCourse,
       getCourseByStudentId,
       student,
       CourseByStudentId,
-    };
-  },
-  data() {
-    return {
-      startTime: "2022.10.17",
-      endTime: "2022.10.23",
-      colorList: [
-        "#F56C6C",
-        "#fab6b6",
-        "#409EFF",
-        "#67C23A",
-        "#E6A23C",
-        "#a18496",
-        "#9dc6b6",
-        "#b0ced6",
-        "#d2b9b2",
-      ], //随机颜色
-
-      weekCourse: [
-        {
-          week: 0,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "语文", //学科
-            },
-            {
-              index: 2,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 1,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "语文", //学科
-            },
-            {
-              index: 2,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 2,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "语文", //学科
-            },
-            {
-              index: 2,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 3,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "语文", //学科
-            },
-            {
-              index: 2,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 4,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "语文", //学科
-            },
-            {
-              index: 2,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 5,
-          courses: [
-            {
-              index: 1,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-              subject: "", //学科
-            },
-            {
-              index: 3,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 2,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-        {
-          week: 6,
-          courses: [
-            {
-              index: 2,
-              startTime: "09:00", //开始时间
-              endTime: "11:30", //结束时间
-            },
-            {
-              index: 3,
-              startTime: "13:00", //开始时间
-              endTime: "15:30", //结束时间
-            },
-            {
-              index: 4,
-              startTime: "17:30", //开始时间
-              endTime: "19:30", //结束时间
-            },
-            {
-              index: 1,
-              startTime: "20:30", //开始时间
-              endTime: "22:30", //结束时间
-            },
-          ],
-        },
-      ], // 课程详细课程、数量
-      weeks: [], //头部周期
-      maxCourseLength: 0, //最大课节数,
-      count: 0, //上周、下周、本周选择器flag
     };
   },
 
@@ -551,6 +619,7 @@ export default {
     overflow: hidden;
 
     .timetable-content {
+      width: 420px;
       height: 100%;
       table-layout: fixed;
       border-collapse: collapse; //设置表格的边框是否被合并为一个单一的边框
@@ -563,7 +632,7 @@ export default {
         height: 100px;
 
         th {
-          border: 2px solid rgba(27, 100, 240, 0.1);
+          // border: 2px solid rgba(27, 100, 240, 0.1);
         }
       }
 
@@ -576,7 +645,7 @@ export default {
 
         td {
           // padding: 12px;
-          border: 2px solid rgba(27, 100, 240, 0.1);
+          // border: 2px solid rgba(27, 100, 240, 0.1);
 
           .dmsjandjs-b {
             display: flex;

@@ -27,7 +27,7 @@ onBeforeMount(async () => {
     const options = {
         method: "GET",
         headers: {
-            "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI2ODA5ZGE5Yi04MTk1LTQwZGUtOTJiMi04NjExYTJkYzVjYjIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY5OTk2NTY3MiwiZXhwIjoxNzAwNTcwNDcyfQ.4TSYfgsTL-fwORr4_nsqMra7W_LGcS7y7hiH7HL7sd8",
+            "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI2ODA5ZGE5Yi04MTk1LTQwZGUtOTJiMi04NjExYTJkYzVjYjIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwMDU3Mzk3NiwiZXhwIjoxNzAzMTY1OTc2fQ.5nq7Kce2ZIH-SchruJBKwYC-ZXq4viaATgE2cMzZB7Y",
             "Content-Type": "application/json",
         },
     };
