@@ -8,17 +8,18 @@
 <script setup lang="ts">
 // import SpecialIcon from './components/SpecialIcon.vue'
 // const token = ref(localStorage.getItem('token'))
-import { ElNotification } from "element-plus";
 
-setTimeout(() => {
-  ElNotification({
-    title: '上课通知',
-    message: '课程：《地方税收管理与实践》还有五分钟就要上课啦',
-    duration: 0,
-    offset: 80,
-    customClass: 'myColor'
-  })
-}, 10000)
+// import { ElNotification } from "element-plus";
+
+// setTimeout(() => {
+//   ElNotification({
+//     title: '上课通知',
+//     message: '课程：《地方税收管理与实践》还有五分钟就要上课啦',
+//     duration: 0,
+//     offset: 80,
+//     customClass: 'myColor'
+//   })
+// }, 10000)
 </script>
 
 <style>
