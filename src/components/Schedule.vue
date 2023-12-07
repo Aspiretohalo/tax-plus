@@ -30,7 +30,7 @@
           : '',
     },
   ]">
-                <div class="dmsjandjs-b" :style="[
+                <div class="dmsjandjs-b" v-if="showData(index3, index2).subject !== undefined" :style="[
                   {
                     background: showData(index3, index2).index ? getRandomColor() : '#FFFFFF',
                   },
@@ -39,7 +39,20 @@
                   { padding: '8px' },
                   { height: '100px' },
                 ]">
-                  <p style="font-size: 16px; overflow: hidden; margin: 0 auto;">{{ showData(index3, index2).subject }}</p>
+                  <p style="font-size: 16px; overflow: hidden; margin: 0 auto;">{{ showData(index3, index2).subject }}
+                  </p>
+                </div>
+                <div class="dmsjandjs-b" v-else :style="[
+                  {
+                    background: '#ecf5ff',
+                  },
+                  { color: '#fff' },
+                  { borderRadius: '15px' },
+                  { padding: '8px' },
+                  { height: '100px' },
+                ]">
+                  <p style="font-size: 16px; overflow: hidden; margin: 0 auto;">
+                  </p>
                 </div>
               </td>
             </template>
@@ -69,16 +82,20 @@
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
-              <el-button type="primary" @click="updateWeekCourse"> 确定 </el-button>
+              <el-button type="primary" @click="updateWeekCourse(); ElNotification({
+                title: '上课通知',
+                message: '马上就要上课啦',
+                duration: 0,
+              })"> 确定 </el-button>
             </span>
           </template>
         </el-dialog>
       </table>
     </div>
   </div>
-  <el-dialog v-model="popupVisible" title="课程提醒">
+  <!-- <el-dialog v-model="popupVisible" title="课程提醒">
     <p>课程 {{ ongoingCourse.subject }} 开始了</p>
-  </el-dialog>
+  </el-dialog> -->
 </template>
 
 <script>
@@ -87,7 +104,7 @@ import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
-import { ElDialog } from "element-plus";
+import { ElDialog, ElNotification } from "element-plus";
 
 export default {
   props: {
@@ -108,6 +125,14 @@ export default {
   },
 
   setup() {
+    // setTimeout(() => {
+    //   ElNotification({
+    //     title: '上课通知',
+    //     message: '课程：《地方税收管理与实践》还有五分钟就要上课啦',
+    //     duration: 0,
+    //     offset: 80,
+    //   })
+    // }, 2000)
     const route = useRoute();
     const router = useRouter();
     const goBack = () => {
@@ -120,6 +145,11 @@ export default {
     const showCourseAlert = (course) => {
       ongoingCourse.value = course;
       popupVisible.value = true;
+      ElNotification({
+        title: '上课通知',
+        message: '马上就要上课啦',
+        duration: 0,
+      })
     };
     const timeList = reactive([
       { time: "9:00 11:00" },
@@ -147,7 +177,6 @@ export default {
             index: 1,
             startTime: "09:00", //开始时间
             endTime: "11:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 2,
@@ -163,6 +192,8 @@ export default {
             index: 4,
             startTime: "20:30", //开始时间
             endTime: "22:30", //结束时间
+            subject: "税务合规与企业稳健经营"
+
           },
         ],
       },
@@ -173,7 +204,6 @@ export default {
             index: 1,
             startTime: "15:00", //开始时间
             endTime: "16:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 2,
@@ -199,7 +229,6 @@ export default {
             index: 1,
             startTime: "09:00", //开始时间
             endTime: "11:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 2,
@@ -225,7 +254,6 @@ export default {
             index: 1,
             startTime: "09:00", //开始时间
             endTime: "11:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 2,
@@ -236,6 +264,7 @@ export default {
             index: 3,
             startTime: "17:30", //开始时间
             endTime: "19:30", //结束时间
+            subject: "企业所得税战略管理"
           },
           {
             index: 4,
@@ -251,7 +280,6 @@ export default {
             index: 1,
             startTime: "09:00", //开始时间
             endTime: "11:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 2,
@@ -267,6 +295,7 @@ export default {
             index: 4,
             startTime: "20:30", //开始时间
             endTime: "22:30", //结束时间
+            subject: "地方税收管理与实践",
           },
         ],
       },
@@ -277,7 +306,6 @@ export default {
             index: 1,
             startTime: "09:00", //开始时间
             endTime: "11:30", //结束时间
-            subject: "", //学科
           },
           {
             index: 3,
@@ -586,6 +614,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+:deep(.el-notification) {
+  background-color: --el-color-success-light-8;
+  // background-color: #d9ecff;
+}
+
 .timetable {
   background-color: #f1f7ff;
 

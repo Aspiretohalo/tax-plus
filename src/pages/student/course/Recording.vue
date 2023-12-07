@@ -1,7 +1,5 @@
 <template>
     <div class="video2">
-        <h3>回放</h3>
-
         <video ref="videoPlayer" id="player-container-id" width="1000" height="500" preload="auto" playbackRates playsinline
             webkit-playsinline></video>
     </div>

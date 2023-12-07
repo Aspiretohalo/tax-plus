@@ -114,7 +114,7 @@ const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
   form.avatar = response.data
   console.log(form);
   try {
-    const response = await myAxios.put('http://localhost:8085/setTeacherAvatar', JSON.stringify(form), {
+    const response = await myAxios.put('/setTeacherAvatar', JSON.stringify(form), {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -129,7 +129,7 @@ const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
 const setTeacherMsg = async () => {
   console.log(form);
   try {
-    const response = await myAxios.put('http://localhost:8085/setTeacherMsg', JSON.stringify(form), {
+    const response = await myAxios.put('/setTeacherMsg', JSON.stringify(form), {
       headers: {
         'Content-Type': 'application/json'
       }

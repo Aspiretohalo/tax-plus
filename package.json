@@ -13,6 +13,7 @@
     "axios": "^1.5.1",
     "echarts": "^5.4.3",
     "element-plus": "^2.3.14",
+    "emailjs": "^4.0.3",
     "moment": "^2.29.4",
     "sass": "^1.69.3",
     "tcplayer.js": "^5.0.1",

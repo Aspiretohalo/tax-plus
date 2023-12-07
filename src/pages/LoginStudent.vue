@@ -22,6 +22,7 @@
             <el-form-item class="el-form-item" label="密码" prop="user_password">
               <el-input class="el-input" v-model="student.user_password" type="password" />
             </el-form-item>
+            <el-link type="primary">前往注册</el-link>
             <el-form-item class="el-form-item">
               <el-button type="primary" @click="submitFormStudent(ruleFormRef)" size="large"
                 style="width: 350px;height: 50px;margin-top: 15px;">立即登录</el-button>

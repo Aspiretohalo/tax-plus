@@ -62,7 +62,7 @@
           </div>
 
 
-          <el-dialog v-model="dialogFormVisible" title="修改信息" style="padding: 30px;width: 30%;">
+          <el-dialog v-model="dialogFormVisible" title="修改信息" style="padding: 30px;width: 30%; margin-top: 160px;">
             <el-form :model="form" :rules="rules" ref="ruleFormRef" :hide-required-asterisk="true">
               <el-form-item label="姓名" :label-width="formLabelWidth" prop="student_name">
                 <el-input v-model="form.student_name" autocomplete="off" />
@@ -120,7 +120,7 @@ const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
   console.log(form);
 
   try {
-    const response = await myAxios.put('http://localhost:8085/setStudentAvatar', JSON.stringify(form), {
+    const response = await myAxios.put('/setStudentAvatar', JSON.stringify(form), {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -135,7 +135,7 @@ const handleResponse: UploadProps['onSuccess'] = async (response: any) => {
 const setStudentMsg = async () => {
   console.log(form);
   try {
-    const response = await myAxios.put('http://localhost:8085/setStudentMsg', JSON.stringify(form), {
+    const response = await myAxios.put('/setStudentMsg', JSON.stringify(form), {
       headers: {
         'Content-Type': 'application/json'
       }

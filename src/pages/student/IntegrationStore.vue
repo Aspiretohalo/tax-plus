@@ -9,8 +9,12 @@
                     <LeftMenuStudentMsg></LeftMenuStudentMsg>
                 </el-aside>
                 <el-main class="main">
-                    <h2 class="mall-title" style="text-align: left;">积分商城</h2>
-                    <el-space direction="vertical" alignment="start" :size="30">
+                    <h2 class="mall-title" style="display: inline-block; text-align: left;">积分商城 </h2>
+                    <span style="margin-left: 200px;  font-size: 20px;">我的积分：</span><span
+                        style="color:#E6A23C;  font-size: 20px;">{{ 220
+                        }}</span>
+
+                    <el-space direction="vertical" alignment="start" :size="30" style="margin-top: 30px;">
                         <el-space wrap size="large">
                             <el-card v-for="item in rewards" :key="item.reward_id" @click="" shadow="hover"
                                 class="courseCard box-card">

@@ -10,7 +10,10 @@
             </li>
         </ul>
 
-        <el-drawer v-model="drawer1" title="课程偏好收集" direction="rtl" size="30%">
+        <el-drawer v-model="drawer1" direction="rtl" size="30%">
+            <template #header>
+                <span style="font-size: 20px;color: black;">课程偏好收集</span>
+            </template>
             <div class="amount" style="color:#E6A23C;">我们会根据您的偏好，来给您推荐最合适的课程</div>
             <div class="container">
                 <el-form :model="form">
@@ -38,14 +41,17 @@
             </div>
         </el-drawer>
 
-        <el-drawer v-model="drawer2" title="今日任务" direction="rtl" size="30%">
-            <div class="amount">我的总积分: <span style="color:#E6A23C;">210</span></div>
+        <el-drawer v-model="drawer2" direction="rtl" size="30%">
+            <template #header>
+                <span style="font-size: 20px;color: black;">今日任务</span>
+            </template>
+            <div class="amount">我的总积分: <span style="color:#E6A23C;">{{ integration }}</span></div>
             <el-card class="box-card" v-for="item in tasks" :key="item.task_id" shadow="never">
                 <div id="checklist">
                     <input :id="item.task_id.toString()" type="checkbox" name="r" value="1" :checked="item.hasReceived"
                         disabled>
                     <label :for="item.task_id.toString()">{{ item.task_content }}</label>
-                    <el-button v-if="!item.hasReceived" @click="handleReceived()" type="warning"
+                    <el-button v-if="!item.hasReceived" @click="handleReceived(); item.hasReceived = true" type="warning"
                         style="position: absolute; right: 20px;" :disabled="!item.hasDone">领取</el-button>
                     <span class="integration">
                         <img src="../assets/logo/金币.svg" alt="" style=" width: 24px;height: 24px;">
@@ -56,11 +62,20 @@
             </el-card>
         </el-drawer>
 
-        <el-drawer v-model="drawer3" title="课程表" direction="rtl" size="30%">
+        <el-drawer v-model="drawer3" direction="rtl" size="30%">
+            <template #header>
+                <span style="font-size: 20px;color: black;">个性化课表
+                    <div style="color:#E6A23C;">点击想学习的时间段，选择课程安排课表</div>
+                    <div style="color:#E6A23C;">我们会在快到时间点的时候提醒您噢！</div>
+                </span>
+            </template>
             <Schedule></Schedule>
         </el-drawer>
 
-        <el-drawer v-model="drawer4" title="智能助手——税小优 为您解答" direction="rtl" size="30%">
+        <el-drawer v-model="drawer4" direction="rtl" size="30%">
+            <template #header>
+                <span style="font-size: 20px;color: black;">智能助手——税小优 为您解答</span>
+            </template>
             <iframe src="http://localhost:1002" frameborder="0" width="100%" height="100%"
                 allow="midi;encrypted-media;display-capture;clipboard-write;clipboard-read;"></iframe>
         </el-drawer>
@@ -74,6 +89,7 @@ import { ElDrawer } from 'element-plus'
 import myAxios from '../plugins/myAxios';
 import { ElMessage } from 'element-plus'
 
+const integration = ref(210)
 const isHover = ref(false)
 const icons = [
     {
@@ -167,9 +183,8 @@ const handleClassify = async () => {
     }
 }
 const handleReceived = () => {
+    integration.value += 10
     console.log('已领取');
-
-
 }
 
 
@@ -640,5 +655,9 @@ ul.ks-cboxtags li input[type="checkbox"] {
 
 ul.ks-cboxtags li input[type="checkbox"]:focus+label {
     border: 2px solid #e9a1ff;
+}
+
+:deep(.el-drawer__header) {
+    margin-bottom: 0;
 }
 </style>
