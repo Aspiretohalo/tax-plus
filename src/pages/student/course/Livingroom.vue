@@ -18,10 +18,10 @@
         <div class="link">
           {{ item.meeting_id !== undefined ? '前往直播间：' : '直播尚未开始' }}<el-link type="warning"
             @click="goToLivingModel(item.meeting_id)">{{ item.meeting_id }}</el-link>
-          <el-button v-if="item.meeting_id !== undefined" type="warning" style="position: absolute;right: 50px;top: 0px;"
-            @click="goToWatchReplay(item.meeting_id)">回放</el-button>
-          <!-- <el-button v-if="showButton" type="warning" style="position: absolute;right: 50px;top: 0px;"
+          <!-- <el-button v-if="item.meeting_id !== undefined" type="warning" style="position: absolute;right: 50px;top: 0px;"
             @click="goToWatchReplay(item.meeting_id)">回放</el-button> -->
+          <el-button v-if="showButton" type="warning" style="position: absolute;right: 50px;top: 0px;"
+            @click="goToWatchReplay(item.meeting_id)">回放</el-button>
         </div>
         <el-text class="mx-1" type="info">
           {{ item.living_course_description }}
@@ -37,7 +37,7 @@ import SpecialIcon from '../../../components/SpecialIcon.vue';
 import myAxios from '../../../plugins/myAxios'
 import state from '../../../store/state'
 import moment from 'moment'
-import { onMounted, ref } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -49,15 +49,15 @@ onMounted(async () => {
   // hasReplay()
 })
 
-// const btn = ref({ meeting_id: undefined });
-// const showButton = ref(false)
-// watch(() => btn.value.meeting_id, (newVal) => {
-//   if (newVal !== undefined) {
-//     setTimeout(() => {
-//       showButton.value = true; // Show the button after a delay of 30 seconds (0.5 minutes)
-//     }, 3000); // 30 seconds in milliseconds
-//   }
-// })
+const btn = ref({ meeting_id: undefined });
+const showButton = ref(false)
+watch(() => btn.value.meeting_id, (newVal) => {
+  if (newVal !== undefined) {
+    setTimeout(() => {
+      showButton.value = true; // Show the button after a delay of 30 seconds (0.5 minutes)
+    }, 30000); // 30 seconds in milliseconds
+  }
+})
 
 const getLivingNotice = async (value: any) => {
   try {

@@ -17,8 +17,3 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]'
     })],
 })
-
-
-
-
-

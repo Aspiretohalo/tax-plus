@@ -4,7 +4,7 @@ declare module "*.vue" {
     export default component
 
 }
-declare module 'echarts' {
-    const echarts: any
-    export default echarts
-}
+// declare module 'echarts' {
+//     const echarts: any
+//     export default echarts
+// }
